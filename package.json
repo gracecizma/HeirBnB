@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/gracecizma/API-Project/issues"
   },
-  "homepage": "https://github.com/gracecizma/API-Project#readme"
+  "homepage": "https://github.com/gracecizma/API-Project#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3"
+  }
 }
