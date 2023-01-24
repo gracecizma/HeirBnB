@@ -14,14 +14,37 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Review.init({
-    spotId: DataTypes.INTEGER,
-    userId: DataTypes.INTEGER,
-    review: DataTypes.STRING,
-    stars: DataTypes.INTEGER,
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE
+    spotId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    review: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    stars: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        min: 1,
+        max: 5
+      }
+    }
   }, {
     sequelize,
+    // revisit this
+    validate: {
+      oneUserReviewPerSpot() {
+        if ((this.userId) && (this.spotId)) {
+          res.status(403)
+          throw new Error("User already has a review for this spot")
+        }
+      }
+    },
     modelName: 'Review',
   });
   return Review;
