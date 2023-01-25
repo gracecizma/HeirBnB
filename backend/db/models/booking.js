@@ -10,7 +10,14 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Booking.belongsToMany(models.Spot, {
+        foreignKey: 'spotId',
+        onDelete: 'CASCADE'
+      });
+      Booking.belongsTo(models.User, {
+        foreignKey: 'userId',
+        onDelete: 'CASCADE'
+      })
     }
   }
   Booking.init({

@@ -14,7 +14,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    let users = seedUsers(10)
+    let users = seedUsers(5)
     return queryInterface.bulkInsert('Users', users, {})
   },
 
