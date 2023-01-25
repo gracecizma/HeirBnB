@@ -2,7 +2,7 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     /**
      * Add seed commands here.
      *
@@ -12,14 +12,37 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
+    await queryInterface.bulkInsert('Reviews', [
+      {
+        spotId: 1,
+        userId: 1,
+        review: "Nice house",
+        stars: 4
+      },
+      {
+        spotId: 2,
+        userId: 2,
+        review: "Fun place and nicely decorated",
+        stars: 5
+      },
+      {
+        spotId: 3,
+        userId: 3,
+        review: "This place sucks",
+        stars: 1
+      }
+    ])
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     /**
      * Add commands to revert seed here.
      *
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+    await queryInterface.bulkDelete('Reviews', {
+      review: ["Nice house", "Fun place and nicely decorated", "This place sucks"]
+    })
   }
 };
