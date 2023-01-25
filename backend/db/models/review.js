@@ -36,15 +36,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    // revisit this
-    validate: {
-      oneUserReviewPerSpot() {
-        if ((this.userId) && (this.spotId)) {
-          res.status(403)
-          throw new Error("User already has a review for this spot")
-        }
-      }
-    },
     modelName: 'Review',
   });
   return Review;
