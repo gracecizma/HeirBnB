@@ -25,6 +25,14 @@ const validateSignup = [
     .exists({ checkFalsy: true })
     .isLength({ min: 6 })
     .withMessage('Password must be 6 characters or more.'),
+  check('first name')
+    .exists({ checkFalsy: true })
+    .isLength({ min: 1 })
+    .withMessage('First Name is required'),
+  check('last name')
+    .exists({ checkFalsy: true })
+    .isLength({ min: 1 })
+    .withMessage('Last Name is required'),
   handleValidationErrors
 ];
 
@@ -43,5 +51,8 @@ router.post(
     });
   }
 );
+
+// Get the current User
+router.get
 
 module.exports = router;
