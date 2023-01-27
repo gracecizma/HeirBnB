@@ -48,6 +48,53 @@ router.get('/current', requireAuth, async (req, res, next) => {
     return
   }
   res.json({ 'Bookings': bookingArr })
-})
+});
+
+
+// Delete a Booking
+router.delete('/:bookingId', requireAuth, async (req, res) => {
+  const delBooking = await Booking.findByPk(req.params.bookingId);
+
+  if (!delBooking) {
+    res.status(404);
+    return res.json({
+      message: "booking couldn't be found",
+      statusCode: 404
+    });
+
+  }
+  const spot = await Spot.findOne({
+    where: {
+      id: delBooking.spotId
+    }
+  });
+
+  console.log(req.user.id);
+  console.log(spot.ownerId);
+
+  if (delBooking.userId !== req.userId || spot.ownerId !== req.user.id) {
+    res.status(400);
+    return res.json({
+      message: "You do not have authorization to delete this booking"
+    });
+  }
+
+  if (delBooking.startDate.getTime() <= new Date().getTime() &&
+    new Date().getTime() < delBooking.endDate.getTime()) {
+    res.status(403);
+    return res.json({
+      message: "Bookings that have been started can't be deleted",
+      statusCode: 403
+    });
+  }
+
+  await delBooking.destroy();
+
+  res.status(200);
+  return res.json({
+    message: "Successfully deleted",
+    statusCode: 200
+  })
+});
 
 module.exports = router;
