@@ -1,7 +1,7 @@
 const express = require('express')
 
 const { requireAuth } = require('../../utils/auth');
-const { Spot, User, SpotImage, Review, sequelize } = require('../../db/models');
+const { Spot, User, SpotImage, Review, ReviewImage, sequelize } = require('../../db/models');
 const { Op } = require("sequelize");
 // const user = require('../../db/models/user');
 // const review = require('../../db/models/review');
@@ -10,29 +10,46 @@ const router = express.Router();
 
 // Get all spots
 router.get('/', requireAuth, async (req, res) => {
-  const allSpots = await Spot.findAll({
-    attributes: {
-      include: [
-        [
-          sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating'
-        ]
 
-      ]
-    },
-    include: {
-      model: Review,
-      attributes: []
-    }
-  })
+  const allSpots = await Spot.findAll({
+    include: [
+      {
+        model: Review
+      },
+      {
+        model: SpotImage
+      }
+    ]
+  });
 
   let spotsArray = []
   allSpots.forEach(spot => {
     spotsArray.push(spot.toJSON())
   })
-  console.log(spotsArray)
 
+  spotsArray.forEach(spot => {
+    spot.SpotImages.forEach(image => {
+      if (image.preview === true) {
+        spot.previewImage = image.url
+      }
+    })
+    delete spot.SpotImages
+  })
 
-  return res.json(allSpots)
+  for (let spot of spotsArray) {
+    const avg = await Review.findAll({
+      where: {
+        spotId: spot.id
+      },
+      attributes: [
+        [sequelize.fn('AVG', sequelize.col('stars')), 'avgRating']
+      ]
+    })
+    spot.avgRating = avg[0].dataValues.avgRating;
+    delete spot.Reviews;
+  }
+
+  return res.json(spotsArray)
 });
 
 
@@ -203,6 +220,37 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
   }
 
 });
+
+// Get all reviews by a spot's id
+router.get('/:spotId/reviews', async (req, res) => {
+  let spotId = req.params.spotId
+  const spot = await Spot.findByPk(spotId);
+
+  if (!spot) {
+    res.status(404);
+    return res.json({
+      message: "Spot couldn't be found",
+      statusCode: 404
+    })
+  }
+
+  const spotReview = await Review.findAll({
+    where: {
+      spotId: spot.id
+    },
+    include: {
+      model: User,
+      attributes: {
+        exclude: ['username', 'email', 'hashedPassword', 'createdAt', 'updatedAt']
+      }
+    }
+  })
+
+  return res.json({
+    spotReview,
+    reviewImg
+  })
+})
 
 
 
