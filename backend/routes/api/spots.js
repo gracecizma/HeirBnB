@@ -220,6 +220,15 @@ router.post('/:id/images', requireAuth, async (req, res) => {
     res.status(404)
     return res.json("Spot couldn't be found")
   }
+
+  if (req.user.id != spot.ownerId) {
+    res.status(403);
+    return res.json({
+      message: "Forbidden",
+      statusCode: 403
+    })
+  }
+
   const { url, preview } = req.body;
 
   const newImg = await SpotImage.create({
@@ -245,7 +254,11 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res) => {
   }
 
   if (req.user.id !== spot.ownerId) {
-    return res.json("Spot must belong to current user")
+    res.status(403);
+    return res.json({
+      message: "Forbidden",
+      statusCode: 403
+    })
   }
 
   const { ownerId, address, city, state, country, lat, lng, name, description, price } = req.body
@@ -282,8 +295,12 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
   const spot = await Spot.findByPk(spotId);
 
   if (req.user.id !== spot.ownerId) {
-    return res.json("Spot must belong to current user")
-  }
+    res.status(403);
+    return res.json({
+      message: "Forbidden",
+      statusCode: 403
+    })
+  };
 
   if (!spot) {
     res.status(404);
@@ -425,12 +442,13 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
   };
 
   if (userId === spot.ownerId) {
-    const err = new Error()
-    err.status = 403;
-    err.title = "Authorization error";
-    err.message = "You cannot make a reservation for a spot you own";
-    return next(err);
+    res.status(403);
+    return res.json({
+      message: "Forbidden",
+      statusCode: 403
+    })
   };
+
 
   const { startDate, endDate } = req.body
 

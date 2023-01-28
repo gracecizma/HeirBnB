@@ -36,7 +36,15 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
       message: "Review couldn't be found",
       statusCode: 404
     })
-  }
+  };
+
+  if (req.user.id !== foundReview.userId) {
+    res.status(403);
+    return res.json({
+      message: "Forbidden",
+      statusCode: 403
+    })
+  };
 
   let reviewCount = await ReviewImage.count({
     where: {
@@ -77,9 +85,13 @@ router.put('/:reviewId', requireAuth, async (req, res) => {
     })
   }
 
-  if (req.user.id !== review.userId) {
-    return res.json("Review must belong to current user")
-  }
+  if (req.user.id !== foundReview.userId) {
+    res.status(403);
+    return res.json({
+      message: "Forbidden",
+      statusCode: 403
+    })
+  };
 
   const { review, stars } = req.body;
 
@@ -103,8 +115,12 @@ router.delete('/:reviewId', requireAuth, async (req, res) => {
   const foundReview = await Review.findByPk(reviewId);
 
   if (req.user.id !== foundReview.userId) {
-    return res.json("Review must belong to current user")
-  }
+    res.status(403);
+    return res.json({
+      message: "Forbidden",
+      statusCode: 403
+    })
+  };
 
   if (!foundReview) {
     res.status(404);
