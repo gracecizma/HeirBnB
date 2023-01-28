@@ -11,30 +11,35 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
   const imageId = req.params.imageId;
   const image = await SpotImage.findByPk(imageId)
 
-  // const spot = await Spot.findOne({
-  //   where: {
-  //     id = image.spotId
-  //   }
-  // })
-  // console.log(spot)
-
-  // how to check if current user is owner?
-
   if (!image) {
     res.status(404);
     return res.json({
       message: "Spot Image couldn't be found",
       statusCode: 404
     })
-  } else {
-    await image.destroy();
-    res.status(200)
+  };
+
+  const spot = await Spot.findOne({
+    where: {
+      id: image.spotId
+    }
+  });
+
+  if (req.user.id != spot.ownerId) {
+    res.status(403);
     return res.json({
-      message: "Successfully deleted",
-      statusCode: 200
+      message: "Forbidden",
+      statusCode: 403
     })
-  }
-})
+  };
+
+  await image.destroy();
+  res.status(200)
+  return res.json({
+    message: "Successfully deleted",
+    statusCode: 200
+  })
+});
 
 
 

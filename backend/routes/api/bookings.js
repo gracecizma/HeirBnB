@@ -68,7 +68,7 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
   if (userId != booking.userId) {
     res.status(403);
     return res.json({
-      message: "You can't edit a booking that is not yours",
+      message: "Forbidden",
       statusCode: 403
     })
   };
@@ -124,11 +124,12 @@ router.delete('/:bookingId', requireAuth, async (req, res) => {
   // console.log(spot.ownerId);
 
   if (delBooking.userId !== req.userId || spot.ownerId !== req.user.id) {
-    res.status(400);
+    res.status(403);
     return res.json({
-      message: "You do not have authorization to delete this booking"
-    });
-  }
+      message: "Forbidden",
+      statusCode: 403
+    })
+  };
 
   if (delBooking.startDate.getTime() <= new Date().getTime() &&
     new Date().getTime() < delBooking.endDate.getTime()) {
