@@ -250,7 +250,8 @@ router.get('/:spotId/reviews', async (req, res) => {
     spotReview,
     reviewImg
   })
-})
+});
+
 
 
 
