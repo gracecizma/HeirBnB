@@ -58,11 +58,43 @@ router.get('/', requireAuth, async (req, res) => {
 router.get('/current', requireAuth, async (req, res) => {
   const userSpots = await Spot.findAll({
     include: [
-      { model: User }
+      { model: User },
+      { model: SpotImage },
+      { model: Review }
     ],
     where: { ownerId: req.user.id }
   })
-  return res.json(userSpots)
+
+  let spotsArray = []
+  userSpots.forEach(spot => {
+    spotsArray.push(spot.toJSON())
+  })
+
+  spotsArray.forEach(spot => {
+    spot.SpotImages.forEach(image => {
+      if (image.preview === true) {
+        spot.previewImage = image.url
+      }
+    })
+    delete spot.SpotImages
+  })
+
+  for (let spot of spotsArray) {
+    const avg = await Review.findAll({
+      where: {
+        spotId: spot.id
+      },
+      attributes: [
+        [sequelize.fn('AVG', sequelize.col('stars')), 'avgRating']
+      ]
+    })
+    spot.avgRating = avg[0].dataValues.avgRating;
+    delete spot.Reviews;
+    delete spot.User;
+  }
+
+
+  return res.json(spotsArray)
 });
 
 // Get details of a Spot from an Id
@@ -234,7 +266,7 @@ router.get('/:spotId/reviews', async (req, res) => {
     })
   }
 
-  const spotReview = await Review.findAll({
+  const spotReviews = await Review.findAll({
     where: {
       spotId: spot.id
     },
@@ -246,12 +278,42 @@ router.get('/:spotId/reviews', async (req, res) => {
     }
   })
 
-  return res.json({
-    spotReview,
-    reviewImg
-  })
-})
+  // work on returning ReviewImages
 
+  return res.json({
+    spotReviews,
+    //reviewImg
+  })
+});
+
+// Create a review for a spot based on the Spot's id
+router.post('/:spotId/reviews', requireAuth, async (req, res) => {
+  const spotId = req.params.spotId;
+  const spot = await Spot.findByPk(spotId)
+  const userId = req.user.id
+
+  const { review, stars } = req.body
+
+  if (!spot) {
+    res.status(404);
+    return res.json({
+      message: "Spot could not be found",
+      statusCode: 404
+    })
+  }
+
+  const newReview = await Review.create({
+    spotId,
+    userId,
+    review,
+    stars
+  })
+
+  //check if user has already reviewed spot
+  // add body validation errors
+
+  res.json(newReview)
+})
 
 
 module.exports = router;

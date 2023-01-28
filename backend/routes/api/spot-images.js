@@ -11,7 +11,7 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
   const imageId = req.params.imageId;
   const image = await SpotImage.findByPk(imageId)
 
-
+  // how to check if current user is owner?
 
   if (!image) {
     res.status(404);
