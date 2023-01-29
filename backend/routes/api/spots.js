@@ -211,7 +211,7 @@ router.get('/:id', async (req, res) => {
       message: "Spot couldn't be found",
       statusCode: 404
     })
-  }
+  };
 
   const findSpot = await Spot.findByPk(spotId, {
     attributes: {
@@ -232,7 +232,7 @@ router.get('/:id', async (req, res) => {
 
   const spotImg = await findSpot.getSpotImages({
     attributes: {
-      exclude: ['spotId', 'createdAt', 'updatedAt']
+      exclude: ['id', 'spotId', 'createdAt', 'updatedAt']
     }
   })
 
@@ -319,7 +319,7 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res) => {
   const { ownerId, address, city, state, country, lat, lng, name, description, price } = req.body
 
   spot.set({
-    ownerId: req.body.ownerId,
+    ownerId: req.user.id,
     address: req.body.address,
     city: req.body.city,
     state: req.body.state,
