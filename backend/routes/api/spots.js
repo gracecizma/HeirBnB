@@ -203,15 +203,8 @@ router.get('/current', requireAuth, async (req, res) => {
 // Get details of a Spot from an Id
 router.get('/:id', async (req, res) => {
   let spotId = req.params.id
-  let spot = await Spot.findByPk(spotId)
+  //let spot = await Spot.findByPk(spotId)
 
-  if (!spot) {
-    res.status(404)
-    return res.json({
-      message: "Spot couldn't be found",
-      statusCode: 404
-    })
-  };
 
   const findSpot = await Spot.findByPk(spotId, {
     attributes: {
@@ -229,6 +222,14 @@ router.get('/:id', async (req, res) => {
       attributes: []
     }
   });
+
+  if (!findSpot) {
+    res.status(404)
+    return res.json({
+      message: "Spot couldn't be found",
+      statusCode: 404
+    })
+  };
 
   const spotImg = await findSpot.getSpotImages({
     attributes: {
