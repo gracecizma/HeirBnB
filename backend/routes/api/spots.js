@@ -197,7 +197,7 @@ router.get('/current', requireAuth, async (req, res) => {
   }
 
 
-  return res.json({ spotsArray, where })
+  return res.json({ spotsArray })
 });
 
 // Get details of a Spot from an Id
