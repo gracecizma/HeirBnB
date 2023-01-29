@@ -197,7 +197,7 @@ router.get('/current', requireAuth, async (req, res) => {
   }
 
 
-  return res.json({ spotsArray, where })
+  return res.json({ spotsArray })
 });
 
 // Get details of a Spot from an Id
@@ -349,6 +349,14 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
   const spotId = req.params.spotId;
   const spot = await Spot.findByPk(spotId);
 
+  if (!spot) {
+    res.status(404);
+    return res.json({
+      message: "Spot couldn't be found",
+      statusCode: 404
+    })
+  };
+
   if (req.user.id !== spot.ownerId) {
     res.status(403);
     return res.json({
@@ -357,20 +365,13 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
     })
   };
 
-  if (!spot) {
-    res.status(404);
-    return res.json({
-      message: "Spot couldn't be found",
-      statusCode: 404
-    })
-  } else {
-    await spot.destroy();
-    res.status(200)
-    return res.json({
-      message: "Successfully deleted",
-      statusCode: 200
-    })
-  }
+  await spot.destroy();
+  res.status(200)
+  return res.json({
+    message: "Successfully deleted",
+    statusCode: 200
+  });
+
 
 });
 
@@ -524,15 +525,6 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
   };
 
 
-  const { startDate, endDate } = req.body
-
-  const newBooking = await Booking.create({
-    userId,
-    spotId,
-    startDate,
-    endDate
-  })
-
   if (newBooking.endDate.getTime() <= newBooking.startDate.getTime()) {
     res.status(400);
     return res.json({
@@ -543,6 +535,15 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
       }
     })
   };
+
+  const { startDate, endDate } = req.body
+
+  const newBooking = await Booking.create({
+    userId,
+    spotId,
+    startDate,
+    endDate
+  })
 
   return res.json(newBooking)
 });

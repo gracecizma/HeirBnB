@@ -73,6 +73,13 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
     })
   };
 
+  if (booking.endDate.getTime() <= new Date().getTime()) {
+    res.status(403);
+    return res.json({
+      message: "Past bookings can't be modified",
+      statusCode: 403
+    })
+  };
 
   if (booking.endDate.getTime() < booking.startDate.getTime()) {
     res.status(400);
@@ -82,14 +89,6 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
       errors: {
         endDate: 'endDate cannot come before start date'
       }
-    })
-  };
-
-  if (booking.endDate.getTime() <= new Date().getTime()) {
-    res.status(403);
-    return res.json({
-      message: "Past bookings can't be modified",
-      statusCode: 403
     })
   };
 
