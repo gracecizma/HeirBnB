@@ -40,8 +40,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     review: {
-      type: DataTypes.STRING,
-      allowNull: false
+      type: DataTypes.STRING
     },
     stars: {
       type: DataTypes.INTEGER,

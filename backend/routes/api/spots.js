@@ -349,6 +349,14 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
   const spotId = req.params.spotId;
   const spot = await Spot.findByPk(spotId);
 
+  if (!spot) {
+    res.status(404);
+    return res.json({
+      message: "Spot couldn't be found",
+      statusCode: 404
+    })
+  };
+
   if (req.user.id !== spot.ownerId) {
     res.status(403);
     return res.json({
@@ -357,20 +365,13 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
     })
   };
 
-  if (!spot) {
-    res.status(404);
-    return res.json({
-      message: "Spot couldn't be found",
-      statusCode: 404
-    })
-  } else {
-    await spot.destroy();
-    res.status(200)
-    return res.json({
-      message: "Successfully deleted",
-      statusCode: 200
-    })
-  }
+  await spot.destroy();
+  res.status(200)
+  return res.json({
+    message: "Successfully deleted",
+    statusCode: 200
+  });
+
 
 });
 

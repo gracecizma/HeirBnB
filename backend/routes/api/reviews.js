@@ -76,7 +76,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
       reviewId: reviewId
     }
   })
-  console.log(reviewCount)
+
 
   if (reviewCount === 10) {
     res.status(403);
@@ -100,7 +100,6 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
 router.put('/:reviewId', requireAuth, async (req, res) => {
   let reviewId = req.params.reviewId;
   const foundReview = await Review.findByPk(reviewId);
-  const spotId = foundReview.spotId
 
   if (!foundReview) {
     res.status(404);
@@ -118,6 +117,7 @@ router.put('/:reviewId', requireAuth, async (req, res) => {
     })
   };
 
+  const spotId = foundReview.spotId
   const { review, stars } = req.body;
 
   foundReview.set({
@@ -149,6 +149,14 @@ router.delete('/:reviewId', requireAuth, async (req, res) => {
   const reviewId = req.params.reviewId;
   const foundReview = await Review.findByPk(reviewId);
 
+  if (!foundReview) {
+    res.status(404);
+    return res.json({
+      message: "Review couldn't be found",
+      statusCode: 404
+    })
+  };
+
   if (req.user.id !== foundReview.userId) {
     res.status(403);
     return res.json({
@@ -157,20 +165,14 @@ router.delete('/:reviewId', requireAuth, async (req, res) => {
     })
   };
 
-  if (!foundReview) {
-    res.status(404);
-    return res.json({
-      message: "Review couldn't be found",
-      statusCode: 404
-    })
-  } else {
-    await foundReview.destroy();
-    res.status(200)
-    return res.json({
-      message: "Successfully deleted",
-      statusCode: 200
-    })
-  }
+
+  await foundReview.destroy();
+  res.status(200)
+  return res.json({
+    message: "Successfully deleted",
+    statusCode: 200
+  });
+
 });
 
 
