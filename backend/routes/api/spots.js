@@ -525,15 +525,6 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
   };
 
 
-  const { startDate, endDate } = req.body
-
-  const newBooking = await Booking.create({
-    userId,
-    spotId,
-    startDate,
-    endDate
-  })
-
   if (newBooking.endDate.getTime() <= newBooking.startDate.getTime()) {
     res.status(400);
     return res.json({
@@ -544,6 +535,15 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
       }
     })
   };
+
+  const { startDate, endDate } = req.body
+
+  const newBooking = await Booking.create({
+    userId,
+    spotId,
+    startDate,
+    endDate
+  })
 
   return res.json(newBooking)
 });
