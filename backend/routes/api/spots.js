@@ -336,21 +336,22 @@ router.get('/:spotId/reviews', async (req, res) => {
     where: {
       spotId: spot.id
     },
-    include: {
-      model: User,
-      attributes: {
-        exclude: ['username', 'email', 'hashedPassword', 'createdAt', 'updatedAt']
+    include: [
+      {
+        model: User,
+        attributes: {
+          exclude: ['username', 'email', 'hashedPassword', 'createdAt', 'updatedAt']
+        }
       }
-    }
+    ]
   })
 
-  // work on returning ReviewImages
 
-  return res.json({
-    spotReviews,
-    //reviewImg
-  })
-});
+
+  return res.json({ 'Reviews': spotReviews })
+})
+
+
 
 // Create a review for a spot based on the Spot's id
 router.post('/:spotId/reviews', requireAuth, async (req, res) => {
@@ -366,22 +367,41 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
       message: "Spot could not be found",
       statusCode: 404
     })
-  }
+  };
 
-  if (!review || stars < 1 || stars > 5) {
+  const findReview = await Review.findOne({
+    where: {
+      userId: userId,
+      spotId: spotId
+    }
+  })
 
-  }
+  if (findReview) {
+    res.status(403);
+    return res.json({
+      message: "User already has a review for this spot",
+      statusCode: 403
+    })
+  };
 
   const newReview = await Review.create({
     spotId,
     userId,
     review,
     stars
-  })
+  });
 
-
-  //check if user has already reviewed spot
-  // add body validation errors
+  if (!review || stars < 1 || stars > 5) {
+    res.status(400);
+    return res.json({
+      message: "Validation error",
+      statusCode: 400,
+      errors: {
+        review: "Review text is required",
+        stars: "Stars must be an integer from 1 to 5"
+      }
+    })
+  };
 
   res.json(newReview)
 })
@@ -459,7 +479,16 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
     endDate
   })
 
-  // add body validation errors, booking conflict
+  if (newBooking.endDate.getTime() <= newBooking.startDate.getTime()) {
+    res.status(400);
+    return res.json({
+      message: "Validation error",
+      statusCode: 400,
+      errors: {
+        endDate: "endDate cannot be on or before startDate"
+      }
+    })
+  };
 
   return res.json(newBooking)
 });

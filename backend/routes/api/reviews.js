@@ -7,22 +7,18 @@ const router = express.Router();
 
 // Get all reviews of the Current User
 router.get('/current', requireAuth, async (req, res) => {
-  const allReviews = await Review.findAll({
+  const userReviews = await Review.findAll({
     include: [
-      {
-        model: User
-      },
-      {
-        model: Spot
-      },
-      {
-        model: ReviewImage
-      }
-    ]
+      { model: User },
+      { model: Spot },
+      //   { model: ReviewImage }
+    ],
+    where: { userId: req.user.id }
   })
 
 
-  return res.json(allReviews)
+  return res.json(userReviews)
+
 });
 
 // Add an image to a Review based on the review's id
@@ -102,7 +98,17 @@ router.put('/:reviewId', requireAuth, async (req, res) => {
     stars: req.body.stars
   })
 
-  // add body validation errors
+  if (!review || stars < 1 || stars > 5) {
+    res.status(400);
+    return res.json({
+      message: "Validation error",
+      statusCode: 400,
+      errors: {
+        review: "Review text is required",
+        stars: "Stars must be an integer from 1 to 5"
+      }
+    })
+  }
 
   await foundReview.save()
 

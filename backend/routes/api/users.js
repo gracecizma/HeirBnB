@@ -25,14 +25,6 @@ const validateSignup = [
     .exists({ checkFalsy: true })
     .isLength({ min: 6 })
     .withMessage('Password must be 6 characters or more.'),
-  check('first name')
-    .exists({ checkFalsy: true })
-    .isLength({ min: 1 })
-    .withMessage('First Name is required'),
-  check('last name')
-    .exists({ checkFalsy: true })
-    .isLength({ min: 1 })
-    .withMessage('Last Name is required'),
   handleValidationErrors
 ];
 
@@ -49,10 +41,20 @@ router.post(
     return res.json({
       user: user
     });
+
+
+    // res.status(403);
+    // return res.json({
+    //   message: "User already exists",
+    //   statusCode: 403,
+    //   errors: {
+    //     email: "User with that email already exists"
+    //   }
+    // })
+
   }
 );
 
-// Get the current User
-router.get
+
 
 module.exports = router;
