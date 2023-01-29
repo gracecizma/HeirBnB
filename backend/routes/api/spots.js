@@ -546,7 +546,28 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
         endDate: "endDate cannot be on or before startDate"
       }
     })
-  }
+  };
+
+  const findBookings = await Booking.findAll({
+    where: {
+      spotId: spotId
+    }
+  })
+
+  findBookings.forEach(booking => {
+    if ((booking.startDate.getTime() = newBooking.startDate.getTime()) ||
+      (booking.endDate.getTime() = newBooking.endDate.getTime())) {
+      res.status(403);
+      return res.json({
+        message: "Sorry, this spot is already booking for teh specified dates",
+        statusCode: 403,
+        errors: {
+          startDate: "start date conflicts with an existing booking",
+          endDate: "End date conflicts with an existing booking"
+        }
+      })
+    }
+  });
 
 
   return res.json(newBooking)
