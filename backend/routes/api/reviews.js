@@ -7,22 +7,47 @@ const router = express.Router();
 
 // Get all reviews of the Current User
 router.get('/current', requireAuth, async (req, res) => {
-  const allReviews = await Review.findAll({
-    include: [
-      {
-        model: User
-      },
-      {
-        model: Spot
-      },
-      {
-        model: ReviewImage
+  const userReviews = await Review.findAll({
+    include: {
+      model: User,
+      attributes: {
+        exclude: ['username', 'email', 'hashedPassword', 'createdAt', 'updatedAt']
       }
-    ]
-  })
+    },
+    where: { userId: req.user.id }
+  });
+
+  let reviewsArray = [];
+
+  for (let review of userReviews) {
+    let reviewJSON = review.toJSON();
+    reviewsArray.push(reviewJSON)
+    let spot = await review.getSpot();
+    let spotImages = await spot.getSpotImages();
+    reviewJSON.Spot = spot;
+    reviewJSON.SpotImages = spotImages;
 
 
-  return res.json(allReviews)
+    spotImages.forEach(image => {
+      if (image.dataValues.preview === true) {
+        spot.dataValues.previewImage = image.dataValues.url
+      }
+    })
+    delete reviewJSON.SpotImages
+
+    let reviewImages = await review.getReviewImages({});
+
+    let imgArray = [];
+    for (let image of reviewImages) {
+      imageJSON = image.toJSON();
+      imgArray.push(imageJSON);
+    };
+
+    reviewJSON['ReviewImages'] = imgArray
+
+  }
+  return res.json(reviewsArray)
+
 });
 
 // Add an image to a Review based on the review's id
@@ -102,7 +127,17 @@ router.put('/:reviewId', requireAuth, async (req, res) => {
     stars: req.body.stars
   })
 
-  // add body validation errors
+  if (!review || stars < 1 || stars > 5) {
+    res.status(400);
+    return res.json({
+      message: "Validation error",
+      statusCode: 400,
+      errors: {
+        review: "Review text is required",
+        stars: "Stars must be an integer from 1 to 5"
+      }
+    })
+  }
 
   await foundReview.save()
 
@@ -137,9 +172,6 @@ router.delete('/:reviewId', requireAuth, async (req, res) => {
     })
   }
 });
-
-
-
 
 
 module.exports = router;

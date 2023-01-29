@@ -25,14 +25,12 @@ const validateSignup = [
     .exists({ checkFalsy: true })
     .isLength({ min: 6 })
     .withMessage('Password must be 6 characters or more.'),
-  check('first name')
+  check('firstName')
     .exists({ checkFalsy: true })
-    .isLength({ min: 1 })
-    .withMessage('First Name is required'),
-  check('last name')
+    .withMessage("First Name is required"),
+  check('lastName')
     .exists({ checkFalsy: true })
-    .isLength({ min: 1 })
-    .withMessage('Last Name is required'),
+    .withMessage("Last Name is required"),
   handleValidationErrors
 ];
 
@@ -42,17 +40,52 @@ router.post(
   validateSignup,
   async (req, res) => {
     const { email, password, username, firstName, lastName } = req.body;
-    const user = await User.signup({ email, username, password, firstName, lastName });
 
-    await setTokenCookie(res, user);
-
-    return res.json({
-      user: user
+    const findEmail = await User.findOne({
+      where: {
+        email: req.body.email
+      }
     });
+
+    const findUsername = await User.findOne({
+      where: {
+        username: req.body.username
+      }
+    });
+
+    if (findEmail) {
+      res.status(403);
+      return res.json({
+        message: "User already exists",
+        statusCode: 403,
+        errors: {
+          email: "User with that email already exists"
+        }
+      })
+    } else if (findUsername) {
+      res.status(403);
+      return res.json({
+        message: "User already exists",
+        statusCode: 403,
+        errors: {
+          email: "User with that username already exists"
+        }
+      })
+    } else {
+      const user = await User.signup({
+        email,
+        username,
+        password,
+        firstName,
+        lastName
+      })
+
+      await setTokenCookie(res, user);
+      return res.json(user);
+    }
   }
 );
 
-// Get the current User
-router.get
+
 
 module.exports = router;
