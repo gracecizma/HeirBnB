@@ -56,8 +56,56 @@ const validateSpot = [
   bodyValidation
 ];
 
+const queryValidator = [
+  check('page')
+    .optional()
+    .isInt({ gt: 1 })
+    .withMessage("Page must be greater than or equal to 1"),
+  check('size')
+    .optional()
+    .isInt({ gt: 1 })
+    .withMessage("Size must be greater than or equal to 1"),
+  check('minLat')
+    .optional()
+    .isDecimal()
+    .withMessage("Minimum latitude is invalid"),
+  check('maxLat')
+    .optional()
+    .isDecimal()
+    .withMessage("Maximum latitude is invalid"),
+  check('minLng')
+    .optional()
+    .isDecimal()
+    .withMessage("Minimum longitude is invalid"),
+  check('maxLng')
+    .optional()
+    .isDecimal()
+    .withMessage("Maximum longitude is invalid"),
+  check('minPrice')
+    .optional()
+    .isInt({ gt: 0 })
+    .withMessage("Minimum price must be greater than or equal to 0"),
+  check('maxPrice')
+    .optional()
+    .isInt({ gt: 0 })
+    .withMessage("Maximum price must be greater than or equal to 0"),
+  bodyValidation
+];
+
+
+
 // Get all spots
-router.get('/', requireAuth, async (req, res) => {
+router.get('/', queryValidator, async (req, res) => {
+
+  let pagination = {}
+  let { page, size } = req.query
+  if (!page) page = 1
+  if (!size) size = 20
+
+  if (page >= 1 && size >= 1) {
+    pagination.limit = size
+    pagination.offset = size * (page - 1)
+  }
 
   const allSpots = await Spot.findAll({
     include: [
@@ -80,6 +128,9 @@ router.get('/', requireAuth, async (req, res) => {
       if (image.preview === true) {
         spot.previewImage = image.url
       }
+      if (!image.preview) {
+        spot.previewImage = "No image found"
+      }
     })
     delete spot.SpotImages
   })
@@ -97,7 +148,11 @@ router.get('/', requireAuth, async (req, res) => {
     delete spot.Reviews;
   }
 
-  return res.json(spotsArray)
+  return res.json({
+    spotsArray,
+    page,
+    size
+  })
 });
 
 
@@ -142,7 +197,7 @@ router.get('/current', requireAuth, async (req, res) => {
   }
 
 
-  return res.json(spotsArray)
+  return res.json({ spotsArray, where })
 });
 
 // Get details of a Spot from an Id
