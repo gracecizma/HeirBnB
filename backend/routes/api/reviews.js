@@ -8,16 +8,45 @@ const router = express.Router();
 // Get all reviews of the Current User
 router.get('/current', requireAuth, async (req, res) => {
   const userReviews = await Review.findAll({
-    include: [
-      { model: User },
-      { model: Spot },
-      //   { model: ReviewImage }
-    ],
+    include: {
+      model: User,
+      attributes: {
+        exclude: ['username', 'email', 'hashedPassword', 'createdAt', 'updatedAt']
+      }
+    },
     where: { userId: req.user.id }
-  })
+  });
+
+  let reviewsArray = [];
+
+  for (let review of userReviews) {
+    let reviewJSON = review.toJSON();
+    reviewsArray.push(reviewJSON)
+    let spot = await review.getSpot();
+    let spotImages = await spot.getSpotImages();
+    reviewJSON.Spot = spot;
+    reviewJSON.SpotImages = spotImages;
 
 
-  return res.json(userReviews)
+    spotImages.forEach(image => {
+      if (image.dataValues.preview === true) {
+        spot.dataValues.previewImage = image.dataValues.url
+      }
+    })
+    delete reviewJSON.SpotImages
+
+    let reviewImages = await review.getReviewImages({});
+
+    let imgArray = [];
+    for (let image of reviewImages) {
+      imageJSON = image.toJSON();
+      imgArray.push(imageJSON);
+    };
+
+    reviewJSON['ReviewImages'] = imgArray
+
+  }
+  return res.json(reviewsArray)
 
 });
 
@@ -143,9 +172,6 @@ router.delete('/:reviewId', requireAuth, async (req, res) => {
     })
   }
 });
-
-
-
 
 
 module.exports = router;

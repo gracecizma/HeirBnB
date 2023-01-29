@@ -342,11 +342,10 @@ router.get('/:spotId/reviews', async (req, res) => {
         attributes: {
           exclude: ['username', 'email', 'hashedPassword', 'createdAt', 'updatedAt']
         }
-      }
+      },
+      { model: ReviewImage }
     ]
   })
-
-
 
   return res.json({ 'Reviews': spotReviews })
 })
