@@ -235,7 +235,8 @@ router.get('/:id', async (req, res) => {
           exclude: ['spotId', 'createdAt', 'updatedAt']
         }
       }
-    ]
+    ],
+    raw: true
   });
 
 
