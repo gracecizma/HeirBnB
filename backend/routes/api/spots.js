@@ -203,31 +203,25 @@ router.get('/current', requireAuth, async (req, res) => {
 // Get details of a Spot from an Id
 router.get('/:spotId', async (req, res) => {
   let spotId = req.params.spotId;
-  let spot = await Spot.findByPk(spotId);
+  //let spot = await Spot.findByPk(spotId);
 
-  if (!spot) {
-    res.status(404)
-    return res.json({
-      message: "Spot couldn't be found",
-      statusCode: 404
-    })
-  };
+
 
   const findSpot = await Spot.findByPk(spotId, {
-    attributes: {
-      include: [
-        [
-          sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating'
-        ],
-        [
-          sequelize.fn('COUNT', sequelize.col('Reviews.review')), 'numReviews'
-        ]
-      ]
-    },
+    // attributes: {
+    //   include: [
+    //     [
+    //       sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating'
+    //     ],
+    //     [
+    //       sequelize.fn('COUNT', sequelize.col('Reviews.review')), 'numReviews'
+    //     ]
+    //   ]
+    // },
     include: [
       {
         model: Review,
-        attributes: []
+        //attributes: []
       },
       {
         model: SpotImage,
@@ -235,17 +229,42 @@ router.get('/:spotId', async (req, res) => {
           exclude: ['spotId', 'createdAt', 'updatedAt']
         }
       }
-    ],
-    raw: true
+    ]
   });
 
+  //console.log(findSpot)
+  let spotArray = []
+  spotArray.push(findSpot.toJSON())
 
-  if (findSpot) {
-    return res.json({
-      findSpot
+  for (let spot of spotArray) {
+    const avg = await Review.findAll({
+      where: {
+        spotId: spot.id
+      },
+      attributes: [
+        [sequelize.fn('AVG', sequelize.col('stars')), 'avgRating'],
+        [sequelize.fn('COUNT', sequelize.col('review')), 'numReviews']
+      ]
     })
+    console.log(avg[0].dataValues)
+    spot.avgRating = avg[0].dataValues.avgRating;
+    spot.numReviews = avg[0].dataValues.numReviews;
+    delete spot.Reviews;
   }
+
+
+  if (!findSpot) {
+    res.status(404)
+    return res.json({
+      message: "Spot couldn't be found",
+      statusCode: 404
+    })
+  };
+
+
+  return res.json(spotArray)
 });
+
 
 // Create a Spot
 router.post('/', requireAuth, validateSpot, async (req, res) => {
@@ -322,7 +341,7 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res) => {
     })
   }
 
-  const { ownerId, address, city, state, country, lat, lng, name, description, price } = req.body
+  const { address, city, state, country, lat, lng, name, description, price } = req.body
 
   spot.set({
     ownerId: req.user.id,
