@@ -203,25 +203,11 @@ router.get('/current', requireAuth, async (req, res) => {
 // Get details of a Spot from an Id
 router.get('/:spotId', async (req, res) => {
   let spotId = req.params.spotId;
-  //let spot = await Spot.findByPk(spotId);
-
-
 
   const findSpot = await Spot.findByPk(spotId, {
-    // attributes: {
-    //   include: [
-    //     [
-    //       sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating'
-    //     ],
-    //     [
-    //       sequelize.fn('COUNT', sequelize.col('Reviews.review')), 'numReviews'
-    //     ]
-    //   ]
-    // },
     include: [
       {
-        model: Review,
-        //attributes: []
+        model: Review
       },
       {
         model: SpotImage,
@@ -246,12 +232,10 @@ router.get('/:spotId', async (req, res) => {
         [sequelize.fn('COUNT', sequelize.col('review')), 'numReviews']
       ]
     })
-    console.log(avg[0].dataValues)
     spot.avgRating = avg[0].dataValues.avgRating;
     spot.numReviews = avg[0].dataValues.numReviews;
     delete spot.Reviews;
   }
-
 
   if (!findSpot) {
     res.status(404)
@@ -260,7 +244,6 @@ router.get('/:spotId', async (req, res) => {
       statusCode: 404
     })
   };
-
 
   return res.json(spotArray)
 });
