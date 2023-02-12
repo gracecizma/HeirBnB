@@ -1,3 +1,16 @@
-header {}
+.home {
+  float: left;
+}
 
-img {}
+
+.menu {
+  float: right;
+}
+
+header {
+  height: 50px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: purple;
+}

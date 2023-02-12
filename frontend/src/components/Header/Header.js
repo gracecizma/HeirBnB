@@ -4,12 +4,9 @@ import Navigation from "../Navigation"
 import "./header.css"
 
 
-function Header() {
+function Header({ isLoaded }) {
   return (
     <header>
-      <NavLink exact to="/">
-        HeirBnb
-      </NavLink>
       <Navigation />
     </header>
   )
