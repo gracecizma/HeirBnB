@@ -3,8 +3,7 @@ import { useDispatch } from "react-redux";
 import { Switch, Route } from "react-router-dom";
 import * as sessionActions from "./store/session";
 import Header from "./components/Header/Header.js";
-import Navigation from './components/Navigation'
-//import LandingPage from "./components/LandingPage/LandingPage.js"
+import Spots from "./components/SpotsShow"
 
 function App() {
   const dispatch = useDispatch();
@@ -13,11 +12,15 @@ function App() {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
+
   return (
     <>
       <Header isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
+          <Route exact path="/">
+            <Spots />
+          </Route>
         </Switch>
       )}
     </>
