@@ -6,28 +6,46 @@
   position: absolute;
   right: 20px;
   top: 30px;
+  width: 30px;
+  height: 20px;
 }
+
 
 .user-menu {
   position: absolute;
   right: 45px;
   top: 30px;
+  width: 30px;
+  height: 20px;
 }
 
-.user-menu.hidden {
-  display: none;
-}
+
+
 
 .profile-dropdown {
+  position: absolute;
   display: flex;
   flex-direction: column;
   border: solid purple 2px;
   box-shadow: 5px 2px 2px magenta;
-  position: relative;
-  justify-content: center;
+  justify-content: space-around;
   text-align: center;
   padding: 5px;
-  right: 20px;
   list-style-type: none;
   background-color: white;
+  height: 100px;
+  width: 75px;
+  top: 35px;
+  right: 20px;
+}
+
+.profile-dropdown>li {
+  border: solid black;
+  font-weight: bold;
+  font-family: cursive;
+}
+
+.profile-dropdown>li:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }

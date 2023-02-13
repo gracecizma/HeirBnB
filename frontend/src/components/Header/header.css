@@ -1,16 +1,27 @@
 .home {
   float: left;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 
-.menu {
-  float: right;
+h1 {
+  position: relative;
+  bottom: 18px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: cursive;
 }
 
 header {
+  display: flex;
   height: 50px;
   width: 100%;
-  margin: 0;
-  padding: 0;
+
   background-color: purple;
+  position: sticky;
 }

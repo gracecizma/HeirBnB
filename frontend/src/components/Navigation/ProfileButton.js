@@ -41,7 +41,7 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button className="user-menu hidden" onClick={openMenu}>
+      <button className="user-menu" onClick={openMenu}>
         <i className="fas fa-bars" />
       </button>
       <button className="profile-button" onClick={openMenu}>
