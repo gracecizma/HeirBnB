@@ -1,0 +1,9 @@
+body {
+  margin: 0%;
+}
+
+@media screen and (min-width: 250px) {
+  body {
+    width: 100%;
+  }
+}
