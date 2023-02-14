@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
+import CreateNewSpot from '../CreateNewSpot';
 
 function Navigation() {
   const sessionUser = useSelector(state => state.session.user);
@@ -21,8 +22,15 @@ function Navigation() {
         </h1>
       </div>
 
-      <div className="menu">
+      <div className="user-menu">
         <ProfileButton user={sessionUser} />
+      </div>
+      <div className="create-new-button">
+        <NavLink exact to="/spots">
+          <button>
+            Create New Spot
+          </button>
+        </NavLink>
       </div>
     </>
 

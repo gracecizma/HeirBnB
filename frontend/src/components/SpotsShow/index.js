@@ -8,8 +8,9 @@ import './spotshow.css'
 export default function Spots() {
   const dispatch = useDispatch()
   const spotsObj = useSelector((state) => state.spots.allSpots)
+  console.log("spot obj", spotsObj)
   const spots = Object.values(spotsObj)
-
+  console.log("spot array", spots)
 
   useEffect(() => {
     dispatch(getAllSpots())
@@ -22,13 +23,18 @@ export default function Spots() {
       <div className="spot-div">
         {spots.map(spot => (
           <Link key={spot.id} to={`spots/${spot.id}`} className="spot-tile">
-            {spot.name}
-            <img src={spot.previewImage} />
-            <p>{spot.price}</p>
-            <p>{spot.address}</p>
-            <p>{spot.city}</p>
-            <p>{spot.country}</p>
-            <p>average rating: {spot.avgRating}</p>
+            <img className="spot-img" src={spot.previewImage} />
+            <div className="spot-details">
+              <div className="location-rating">
+                <p className="city-state">
+                  {spot.city}, {spot.state}
+                </p>
+                <p className="stars">
+                  rating:{spot.avgRating}
+                </p>
+              </div>
+              <p className="price">${spot.price} per night</p>
+            </div>
           </Link>
         ))}
       </div>

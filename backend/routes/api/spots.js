@@ -245,7 +245,7 @@ router.get('/:spotId', async (req, res) => {
     })
   };
 
-  return res.json(spotArray)
+  return res.json({ spotArray })
 });
 
 
