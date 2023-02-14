@@ -9,7 +9,7 @@ export default function Spots() {
   const dispatch = useDispatch()
   const spotsObj = useSelector((state) => state.spots.allSpots)
   const spots = Object.values(spotsObj)
-
+  console.log(spots)
 
   useEffect(() => {
     dispatch(getAllSpots())
