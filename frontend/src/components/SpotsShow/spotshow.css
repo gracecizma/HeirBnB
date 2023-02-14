@@ -1,0 +1,5 @@
+.spot-tile {
+  display: flex;
+  height: 270px;
+  width: 250px;
+}
