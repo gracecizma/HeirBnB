@@ -26,9 +26,11 @@ function Navigation() {
         <ProfileButton user={sessionUser} />
       </div>
       <div className="create-new-button">
-        <button>
-          Create New Spot
-        </button>
+        <NavLink exact to="/spots">
+          <button>
+            Create New Spot
+          </button>
+        </NavLink>
       </div>
     </>
 
