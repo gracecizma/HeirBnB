@@ -30,6 +30,7 @@ export const getAllSpots = () => async (dispatch) => {
 
   if (res.ok) {
     const spotsObj = await res.json()
+    // console.log("get all fetch request", spotsObj)
     dispatch(loadSpots(spotsObj))
   }
 };
@@ -39,6 +40,7 @@ export const getSpot = (id) => async (dispatch) => {
 
   if (res.ok) {
     const spotObj = await res.json()
+    //console.log("get one fetch request", spotObj)
     dispatch(oneSpot(spotObj))
   }
 };

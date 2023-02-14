@@ -8,9 +8,9 @@ import './spotshow.css'
 export default function Spots() {
   const dispatch = useDispatch()
   const spotsObj = useSelector((state) => state.spots.allSpots)
-  console.log(spotsObj)
+  console.log("spot obj", spotsObj)
   const spots = Object.values(spotsObj)
-  console.log(spots)
+  console.log("spot array", spots)
 
   useEffect(() => {
     dispatch(getAllSpots())
