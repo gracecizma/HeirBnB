@@ -34,14 +34,14 @@ export const getAllSpots = () => async (dispatch) => {
   }
 };
 
-export const getSpot = () => async (dispatch) => {
-  const res = await csrfFetch(`api/spots/spotId`)
+export const getSpot = (id) => async (dispatch) => {
+  const res = await csrfFetch(`/api/spots/${id}`)
 
   if (res.ok) {
     const spotObj = await res.json()
     dispatch(oneSpot(spotObj))
   }
-}
+};
 
 export const createNewSpot = (newSpotDetails) => async (dispatch) => {
   const res = await csrfFetch('/api/spots', {

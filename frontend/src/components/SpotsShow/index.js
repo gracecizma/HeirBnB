@@ -8,6 +8,7 @@ import './spotshow.css'
 export default function Spots() {
   const dispatch = useDispatch()
   const spotsObj = useSelector((state) => state.spots.allSpots)
+  console.log(spotsObj)
   const spots = Object.values(spotsObj)
   console.log(spots)
 

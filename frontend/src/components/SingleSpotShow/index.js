@@ -10,9 +10,10 @@ export default function SingleSpot() {
   const dispatch = useDispatch()
   const { spotId } = useParams();
   const spotObj = useSelector((state) => state.spots.singleSpot)
-  console.log("spot object", spotObj)
-  const spotDetail = Object.values(spotObj)
-  console.log("spot", spotDetail)
+  console.log(spotObj)
+  const spot = Object.values(spotObj)
+  console.log(spot)
+
 
 
   useEffect(() => {
@@ -20,40 +21,39 @@ export default function SingleSpot() {
   }, [dispatch])
 
 
-  return
-  // (
-  // <>
-  //   <div className="single-spot-div">
-  //     <div className="spot-name">
-  //       {spotDetail.name}
-  //     </div>
-  //     <div className="spot-location">
-  //       {spotDetail.city}, {spotDetail.state}, {spotDetail.country}
-  //     </div>
-  //     <div className="images-container"> images
-  //     </div>
-  //     <div className="details-container">
-  //       <div className="description">
-  //         <p>
-  //           Hosted by {spotDetail.ownerId.firstName} {spotDetail.ownerId.lastName}
-  //         </p>
-  //         <p>
-  //           {spotDetail.description}
-  //         </p>
-  //       </div>
-  //       <div className="price-reviews">
-  //         <p>
-  //           ${spotDetail.price} per night
-  //         </p>
-  //         <p>
-  //           {spotDetail.numReviews} reviews
-  //         </p>
-  //       </div>
-  //       <div className="reserve-button">
-  //         <button>Reserve</button>
-  //       </div>
-  //     </div>
-  //   </div>
-  // </>
-  //)
+  return (
+    <>
+      <div className="single-spot-div">
+        <div className="spot-name">
+          {spot.name}
+        </div>
+        <div className="spot-location">
+          {spot.city}, {spot.state}, {spot.country}
+        </div>
+        <div className="images-container"> {spot.SpotImages}
+        </div>
+        <div className="details-container">
+          {/* <div className="description">
+            <p>
+              Hosted by {spot.Owner.firstName} {spot.Owner.lastName}
+            </p>
+            <p>
+              {spot.description}
+            </p>
+          </div> */}
+          <div className="price-reviews">
+            <p>
+              ${spot.price} per night
+            </p>
+            <p>
+              {spot.numReviews} reviews
+            </p>
+          </div>
+          <div className="reserve-button">
+            <button>Reserve</button>
+          </div>
+        </div>
+      </div>
+    </>
+  )
 }

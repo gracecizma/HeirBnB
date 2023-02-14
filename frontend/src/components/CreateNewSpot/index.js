@@ -88,10 +88,10 @@ export default function CreateNewSpot() {
 
       <div>
         <label>Description
-          <textarea
+          <input
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            name="description"
+            type="text"
           />
         </label>
       </div>
