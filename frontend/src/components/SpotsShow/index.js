@@ -10,7 +10,6 @@ export default function Spots() {
   const spotsObj = useSelector((state) => state.spots.allSpots)
   const spots = Object.values(spotsObj)
 
-  console.log('spots', spots)
 
   useEffect(() => {
     dispatch(getAllSpots())
@@ -20,18 +19,19 @@ export default function Spots() {
 
   return (
     <>
-      <div className="spot-tiles">Spots</div>
-      {spots.map(spot => (
-        <Link key={spot.id} to={`spots/${spot.id}`}>
-          {spot.name}
-          <img src={spot.previewImage} />
-          <p>{spot.price}</p>
-          <p>{spot.address}</p>
-          <p>{spot.city}</p>
-          <p>{spot.country}</p>
-          <p>average rating: {spot.avgRating}</p>
-        </Link>
-      ))}
+      <div className="spot-div">
+        {spots.map(spot => (
+          <Link key={spot.id} to={`spots/${spot.id}`} className="spot-tile">
+            {spot.name}
+            <img src={spot.previewImage} />
+            <p>{spot.price}</p>
+            <p>{spot.address}</p>
+            <p>{spot.city}</p>
+            <p>{spot.country}</p>
+            <p>average rating: {spot.avgRating}</p>
+          </Link>
+        ))}
+      </div>
     </>
   )
 };
