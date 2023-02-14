@@ -1,5 +1,33 @@
 .spot-tile {
   display: flex;
-  height: 270px;
-  width: 250px;
+  border: solid black;
+  text-decoration: none;
+  font-family: cursive;
+  justify-content: space-between;
+  width: 270px;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.spot-img {
+  width: 270px;
+  height: 250px;
+}
+
+.spot-details {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.spot-div {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.location-rating {
+  display: flex;
+  justify-content: space-between;
 }
