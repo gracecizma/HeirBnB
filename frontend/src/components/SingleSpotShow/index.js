@@ -10,7 +10,7 @@ export default function SingleSpot() {
   const dispatch = useDispatch()
   const { spotId } = useParams();
   const spotObj = useSelector((state) => state.spots.singleSpot)
-  console.log("spot", spotObj)
+  //console.log("spot", spotObj)
   // const spot = Object.values(spotObj)
   // console.log("spot array", spot)
   let spot = {}
@@ -19,7 +19,7 @@ export default function SingleSpot() {
     spot = spotObj.spotArray[0]
     image = spotObj.spotArray[0].SpotImages[0].url
   }
-  console.log("image", image)
+  //console.log("image", image)
 
 
   useEffect(() => {
@@ -33,13 +33,13 @@ export default function SingleSpot() {
         <div className="spot-name">
           {spot.name}
         </div>
-        <div className="spot-location">
-          {spot.city}, {spot.state}, {spot.country}
-        </div>
         <div className="images-container">
-          <img src={image} style={{ width: 700, height: 500 }} />
+          <img className="single-spot-img" src={image} />
         </div>
         <div className="details-container">
+          <div className="spot-location">
+            {spot.city}, {spot.state}, {spot.country}
+          </div>
           <div className="price-reviews">
             <p>
               ${spot.price} per night

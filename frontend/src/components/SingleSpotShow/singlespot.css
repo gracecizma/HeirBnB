@@ -1,0 +1,26 @@
+.single-spot-div {
+  display: flex;
+  border: solid black;
+  flex-direction: column;
+  width: 750px;
+  height: 600px;
+}
+
+.single-spot-img {
+  width: 700px;
+  height: 500px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.details-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  font-family: cursive;
+}
+
+.spot-name {
+  display: flex;
+  font-family: cursive;
+}

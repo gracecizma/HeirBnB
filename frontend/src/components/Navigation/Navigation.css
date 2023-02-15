@@ -1,7 +1,13 @@
 .home {
   display: flex;
-  justify-content: start;
   align-items: center;
+  color: white;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  font-family: cursive;
   text-decoration: none;
   color: white;
 }
@@ -18,10 +24,6 @@
 }
 
 
-.nav-buttons {
-  display: flex;
-  justify-content: space-around;
-}
 
 .profile-dropdown.hidden {
   display: none;

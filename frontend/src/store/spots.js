@@ -76,8 +76,8 @@ export const createNewSpot = (newSpotDetails) => async (dispatch) => {
   }
 };
 
-export const getUserSpots = () => async (dispatch) => {
-  const res = await csrfFetch('/api/spots/current')
+export const getUserSpots = (current) => async (dispatch) => {
+  const res = await csrfFetch(`/api/spots/${current}`)
 
   if (res.ok) {
     const currUserSpots = await res.json()
