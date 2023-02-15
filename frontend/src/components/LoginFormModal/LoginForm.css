@@ -15,7 +15,15 @@ input[type=password] {
   box-sizing: border-box;
 }
 
-button {
+.login-button {
+  width: 400px;
+  height: 50px;
+  margin-left: 50px;
+  background-color: purple;
+  color: white;
+}
+
+.demo-login {
   width: 400px;
   height: 50px;
   margin-left: 50px;

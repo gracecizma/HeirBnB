@@ -5,6 +5,8 @@ import { createNewSpot } from '../../store/spots'
 import './newspot.css'
 
 export default function CreateNewSpot() {
+  const dispatch = useDispatch()
+
   const [validationErrors, setValidationErrors] = useState([])
   const [country, setCountry] = useState('')
   const [streetAddress, setStreetAddress] = useState('')
@@ -25,8 +27,6 @@ export default function CreateNewSpot() {
     price,
     imageURL
   }
-
-  const dispatch = useDispatch()
 
   const handleSubmit = (e) => {
     e.preventDefault()
