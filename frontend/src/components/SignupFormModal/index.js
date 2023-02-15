@@ -90,7 +90,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        <button
+        <button className="signup-button"
           type="submit"
           disabled={
             (!email.length ||

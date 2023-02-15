@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Switch, Route } from "react-router-dom";
 import * as sessionActions from "./store/session";
-import Header from "./components/Header/Header.js";
+import Navigation from "./components/Navigation";
 import Spots from "./components/SpotsShow"
 import SingleSpot from './components/SingleSpotShow'
 import CreateNewSpot from './components/CreateNewSpot'
@@ -17,7 +17,7 @@ function App() {
 
   return (
     <>
-      <Header isLoaded={isLoaded} />
+      <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
           <Route exact path="/">

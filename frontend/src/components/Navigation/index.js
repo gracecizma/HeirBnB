@@ -3,35 +3,33 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
-import CreateNewSpot from '../CreateNewSpot';
 
-function Navigation() {
+function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
 
   return (
     <>
+      <navbar className="nav-bar">
+        <h1 className="home">
+          <NavLink exact to="/">
+            <img src="../../images/favicon-32x32.png" alt="crown" />
+            HeirBnB
+          </NavLink>
+        </h1 >
+        <div className="nav-buttons">
+          <div className="create-new-button">
+            <NavLink exact to="/spots">
+              <button>
+                Create New Spot
+              </button>
+            </NavLink>
+          </div>
+          <div className="user-menu">
+            <ProfileButton user={sessionUser} />
+          </div>
+        </div>
 
-      <div className="home">
-        <NavLink exact to="/">
-          <img src="../../images/favicon-32x32.png" alt="crown" />
-        </NavLink>
-      </div>
-      <div>
-        <h1>
-          HeirBnB
-        </h1>
-      </div>
-
-      <div className="user-menu">
-        <ProfileButton user={sessionUser} />
-      </div>
-      <div className="create-new-button">
-        <NavLink exact to="/spots">
-          <button>
-            Create New Spot
-          </button>
-        </NavLink>
-      </div>
+      </navbar>
     </>
 
 
