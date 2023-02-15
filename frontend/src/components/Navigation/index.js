@@ -9,27 +9,29 @@ function Navigation({ isLoaded }) {
 
   return (
     <>
-      <navbar className="nav-bar">
-        <h1 className="home">
+      <div className="nav-bar">
+        <div className="home">
           <NavLink exact to="/">
             <img src="../../images/favicon-32x32.png" alt="crown" />
-            HeirBnB
           </NavLink>
-        </h1 >
-        <div className="nav-buttons">
-          <div className="create-new-button">
-            <NavLink exact to="/spots">
-              <button>
-                Create New Spot
-              </button>
-            </NavLink>
-          </div>
-          <div className="user-menu">
-            <ProfileButton user={sessionUser} />
-          </div>
+          <NavLink exact to="/">
+            <h1 className="header">
+              HeirBnB
+            </h1>
+          </NavLink>
+        </div >
+        <div className="create-new-button">
+          <NavLink exact to="/spots">
+            <button>
+              Create New Spot
+            </button>
+          </NavLink>
+        </div>
+        <div className="user-menu">
+          <ProfileButton user={sessionUser} />
         </div>
 
-      </navbar>
+      </div>
     </>
 
 
