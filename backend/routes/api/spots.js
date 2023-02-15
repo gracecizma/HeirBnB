@@ -38,11 +38,9 @@ const validateSpot = [
     .exists({ checkFalsy: true })
     .withMessage("Country is required"),
   check('lat')
-    .exists({ checkFalsy: true })
-    .withMessage("Latitude is not valid"),
+    .optional(),
   check('lng')
-    .exists({ checkFalsy: true })
-    .withMessage("Longitude is not valid"),
+    .optional(),
   check('name')
     .exists({ checkFalsy: true })
     .isLength({ max: 50 })
