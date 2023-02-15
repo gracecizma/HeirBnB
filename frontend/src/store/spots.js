@@ -71,17 +71,40 @@ export const getSpot = (id) => async (dispatch) => {
   }
 };
 
-export const createNewSpot = (newSpotDetails) => async (dispatch) => {
-  const res = await csrfFetch('/api/spots', {
+export const addImageToSpot = (newSpot, newSpotId) => async (dispatch) => {
+  const res = await csrfFetch(`/api/spots/${newSpotId}/images`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(newSpotDetails)
+    body: JSON.stringify({
+      "url": newSpot.imageURL,
+      preview: true
+    })
   })
 
   if (res.ok) {
-    const newSpot = await res.json()
+    const newSpotImg = await res.json()
+
+    console.log("newSpotImg", newSpotImg)
+
     dispatch(createSpot(newSpot))
   }
+}
+
+export const createNewSpot = (newSpot) => async (dispatch) => {
+  const res = await csrfFetch('/api/spots', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(newSpot)
+  })
+
+  if (res.ok) {
+    const createdSpot = await res.json()
+
+    console.log("createdSpot", createdSpot)
+
+    dispatch(addImageToSpot(createdSpot, createdSpot.id))
+  }
+
 };
 
 export const getUserSpots = () => async (dispatch) => {
@@ -94,15 +117,16 @@ export const getUserSpots = () => async (dispatch) => {
   }
 };
 
-export const updateSpot = (spotDetails, spotId) => async (dispatch) => {
+export const updateSpot = (spot, spotId) => async (dispatch) => {
   const res = await csrfFetch(`/api/spots/${spotId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(spotDetails)
+    body: JSON.stringify(spot)
   })
 
   if (res.ok) {
     const updatedSpot = await res.json()
+    //console.log("updated spot", updatedSpot)
     dispatch(editSpot(updatedSpot))
   }
 };
@@ -140,9 +164,9 @@ export default function spotsReducer(state = initialState, action) {
       return newState
     }
     case CREATE_SPOT: {
-      const newState2 = { ...state, allSpots: { ...state.allSpots } }
-      newState2.allSpots[action.newSpot.id] = action.payload.newSpot
-      return newState2
+      const createState = { ...state, allSpots: { ...state.allSpots } }
+      createState.allSpots[action.newSpot.id] = action.newSpot;
+      return createState
     }
     case GET_USER_SPOTS: {
       const userSpots = { ...action.payload.spotsArray }
@@ -152,7 +176,7 @@ export default function spotsReducer(state = initialState, action) {
       }
     }
     case UPDATE_SPOT: {
-      const newState4 = { ...state, userSpots: { ...action.payload.userSpots } }
+      const newState4 = { ...state, userSpots: { ...action.payload.spotsArray } }
       newState4.userSpots[action.payload.spotId] = { ...action.payload.spot }
       return newState4
     }

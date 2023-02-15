@@ -1,36 +1,41 @@
 import React from "react"
 import { useDispatch } from 'react-redux'
+import { useHistory } from "react-router-dom"
 import { useState } from 'react'
 import { createNewSpot } from '../../store/spots'
 import './newspot.css'
 
 export default function CreateNewSpot() {
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const [validationErrors, setValidationErrors] = useState([])
-  const [country, setCountry] = useState('')
-  const [streetAddress, setStreetAddress] = useState('')
+  const [address, setAddress] = useState('')
   const [city, setCity] = useState('')
   const [state, setState] = useState('')
+  const [country, setCountry] = useState('')
+  const [latitude, setLatitude] = useState('')
+  const [longitude, setLongitude] = useState('')
+  const [name, setName] = useState('')
   const [description, setDescription] = useState('')
-  const [title, setTitle] = useState('')
   const [price, setPrice] = useState('')
   const [imageURL, setImageURL] = useState('')
 
   const spot = {
-    country,
-    streetAddress,
+    address,
     city,
     state,
+    country,
+    latitude,
+    longitude,
+    name,
     description,
-    title,
     price,
     imageURL
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log('spot', spot)
 
     const errors = []
 
@@ -39,7 +44,9 @@ export default function CreateNewSpot() {
       setValidationErrors(errors)
     } else {
       const newSpotObj = { ...spot }
+      console.log("new spot obj", newSpotObj)
       dispatch(createNewSpot(newSpotObj))
+      history.push(`spots/${newSpotObj.id}`)
     }
   }
 
@@ -47,20 +54,10 @@ export default function CreateNewSpot() {
     <form onSubmit={handleSubmit}>
 
       <div>
-        <label>Country
+        <label>Address
           <input
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            type="text"
-          />
-        </label>
-      </div>
-
-      <div>
-        <label>Street Address
-          <input
-            value={streetAddress}
-            onChange={(e) => setStreetAddress(e.target.value)}
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
             type="text"
           />
         </label>
@@ -87,20 +84,50 @@ export default function CreateNewSpot() {
       </div>
 
       <div>
-        <label>Description
+        <label>Country
           <input
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
             type="text"
           />
         </label>
       </div>
 
       <div>
-        <label>Title
+        <label>Latitude
           <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={latitude}
+            onChange={(e) => setLatitude(Number(e.target.value))}
+            type="text"
+          />
+        </label>
+      </div>
+
+      <div>
+        <label>Longitude
+          <input
+            value={longitude}
+            onChange={(e) => setLongitude(Number(e.target.value))}
+            type="text"
+          />
+        </label>
+      </div>
+
+      <div>
+        <label>Name
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            type="text"
+          />
+        </label>
+      </div>
+
+      <div>
+        <label>Description
+          <input
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             type="text"
           />
         </label>

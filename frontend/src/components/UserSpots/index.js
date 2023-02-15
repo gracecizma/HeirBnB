@@ -2,7 +2,10 @@ import React from "react"
 import { useParams } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from "react"
+import { Link } from "react-router-dom"
 import { getUserSpots } from '../../store/spots'
+import DeleteSpotModal from "../DeleteSpotModal"
+import OpenModalButton from "../OpenModalButton"
 import './userspots.css'
 
 
@@ -22,31 +25,35 @@ export default function UserSpots() {
   if (!Object.values(userSpots)) return null
 
   return (
-    <>
-      <div>
-        <h1>Manage Your Spots</h1>
-        <div className="user-spots">
-          {(spots.map(spot => (
-            <li key={spot.name}>
-              <p>{spot.name}</p>
-              <p>
-                <img src={spot.previewImage} style={{ width: 700, height: 500 }} />
-              </p>
-              <p>{spot.address}</p>
-              <p>{spot.city}, {spot.state}</p>
-              <p>{spot.description}</p>
-              <p>{spot.price}</p>
-            </li>
-          )))}
-        </div>
-        <div className="delete-spot-button">
-          <button>Delete Spot</button>
-        </div>
-        <div className="edit-spot-button">
-          <button>Edit Spot</button>
-        </div>
-      </div>
-    </>
-  )
 
+    <div>
+      <h1>Manage Your Spots</h1>
+      <div className="user-spots">
+        {(spots.map(spot => (
+          <li key={spot.name}>
+            <p>{spot.name}</p>
+            <p>
+              <img src={spot.previewImage} />
+            </p>
+            <p>{spot.address}</p>
+            <p>{spot.city}, {spot.state}</p>
+            <p>{spot.description}</p>
+            <p>{spot.price} per night</p>
+            <div className="delete-spot-button">
+              <OpenModalButton modalComponent={
+                <DeleteSpotModal spotId={spot.id}
+                  buttonText={'Delete Spot'}
+                />}
+              />
+            </div>
+            <div className="edit-spot-button">
+              <Link to={`/spots/${spot.id}/edit`}>
+                <button>Edit Spot</button>
+              </Link>
+            </div>
+          </li>
+        )))}
+      </div>
+    </div>
+  )
 }
