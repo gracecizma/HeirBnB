@@ -158,6 +158,7 @@ export default function spotsReducer(state = initialState, action) {
   switch (action.type) {
     case GET_ALL_SPOTS: {
       const allSpots = { ...action.payload.spotsArray }
+      console.log("allSpots", allSpots)
       return {
         ...state,
         allSpots
@@ -177,10 +178,10 @@ export default function spotsReducer(state = initialState, action) {
       }
     }
     case GET_USER_SPOTS: {
-      const userState = { ...state, userSpots: { ...state.userSpots } }
-      console.log("user state", userState)
       const userSpots = { ...action.payload.spotsArray }
       console.log("userSpots", userSpots)
+      const userState = { ...state, userSpots: { ...userSpots } }
+      console.log("user state", userState)
       return {
         userState,
         userSpots

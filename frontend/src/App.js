@@ -7,6 +7,7 @@ import Spots from "./components/SpotsShow"
 import SingleSpot from './components/SingleSpotShow'
 import UserSpots from './components/UserSpots'
 import CreateNewSpot from './components/CreateNewSpot'
+import UpdateSpot from './components/UpdateSpot'
 
 
 function App() {
@@ -33,6 +34,9 @@ function App() {
           </Route>
           <Route exact path='/spots/:spotId'>
             <SingleSpot />
+          </Route>
+          <Route exact path="/spots/:spotId/edit">
+            <UpdateSpot />
           </Route>
         </Switch>
       )}
