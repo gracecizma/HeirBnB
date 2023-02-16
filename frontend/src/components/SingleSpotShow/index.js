@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSpot } from '../../store/spots'
+//import { getAllReviews } from "../../store/reviews";
 import './singlespot.css'
 
 
@@ -12,24 +13,29 @@ export default function SingleSpot() {
   const spotObj = useSelector((state) => state.spots.singleSpot)
   console.log("spotObj", spotObj)
 
-  let spot = {};
-  let image;
-  let owner = {};
-  if (spotObj.spotArray) {
-    spot = spotObj.spotArray[0]
-    image = spotObj.spotArray[0].SpotImages[0].url
-    owner = spotObj.spotArray[0].Owner
-  }
-  console.log("spot", spot)
+
 
   useEffect(() => {
     dispatch(getSpot(spotId))
+    //dispatch(getAllReviews(spotId))
   }, [dispatch])
+
+  if (!spotObj.SpotImages) return null
+
+  let image;
+  let owner = {};
+  if (spotObj) {
+    image = spotObj.SpotImages[0].url
+    owner = spotObj.Owner
+  }
+
+  console.log("spot", spotObj)
+
 
   return (
     <>
       <h1>Hello</h1>
-      <div className="single-spot-div">
+      {/* <div className="single-spot-div">
         <div className="spot-name">
           {spot.name}
         </div>
@@ -55,7 +61,7 @@ export default function SingleSpot() {
             <button>Reserve</button>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   )
 }

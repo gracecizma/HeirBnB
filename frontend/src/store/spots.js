@@ -57,7 +57,7 @@ export const getAllSpots = () => async (dispatch) => {
   if (res.ok) {
     const spotsObj = await res.json()
     console.log("get all fetch request", spotsObj)
-    dispatch(loadSpots(spotsObj))
+    dispatch(loadSpots(spotsObj.spotsArray))
     return spotsObj
   }
 };
@@ -68,7 +68,7 @@ export const getSpot = (id) => async (dispatch) => {
   if (res.ok) {
     const spotObj = await res.json()
     //console.log("get one fetch request", spotObj)
-    dispatch(oneSpot(spotObj))
+    dispatch(oneSpot(spotObj.spotArray))
     return spotObj
   }
 };
@@ -121,7 +121,7 @@ export const getUserSpots = () => async (dispatch) => {
   if (res.ok) {
     const currUserSpots = await res.json()
     console.log("fetch spots", currUserSpots)
-    dispatch(userSpots(currUserSpots))
+    dispatch(userSpots(currUserSpots.spotsArray))
     return currUserSpots
   }
 };
@@ -162,24 +162,20 @@ let initialState = {
 export default function spotsReducer(state = initialState, action) {
   switch (action.type) {
     case GET_ALL_SPOTS: {
-      const allSpots = { ...action.payload.spotsArray }
-      console.log("allSpots", allSpots)
-      const allSpotsState = { ...state, allSpots: { ...allSpots } }
-      console.log("allSpotsState", allSpotsState)
-      return {
-        allSpotsState,
-        allSpots
-      }
+      const getState = { allSpots: {}, singleSpot: {}, userSpots: {} }
+      action.payload.forEach((spot) => {
+        getState.allSpots[spot.id] = spot;
+      })
+      console.log("getState", getState)
+      return getState;
     }
     case GET_SINGLE_SPOT: {
-      const singleSpot = { ...action.payload }
-      console.log("single spot", singleSpot)
-      const spotState = { ...state, singleSpot: { ...singleSpot } }
-      console.log("spot state", spotState)
-      return {
-        spotState,
-        singleSpot
-      }
+      const getSingleState = { allSpots: {}, singleSpot: {}, userSpots: {} }
+      action.payload.forEach((spot) => {
+        getSingleState.singleSpot[spot.id] = spot;
+      })
+      console.log("getSingleState", getSingleState)
+      return getSingleState
     }
     case CREATE_SPOT: {
       const createSpot = { ...action.payload }
@@ -192,19 +188,13 @@ export default function spotsReducer(state = initialState, action) {
       }
     }
     case GET_USER_SPOTS: {
-      const userSpots = { ...action.payload }
-      console.log("userSpots", userSpots)
-      const userState = { ...state, userSpots: { ...userSpots } }
-      console.log("user state", userState)
-      return {
-        userState,
-        userSpots
-      }
+      const userState = { allSpots: {}, singleSpot: {}, userSpots: {} }
+      action.payload.forEach((spot) => {
+        userState.userSpots[spot.id] = spot
+      })
+      return userState
     }
     case UPDATE_SPOT: {
-      const newState4 = { ...state, userSpots: { ...action.payload } }
-      newState4.userSpots[action.payload.spotId] = { ...action.payload.spot }
-      return newState4
     }
     case DELETE_SPOT: {
       const newState5 = { ...state, allSpots: { ...state.allSpots } }

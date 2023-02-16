@@ -18,7 +18,7 @@ export default function Spots() {
     dispatch(getAllSpots())
   }, [dispatch])
 
-  if (!spots) return
+  if (!spots.length) return null
 
   return (
     <>

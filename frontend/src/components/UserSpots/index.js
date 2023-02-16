@@ -20,7 +20,7 @@ export default function UserSpots() {
     dispatch(getUserSpots())
   }, [dispatch])
 
-  if (!spots) return
+  // if (!userSpots.id) return
 
 
   if (!spots.length) {

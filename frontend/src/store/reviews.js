@@ -7,7 +7,7 @@ const GET_USER_REVIEWS = 'reviews/GET_USER_REVIEWS'
 
 const loadReviews = (spotReviews) => {
   return {
-    type: GET_ALL_REVIEWS,
+    type: GET_SPOT_REVIEWS,
     payload: spotReviews
   }
 };
@@ -24,7 +24,16 @@ const userReviews = (reviewsArray) => {
     type: GET_USER_REVIEWS,
     payload: reviewsArray
   }
-}
+};
+
+export const getAllReviews = (id) => async (dispatch) => {
+  const res = await csrfFetch(`/api/spots/${id}/reviews`)
+
+  if (res.ok) {
+    const reviewsObj = await res.json()
+    dispatch(loadReviews(reviewsObj))
+  }
+};
 
 
 
@@ -42,7 +51,7 @@ export default function reviewsReducer(state = initialState, action) {
     case GET_SPOT_REVIEWS:
       const getState = { ...state };
       let reviewObj = {}
-      action.spotReviews.Reviews.forEach((review) => {
+      action.spotReviews.forEach((review) => {
         reviewObj[review.id] = review;
       })
       getState.spots = reviewObj
