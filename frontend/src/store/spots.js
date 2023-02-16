@@ -58,6 +58,7 @@ export const getAllSpots = () => async (dispatch) => {
     const spotsObj = await res.json()
     console.log("get all fetch request", spotsObj)
     dispatch(loadSpots(spotsObj))
+    return spotsObj
   }
 };
 
@@ -68,6 +69,7 @@ export const getSpot = (id) => async (dispatch) => {
     const spotObj = await res.json()
     //console.log("get one fetch request", spotObj)
     dispatch(oneSpot(spotObj))
+    return spotObj
   }
 };
 
@@ -91,6 +93,7 @@ export const addImageToSpot = (newSpot, newSpotUrl, currUser) => async (dispatch
     newSpot.numReviews = 0
     newSpot.avgRating = 0
     dispatch(createSpot(newSpot))
+    return newSpotImg
   }
 }
 
@@ -108,8 +111,8 @@ export const createNewSpot = (newSpot, currUser) => async (dispatch) => {
 
 
     dispatch(addImageToSpot(createdSpot, newSpot.imageURL, currUser))
+    return createdSpot
   }
-
 };
 
 export const getUserSpots = () => async (dispatch) => {
@@ -119,6 +122,7 @@ export const getUserSpots = () => async (dispatch) => {
     const currUserSpots = await res.json()
     console.log("fetch spots", currUserSpots)
     dispatch(userSpots(currUserSpots))
+    return currUserSpots
   }
 };
 
@@ -133,6 +137,7 @@ export const updateSpot = (spot, spotId) => async (dispatch) => {
     const updatedSpot = await res.json()
     //console.log("updated spot", updatedSpot)
     dispatch(editSpot(updatedSpot))
+    return updatedSpot
   }
 };
 
@@ -159,26 +164,35 @@ export default function spotsReducer(state = initialState, action) {
     case GET_ALL_SPOTS: {
       const allSpots = { ...action.payload.spotsArray }
       console.log("allSpots", allSpots)
+      const allSpotsState = { ...state, allSpots: { ...allSpots } }
+      console.log("allSpotsState", allSpotsState)
       return {
-        ...state,
+        allSpotsState,
         allSpots
       }
     }
     case GET_SINGLE_SPOT: {
-      const newState = { ...state }
-      newState.singleSpot = action.payload
-      return newState
+      const singleSpot = { ...action.payload }
+      console.log("single spot", singleSpot)
+      const spotState = { ...state, singleSpot: { ...singleSpot } }
+      console.log("spot state", spotState)
+      return {
+        spotState,
+        singleSpot
+      }
     }
     case CREATE_SPOT: {
-      const createSpot = { ...action.payload.newSpot }
+      const createSpot = { ...action.payload }
       console.log("createSpot state", createSpot)
+      const createSpotState = { ...state, singleSpot: { ...createSpot } }
+      console.log("createSpotState", createSpotState)
       return {
-        ...state,
+        createSpotState,
         createSpot
       }
     }
     case GET_USER_SPOTS: {
-      const userSpots = { ...action.payload.spotsArray }
+      const userSpots = { ...action.payload }
       console.log("userSpots", userSpots)
       const userState = { ...state, userSpots: { ...userSpots } }
       console.log("user state", userState)
@@ -188,7 +202,7 @@ export default function spotsReducer(state = initialState, action) {
       }
     }
     case UPDATE_SPOT: {
-      const newState4 = { ...state, userSpots: { ...action.payload.spotsArray } }
+      const newState4 = { ...state, userSpots: { ...action.payload } }
       newState4.userSpots[action.payload.spotId] = { ...action.payload.spot }
       return newState4
     }

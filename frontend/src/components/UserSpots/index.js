@@ -14,11 +14,13 @@ export default function UserSpots() {
   const userSpots = useSelector((state) => state.spots.userSpots)
   console.log("userSpotsObj", userSpots)
   const spots = Object.values(userSpots)
-  //console.log("user spots array", spots)
+  console.log("user spots array", spots)
 
   useEffect(() => {
     dispatch(getUserSpots())
   }, [dispatch])
+
+  if (!spots) return
 
 
   if (!spots.length) {
