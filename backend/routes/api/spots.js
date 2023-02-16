@@ -212,6 +212,12 @@ router.get('/:spotId', async (req, res) => {
         attributes: {
           exclude: ['spotId', 'createdAt', 'updatedAt']
         }
+      },
+      {
+        model: User, as: 'Owner',
+        attributes: {
+          exclude: ['username', 'email', 'hashedPassword', 'createdAt', 'updatedAt']
+        }
       }
     ]
   });

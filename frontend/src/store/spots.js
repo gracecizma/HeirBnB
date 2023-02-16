@@ -71,12 +71,12 @@ export const getSpot = (id) => async (dispatch) => {
   }
 };
 
-export const addImageToSpot = (newSpot, newSpotId) => async (dispatch) => {
-  const res = await csrfFetch(`/api/spots/${newSpotId}/images`, {
+export const addImageToSpot = (newSpot, newSpotUrl, currUser) => async (dispatch) => {
+  const res = await csrfFetch(`/api/spots/${newSpot.id}/images`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      "url": newSpot.imageURL,
+      url: newSpotUrl,
       preview: true
     })
   })
@@ -86,11 +86,15 @@ export const addImageToSpot = (newSpot, newSpotId) => async (dispatch) => {
 
     console.log("newSpotImg", newSpotImg)
 
+    newSpot.Owner = currUser
+    newSpot.SpotImages = [newSpotImg]
+    newSpot.numReviews = 0
+    newSpot.avgRating = 0
     dispatch(createSpot(newSpot))
   }
 }
 
-export const createNewSpot = (newSpot) => async (dispatch) => {
+export const createNewSpot = (newSpot, currUser) => async (dispatch) => {
   const res = await csrfFetch('/api/spots', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -102,7 +106,8 @@ export const createNewSpot = (newSpot) => async (dispatch) => {
 
     console.log("createdSpot", createdSpot)
 
-    dispatch(addImageToSpot(createdSpot, createdSpot.id))
+
+    dispatch(addImageToSpot(createdSpot, newSpot.imageURL, currUser))
   }
 
 };
@@ -164,9 +169,12 @@ export default function spotsReducer(state = initialState, action) {
       return newState
     }
     case CREATE_SPOT: {
-      const createState = { ...state, allSpots: { ...state.allSpots } }
-      createState.allSpots[action.newSpot.id] = action.newSpot;
-      return createState
+      const createSpot = { ...action.payload.newSpot }
+      console.log("createSpot state", createSpot)
+      return {
+        ...state,
+        createSpot
+      }
     }
     case GET_USER_SPOTS: {
       const userSpots = { ...action.payload.spotsArray }
