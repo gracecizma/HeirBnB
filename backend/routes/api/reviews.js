@@ -46,7 +46,7 @@ router.get('/current', requireAuth, async (req, res) => {
     reviewJSON['ReviewImages'] = imgArray
 
   }
-  return res.json(reviewsArray)
+  return res.json({ "Reviews": reviewsArray })
 
 });
 

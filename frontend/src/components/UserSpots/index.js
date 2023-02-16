@@ -14,14 +14,27 @@ export default function UserSpots() {
   const userSpots = useSelector((state) => state.spots.userSpots)
   console.log("userSpotsObj", userSpots)
   const spots = Object.values(userSpots)
-  //console.log("user spots array", spots)
+  console.log("user spots array", spots)
 
   useEffect(() => {
     dispatch(getUserSpots())
   }, [dispatch])
 
+  // if (!userSpots.id) return
 
-  if (!Object.values(userSpots)) return null
+
+  if (!spots.length) {
+    return (
+      <>
+        <div>Manage Your Spots</div>
+        <div>
+          <Link to="/spots">
+            <button>Create New Spot</button>
+          </Link>
+        </div>
+      </>
+    )
+  }
 
   return (
 

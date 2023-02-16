@@ -38,18 +38,14 @@ export default function CreateNewSpot() {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const errors = []
 
-    if (typeof spot.price !== 'number') {
-      errors.push('price must be a number')
-      setValidationErrors(errors)
-    } else {
-      const newSpotObj = { ...spot }
-      console.log("new spot obj", newSpotObj)
-      let res = await dispatch(createNewSpot(newSpotObj, currUser))
-      if (res) history.push(`/spots/${res.id}`)
-    }
+
+    const newSpotObj = { ...spot }
+    console.log("new spot obj", newSpotObj)
+    let res = await dispatch(createNewSpot(newSpotObj, currUser))
+    if (res) history.push(`/spots/${res.id}`)
   }
+
 
   return (
     <>

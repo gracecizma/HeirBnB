@@ -57,7 +57,8 @@ export const getAllSpots = () => async (dispatch) => {
   if (res.ok) {
     const spotsObj = await res.json()
     console.log("get all fetch request", spotsObj)
-    dispatch(loadSpots(spotsObj))
+    dispatch(loadSpots(spotsObj.spotsArray))
+    return spotsObj
   }
 };
 
@@ -67,7 +68,8 @@ export const getSpot = (id) => async (dispatch) => {
   if (res.ok) {
     const spotObj = await res.json()
     //console.log("get one fetch request", spotObj)
-    dispatch(oneSpot(spotObj))
+    dispatch(oneSpot(spotObj.spotArray))
+    return spotObj
   }
 };
 
@@ -91,6 +93,7 @@ export const addImageToSpot = (newSpot, newSpotUrl, currUser) => async (dispatch
     newSpot.numReviews = 0
     newSpot.avgRating = 0
     dispatch(createSpot(newSpot))
+    return newSpotImg
   }
 }
 
@@ -108,8 +111,8 @@ export const createNewSpot = (newSpot, currUser) => async (dispatch) => {
 
 
     dispatch(addImageToSpot(createdSpot, newSpot.imageURL, currUser))
+    return createdSpot
   }
-
 };
 
 export const getUserSpots = () => async (dispatch) => {
@@ -118,7 +121,8 @@ export const getUserSpots = () => async (dispatch) => {
   if (res.ok) {
     const currUserSpots = await res.json()
     console.log("fetch spots", currUserSpots)
-    dispatch(userSpots(currUserSpots))
+    dispatch(userSpots(currUserSpots.spotsArray))
+    return currUserSpots
   }
 };
 
@@ -133,6 +137,7 @@ export const updateSpot = (spot, spotId) => async (dispatch) => {
     const updatedSpot = await res.json()
     //console.log("updated spot", updatedSpot)
     dispatch(editSpot(updatedSpot))
+    return updatedSpot
   }
 };
 
@@ -157,40 +162,39 @@ let initialState = {
 export default function spotsReducer(state = initialState, action) {
   switch (action.type) {
     case GET_ALL_SPOTS: {
-      const allSpots = { ...action.payload.spotsArray }
-      console.log("allSpots", allSpots)
-      return {
-        ...state,
-        allSpots
-      }
+      const getState = { allSpots: {}, singleSpot: {}, userSpots: {} }
+      action.payload.forEach((spot) => {
+        getState.allSpots[spot.id] = spot;
+      })
+      console.log("getState", getState)
+      return getState;
     }
     case GET_SINGLE_SPOT: {
-      const newState = { ...state }
-      newState.singleSpot = action.payload
-      return newState
+      const getSingleState = { allSpots: {}, singleSpot: {}, userSpots: {} }
+      action.payload.forEach((spot) => {
+        getSingleState.singleSpot[spot.id] = spot;
+      })
+      console.log("getSingleState", getSingleState)
+      return getSingleState
     }
     case CREATE_SPOT: {
-      const createSpot = { ...action.payload.newSpot }
+      const createSpot = { ...action.payload }
       console.log("createSpot state", createSpot)
+      const createSpotState = { ...state, singleSpot: { ...createSpot } }
+      console.log("createSpotState", createSpotState)
       return {
-        ...state,
+        createSpotState,
         createSpot
       }
     }
     case GET_USER_SPOTS: {
-      const userSpots = { ...action.payload.spotsArray }
-      console.log("userSpots", userSpots)
-      const userState = { ...state, userSpots: { ...userSpots } }
-      console.log("user state", userState)
-      return {
-        userState,
-        userSpots
-      }
+      const userState = { allSpots: {}, singleSpot: {}, userSpots: {} }
+      action.payload.forEach((spot) => {
+        userState.userSpots[spot.id] = spot
+      })
+      return userState
     }
     case UPDATE_SPOT: {
-      const newState4 = { ...state, userSpots: { ...action.payload.spotsArray } }
-      newState4.userSpots[action.payload.spotId] = { ...action.payload.spot }
-      return newState4
     }
     case DELETE_SPOT: {
       const newState5 = { ...state, allSpots: { ...state.allSpots } }

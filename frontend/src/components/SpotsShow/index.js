@@ -10,14 +10,15 @@ export default function Spots() {
   const spotsObj = useSelector((state) => state.spots.allSpots)
   //console.log("spot obj", spotsObj)
 
+
   const spots = Object.values(spotsObj)
-  //console.log("spot array", spots)
+  // console.log("spot array", spots)
 
   useEffect(() => {
     dispatch(getAllSpots())
   }, [dispatch])
 
-  if (!spots) return null
+  if (!spots.length) return null
 
   return (
     <>
