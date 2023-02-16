@@ -179,10 +179,7 @@ export default function spotsReducer(state = initialState, action) {
     case CREATE_SPOT: {
       const createState = { allSpots: {}, singleSpot: {}, userSpots: {} }
       console.log("create action", action.payload)
-      action.payload.forEach((spot) => {
-        createState.singleSpot[spot.id] = spot;
-        createState.allSpots[spot.id] = spot
-      })
+      createState.singleSpot[action.payload.id] = { ...action.payload }
       console.log("createState", createState)
       return createState
     }

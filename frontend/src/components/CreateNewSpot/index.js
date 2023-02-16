@@ -42,7 +42,7 @@ export default function CreateNewSpot() {
 
     const newSpotObj = { ...spot }
     console.log("new spot obj", newSpotObj)
-    let res = await dispatch(createNewSpot(newSpotObj, currUser))
+    const res = await dispatch(createNewSpot(newSpotObj, currUser))
     if (res) history.push(`/spots/${res.id}`)
   }
 

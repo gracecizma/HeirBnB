@@ -18,23 +18,27 @@ export default function SingleSpot() {
     //dispatch(getAllReviews(spotId))
   }, [dispatch])
 
+  let image;
+  let owner = {};
+  if (spotObj.name) {
+    image = spotObj.SpotImages[0]?.url
+    owner = spotObj.Owner
+  }
 
 
   return (
     <>
-      <h1>Hello</h1>
       <div className="single-spot-div">
         <div className="spot-name">
           {spotObj.name}
         </div>
         <div className="images-container">
           <img className="single-spot-img"
-            src={spotObj.SpotImages ?
-              spotObj.SpotImages[0].url : "no image found"} />
+            src={image} />
         </div>
-        {/* <div className="spot-owner">
-          Hosted By: {spotObj.Owner.firstName} {spotObj.Owner.lastName}
-        </div> */}
+        <div className="spot-owner">
+          Hosted By: {owner.firstName} {owner.lastName}
+        </div>
         <div className="details-container">
           <div className="spot-location">
             {spotObj.city}, {spotObj.state}, {spotObj.country}
