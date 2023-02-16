@@ -159,7 +159,7 @@ router.get('/', queryValidator, async (req, res) => {
 router.get('/current', requireAuth, async (req, res) => {
   const userSpots = await Spot.findAll({
     include: [
-      { model: User },
+      { model: User, as: 'Owner' },
       { model: SpotImage },
       { model: Review }
     ],
