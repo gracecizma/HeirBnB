@@ -21,7 +21,18 @@ export default function UserSpots() {
   }, [dispatch])
 
 
-  if (!Object.values(userSpots)) return null
+  if (!spots.length) {
+    return (
+      <>
+        <div>Manage Your Spots</div>
+        <div>
+          <Link to="/spots">
+            <button>Create New Spot</button>
+          </Link>
+        </div>
+      </>
+    )
+  }
 
   return (
 

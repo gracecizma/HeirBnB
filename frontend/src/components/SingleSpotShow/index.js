@@ -10,17 +10,15 @@ export default function SingleSpot() {
   const dispatch = useDispatch()
   const { spotId } = useParams();
   const spotObj = useSelector((state) => state.spots.singleSpot)
-  //console.log("spot", spotObj)
-  // const spot = Object.values(spotObj)
-  // console.log("spot array", spot)
-  let spot = {}
-  let image;
+
+  let spot = {};
+  let images = {};
+  let owner = {};
   if (spotObj.spotArray) {
     spot = spotObj.spotArray[0]
-    image = spotObj.spotArray[0].SpotImages[0].url
+    images = spotObj.spotArray[0].SpotImages
+    owner = spotObj.spotArray[0].Owner
   }
-  //console.log("image", image)
-
 
   useEffect(() => {
     dispatch(getSpot(spotId))
@@ -34,7 +32,10 @@ export default function SingleSpot() {
           {spot.name}
         </div>
         <div className="images-container">
-          <img className="single-spot-img" src={image} />
+          <img className="single-spot-img" src={images[0].url} />
+        </div>
+        <div className="spot-owner">
+          Hosted By: {owner.firstName} {owner.lastName}
         </div>
         <div className="details-container">
           <div className="spot-location">
