@@ -32,15 +32,16 @@
 
 .user-menu {
   display: flex;
+  position: sticky;
   justify-content: end;
-
   width: 30px;
   height: 20px;
 }
 
 .profile-dropdown {
-  position: absolute;
   display: flex;
+  position: relative;
+  top: 35px;
   flex-direction: column;
   border: solid purple 2px;
   box-shadow: 5px 2px 2px magenta;
@@ -49,10 +50,8 @@
   padding: 5px;
   list-style-type: none;
   background-color: white;
-  height: 100px;
-  width: 75px;
-  top: 35px;
-  right: 20px;
+  height: 200px;
+  width: 150px;
 }
 
 .profile-dropdown>li {
