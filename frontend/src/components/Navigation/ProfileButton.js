@@ -5,6 +5,7 @@ import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
+import UserSpots from '../UserSpots'
 
 
 function ProfileButton({ user }) {
@@ -54,12 +55,12 @@ function ProfileButton({ user }) {
           <>
             <li>Hello, {user.username}</li>
             <li>{user.email}</li>
-            <NavLink to="/spots/current">
-              <li>
+            <li className="manage-spots">
+              <NavLink to="/spots/current" className="manage-spots-link">
                 Manage Spots
-              </li>
-            </NavLink>
-            <li>
+              </NavLink>
+            </li>
+            <li className="logout-button">
               <button onClick={logout}>Log Out</button>
             </li>
           </>

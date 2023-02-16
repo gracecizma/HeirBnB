@@ -1,5 +1,4 @@
 import React from "react"
-import { useParams } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from "react"
 import { Link } from "react-router-dom"
@@ -11,11 +10,11 @@ import './userspots.css'
 
 export default function UserSpots() {
   const dispatch = useDispatch()
-  // const { userId } = useParams()
+  //const currUser = useSelector((state) => state.session.user)
   const userSpots = useSelector((state) => state.spots.userSpots)
   console.log("userSpotsObj", userSpots)
   const spots = Object.values(userSpots)
-  console.log("user spots array", spots)
+  //console.log("user spots array", spots)
 
   useEffect(() => {
     dispatch(getUserSpots())

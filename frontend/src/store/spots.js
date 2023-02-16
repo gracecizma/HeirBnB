@@ -117,7 +117,7 @@ export const getUserSpots = () => async (dispatch) => {
 
   if (res.ok) {
     const currUserSpots = await res.json()
-    //console.log("fetch spots", currUserSpots)
+    console.log("fetch spots", currUserSpots)
     dispatch(userSpots(currUserSpots))
   }
 };
@@ -158,6 +158,7 @@ export default function spotsReducer(state = initialState, action) {
   switch (action.type) {
     case GET_ALL_SPOTS: {
       const allSpots = { ...action.payload.spotsArray }
+      console.log("allSpots", allSpots)
       return {
         ...state,
         allSpots
@@ -178,8 +179,11 @@ export default function spotsReducer(state = initialState, action) {
     }
     case GET_USER_SPOTS: {
       const userSpots = { ...action.payload.spotsArray }
+      console.log("userSpots", userSpots)
+      const userState = { ...state, userSpots: { ...userSpots } }
+      console.log("user state", userState)
       return {
-        ...state,
+        userState,
         userSpots
       }
     }
