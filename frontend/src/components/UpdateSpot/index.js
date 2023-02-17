@@ -3,55 +3,81 @@ import { useParams } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from "react-router-dom"
 import { useState } from 'react'
-import { updateSpot } from '../../store/spots'
-import { getSpot } from '../../store/spots'
+import { getSpot, updateSpot } from '../../store/spots'
+import './updatespot.css'
 
 export default function UpdateSpot() {
   const history = useHistory()
   const dispatch = useDispatch()
   const { spotId } = useParams()
   const spotDetails = useSelector((state) => state?.spots?.singleSpot)
+  const currUser = useSelector((state) => state?.session?.user)
+
+
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [validationErrors, setValidationErrors] = useState([])
+  const [country, setCountry] = useState('')
+  const [address, setAddress] = useState('')
+  const [city, setCity] = useState('')
+  const [state, setState] = useState('')
+  const [latitude, setLatitude] = useState('')
+  const [longitude, setLongitude] = useState('')
+  const [description, setDescription] = useState('')
+  const [name, setName] = useState('')
+  const [price, setPrice] = useState('')
+  const [imageURL, setImageURL] = useState('')
+
+  const setSpotDetails = async () => {
+    const spotData = await dispatch(getSpot(spotId));
+    console.log("spotData", spotData)
+
+    setCountry(spotData.spotArray[0]?.country);
+    setAddress(spotData.spotArray[0]?.address);
+    setCity(spotData.spotArray[0]?.city);
+    setState(spotData.spotArray[0]?.state);
+    setLatitude(spotData.spotArray[0]?.lat);
+    setLongitude(spotData.spotArray[0]?.lng);
+    setDescription(spotData.spotArray[0]?.description);
+    setName(spotData.spotArray[0]?.name);
+    setPrice(spotData.spotArray[0]?.price);
+    setImageURL(spotData.spotArray[0]?.SpotImages[0]?.url)
+    setIsLoaded(true);
+  };
 
   useEffect(() => {
-    dispatch(getSpot(spotId))
-  }, [dispatch])
-
-  //console.log("spotDetails", spotDetails)
-  let image;
-  if (spotDetails.name) {
-    image = spotDetails.SpotImages[0]?.url
-  }
-
-  const [validationErrors, setValidationErrors] = useState([])
-  const [country, setCountry] = useState(spotDetails.country)
-  const [address, setAddress] = useState(spotDetails.address)
-  const [city, setCity] = useState(spotDetails.city)
-  const [state, setState] = useState(spotDetails.state)
-  const [latitude, setLatitude] = useState(spotDetails.latitude)
-  const [longitude, setLongitude] = useState(spotDetails.longitude)
-  const [description, setDescription] = useState(spotDetails.description)
-  const [name, setName] = useState(spotDetails.name)
-  const [price, setPrice] = useState(spotDetails.price)
-  const [imageURL, setImageURL] = useState(image)
-
-  const updatedSpot = {
-    country,
-    address,
-    city,
-    state,
-    description,
-    name,
-    price,
-    imageURL
-  };
+    setSpotDetails()
+  }, [dispatch, spotId])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const spotDetails = { ...updatedSpot }
-    let res = await dispatch(updateSpot(spotDetails, spotId))
-    if (res) history.push(`/spots/${spotId}`)
+    const updatedSpot = {
+      id: spotDetails.id,
+      address,
+      city,
+      state,
+      country,
+      lat: parseFloat(latitude),
+      lng: parseFloat(longitude),
+      name,
+      description,
+      price: parseFloat(price),
+      imageURL
+    }
+    const spotData = await dispatch(updateSpot(updatedSpot))
+    console.log("updated spotData", spotData)
 
+    history.push(`/spots/${spotDetails.id}`)
+  }
+
+  // prevent users from attempting to view edit page for spot they don't own
+  if (isLoaded && (!currUser || spotDetails.ownerId !== currUser.id)) {
+    history.push('/')
+    return (
+      <div>
+        <h1>Forbidden</h1>
+      </div>
+    )
   }
 
   return (
