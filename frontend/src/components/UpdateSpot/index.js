@@ -7,11 +7,6 @@ import { getSpot, updateSpot } from '../../store/spots'
 import './updatespot.css'
 
 export default function UpdateSpot() {
-  const history = useHistory()
-  const dispatch = useDispatch()
-  const { spotId } = useParams()
-  const spotDetails = useSelector((state) => state?.spots?.singleSpot)
-  const currUser = useSelector((state) => state?.session?.user)
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [errors, setErrors] = useState('')
@@ -26,21 +21,26 @@ export default function UpdateSpot() {
   const [name, setName] = useState('')
   const [price, setPrice] = useState('')
   const [imageURL, setImageURL] = useState('')
+  const { spotId } = useParams()
+  const dispatch = useDispatch()
+  const history = useHistory()
+  const spotDetails = useSelector((state) => state?.spots?.singleSpot)
+  const currUser = useSelector((state) => state?.session?.user)
 
   const setSpotDetails = async () => {
     const spotData = await dispatch(getSpot(spotId));
     console.log("spotData", spotData)
 
-    setCountry(spotData.spotArray[0]?.country);
-    setAddress(spotData.spotArray[0]?.address);
-    setCity(spotData.spotArray[0]?.city);
-    setState(spotData.spotArray[0]?.state);
-    setLatitude(spotData.spotArray[0]?.lat);
-    setLongitude(spotData.spotArray[0]?.lng);
-    setDescription(spotData.spotArray[0]?.description);
-    setName(spotData.spotArray[0]?.name);
-    setPrice(spotData.spotArray[0]?.price);
-    setImageURL(spotData.spotArray[0]?.SpotImages[0]?.url)
+    setCountry(spotData.country);
+    setAddress(spotData.address);
+    setCity(spotData.city);
+    setState(spotData.state);
+    setLatitude(spotData.lat);
+    setLongitude(spotData.lng);
+    setDescription(spotData.description);
+    setName(spotData.name);
+    setPrice(spotData.price);
+    setImageURL(spotData.SpotImages[0]?.url)
     setIsLoaded(true);
   };
 
