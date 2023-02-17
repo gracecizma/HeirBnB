@@ -10,7 +10,7 @@ export default function CreateNewSpot() {
   const history = useHistory()
   const currUser = useSelector((state) => state?.session?.user)
 
-  const [validationErrors, setValidationErrors] = useState([])
+  const [errors, setErrors] = useState([]);
   const [address, setAddress] = useState('')
   const [city, setCity] = useState('')
   const [state, setState] = useState('')
@@ -22,138 +22,188 @@ export default function CreateNewSpot() {
   const [price, setPrice] = useState('')
   const [imageURL, setImageURL] = useState('')
 
-  const spot = {
-    address,
-    city,
-    state,
-    country,
-    latitude,
-    longitude,
-    name,
-    description,
-    price,
-    imageURL
+  const validate = () => {
+    const validationErrors = {};
+    if (!country) validationErrors.country = 'Country is required';
+    if (!address) validationErrors.address = 'Address is required';
+    if (!city) validationErrors.city = 'City is required';
+    if (!state) validationErrors.state = 'State is required';
+    if (!latitude) validationErrors.latitude = 'Latitude is required';
+    if (!longitude) validationErrors.longitude = 'Longitude is required';
+    if (!description) validationErrors.description = 'Description is required';
+    if (description && description.length < 30) {
+      validationErrors.description = 'Description needs a minimum of 30 characters';
+    }
+    if (!name) validationErrors.name = 'Name is required';
+    if (!price) validationErrors.price = 'Price is required';
+    if (!imageURL) validationErrors.imageURL = 'Preview Image is required';
+    // validate image urls
+    if (imageURL && !/\.(jpe?g|png)$/i.test(imageURL)) {
+      validationErrors.imageURL = 'Image URL must end in .png, .jpg, or .jpeg';
+    }
+    return validationErrors;
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    const validationErrors = validate()
+    setErrors(validationErrors)
 
-    const newSpotObj = { ...spot }
-    console.log("new spot obj", newSpotObj)
-    const res = await dispatch(createNewSpot(newSpotObj, currUser))
-    if (res) history.push(`/spots/${res.id}`)
+    if (!Object.values(validationErrors).length) {
+      const spot = {
+        address,
+        city,
+        state,
+        country,
+        lat: parseFloat(latitude),
+        longitude: parseFloat(longitude),
+        name,
+        description,
+        price: parseFloat(price),
+        imageURL
+      }
+      const newSpotObj = await dispatch(createNewSpot(spot, currUser))
+      history.push(`/spots/${newSpotObj.id}`)
+    } else {
+      return;
+    }
+
   }
 
 
   return (
     <>
-      <h1>Create a New Spot</h1>
-      <h2>Where's your place located?</h2>
-      <h3>Guests will only get your exact address once they booked a reservation.</h3>
-      <form onSubmit={handleSubmit}>
+      <div className="create-spot-container">
+        <div className="create-spot-form">
 
-        <div>
-          <label>Country
-            <input
-              value={country}
-              onChange={(e) => setCountry(e.target.value)}
-              type="text"
-            />
-          </label>
+
         </div>
+        <h1>Create a New Spot</h1>
+        <h2>Where's your place located?</h2>
+        <h3>Guests will only get your exact address once they booked a reservation.</h3>
+        <form onSubmit={handleSubmit}>
 
-        <div>
-          <label>Street Address
-            <input
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              type="text"
-            />
-          </label>
-        </div>
+          <div>
+            <label>Country {errors.country &&
+              <span className="error-message">{errors.country}</span>}
+              <input
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+                type="text"
+                placeholder="Country"
+              />
+            </label>
+          </div>
 
-        <div>
-          <label>City
-            <input
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              type="text"
-            />
-          </label>
-          <label>State
-            <input
-              value={state}
-              onChange={(e) => setState(e.target.value)}
-              type="text"
-            />
-          </label>
-        </div>
+          <div>
+            <label>Street Address {errors.address &&
+              <span className="error-message">{errors.address}</span>}
+              <input
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                type="text"
+                placeholder="Address"
+              />
+            </label>
+          </div>
 
-        <div>
-          <label>Latitude
-            <input
-              value={latitude}
-              onChange={(e) => setLatitude(Number(e.target.value))}
-              type="text"
-            />
-          </label>
-          <label>Longitude
-            <input
-              value={longitude}
-              onChange={(e) => setLongitude(Number(e.target.value))}
-              type="text"
-            />
-          </label>
-        </div>
+          <div>
+            <label>City {errors.city &&
+              <span className="error-message">{errors.city}</span>}
+              <input
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                type="text"
+                placeholder="City"
+              />
+            </label>
+            <label>State {errors.state &&
+              <span className="error-message">{errors.state}</span>}
+              <input
+                value={state}
+                onChange={(e) => setState(e.target.value)}
+                type="text"
+                placeholder="State"
+              />
+            </label>
+          </div>
 
-        <div>
-          <label>Describe your place to Guests
-            <div>Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood.</div>
-            <input
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              type="text"
-            />
-          </label>
-        </div>
+          <div>
+            <label>Latitude {errors.latitude &&
+              <span className="error-message">{errors.city}</span>}
+              <input
+                value={latitude}
+                onChange={(e) => setLatitude(Number(e.target.value))}
+                type="text"
+                placeholder="Latitude"
+              />
+            </label>
+            <label>Longitude {errors.longitude &&
+              <span className="error-message">{errors.longitude}</span>}
+              <input
+                value={longitude}
+                onChange={(e) => setLongitude(Number(e.target.value))}
+                type="text"
+                placeholder="Longitude"
+              />
+            </label>
+          </div>
 
-        <div>
-          <label>Create a title for your spot
-            <div>Catch guests' attention with a spot title that highlights what makes your place special.</div>
-            <input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              type="text"
-            />
-          </label>
-        </div>
+          <div>
+            <div className="error-message">{errors.description}</div>
+            <label>Describe your place to Guests
+              <div>Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood.</div>
+              <input
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                type="text"
+                placeholder="Please write at least 30 characters"
+              />
+            </label>
+          </div>
+
+          <div>
+            <div className="error-message">{errors.name}</div>
+            <label>Create a title for your spot
+              <div>Catch guests' attention with a spot title that highlights what makes your place special.</div>
+              <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                type="text"
+                placeholder="Name of your spot"
+              />
+            </label>
+          </div>
 
 
 
-        <div>
-          <label>Price per Night
-            <input
-              value={price}
-              onChange={(e) => setPrice(Number(e.target.value))}
-              type="number"
-            />
-          </label>
-        </div>
+          <div>
+            <div className="error-message">{errors.price}</div>
+            <label>Price per Night
+              <input
+                value={price}
+                onChange={(e) => setPrice(Number(e.target.value))}
+                type="number"
+                placeholder="Price"
+              />
+            </label>
+          </div>
 
-        <div>
-          <label>Liven up your spot with photos
-            <input
-              value={imageURL}
-              onChange={(e) => setImageURL(e.target.value)}
-              type="text"
-            />
-          </label>
-        </div>
+          <div>
+            <label>Liven up your spot with photos
+              <input
+                value={imageURL}
+                onChange={(e) => setImageURL(e.target.value)}
+                type="text"
+              />
+            </label>
+          </div>
 
-        <div>
-          <button type="submit">Create Spot</button>
-        </div>
-      </form>
+          <div>
+            <button type="submit">Create Spot</button>
+          </div>
+        </form>
+      </div>
     </>
   )
 }

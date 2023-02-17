@@ -13,7 +13,6 @@ export default function UpdateSpot() {
   const spotDetails = useSelector((state) => state?.spots?.singleSpot)
   const currUser = useSelector((state) => state?.session?.user)
 
-
   const [isLoaded, setIsLoaded] = useState(false);
   const [errors, setErrors] = useState('')
   const [errorsLoaded, setErrorsLoaded] = useState(false)
@@ -193,6 +192,7 @@ export default function UpdateSpot() {
               </div>
 
               <div>
+                <div className="error-message">{errors.description}</div>
                 <label>Describe your place to Guests
                   <div>Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood.</div>
                   <textarea
@@ -203,11 +203,11 @@ export default function UpdateSpot() {
                     placeholder="Please write at least 30 characters"
                     className="description-input"
                   />
-                  <div className="error-message">{errors.description}</div>
                 </label>
               </div>
 
               <div>
+                <div className="error-message">{errors.name}</div>
                 <label>Create a title for your spot
                   <div>Catch guests' attention with a spot title that highlights what makes your place special.</div>
                   <input
@@ -216,13 +216,13 @@ export default function UpdateSpot() {
                     type="text"
                     placeholder="Name of your spot"
                   />
-                  <div className="error-message">{errors.name}</div>
                 </label>
               </div>
 
 
 
               <div>
+                <div className="error-message">{errors.price}</div>
                 <div className="price-header">
                   <h3>Set a base price for your spot</h3>
                   <h4>Competitive pricing can help your listing stand out and rank higher in search results.</h4>
@@ -234,7 +234,6 @@ export default function UpdateSpot() {
                     type="number"
                     placeholder="Price"
                   />
-                  <div className="error-message">{errors.price}</div>
                 </label>
               </div>
 
