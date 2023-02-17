@@ -56,12 +56,12 @@ export const getAllSpots = () => async (dispatch) => {
 
   if (res.ok) {
     const spots = await res.json()
-    console.log("get all fetch request", spots)
+    //console.log("get all fetch request", spots)
     let spotsObj = {}
     spots.spotsArray.forEach((spot) => {
       spotsObj[spot.id] = spot
     })
-    console.log("spotsObj", spotsObj)
+    //console.log("spotsObj", spotsObj)
     dispatch(loadSpots(spotsObj))
   }
 };
@@ -71,11 +71,11 @@ export const getSpot = (id) => async (dispatch) => {
 
   if (res.ok) {
     const spot = await res.json()
-    console.log("get one fetch request", spot)
+    //console.log("get one fetch request", spot)
     let spotObj = spot.spotArray[0]
-    console.log("normalized spotObj", spotObj)
+    //console.log("normalized spotObj", spotObj)
     dispatch(oneSpot(spotObj))
-    return spotObj
+    //return spotObj
   }
 };
 
@@ -130,7 +130,7 @@ export const getUserSpots = () => async (dispatch) => {
     currUserSpots.spotsArray.forEach(spot => {
       userSpotsObj[spot.id] = spot
     })
-    console.log("normalized user spots obj", userSpotsObj)
+    //console.log("normalized user spots obj", userSpotsObj)
     dispatch(userSpots(userSpotsObj))
   }
 };
@@ -172,7 +172,7 @@ export default function spotsReducer(state = initialState, action) {
     case GET_ALL_SPOTS: {
       const getState = { allSpots: {}, singleSpot: {}, userSpots: {} }
       getState.allSpots = action.payload
-      console.log("getState", getState)
+      //console.log("getState", getState)
       return getState;
     }
     case GET_SINGLE_SPOT: {
@@ -195,11 +195,11 @@ export default function spotsReducer(state = initialState, action) {
       return userState
     }
     case UPDATE_SPOT: {
-      const updateState = { allSpots: { ...state.allSpots }, singleSpot: {}, userSpots: {} }
-      console.log("update action", action.payload)
+      const updateState = { allSpots: {}, singleSpot: {}, userSpots: {} }
+      //console.log("update action", action.payload)
       updateState.singleSpot[action.payload.id] = action.payload
       updateState.allSpots[action.payload.id] = action.payload
-      console.log("updateState", updateState)
+      //console.log("updateState", updateState)
       return updateState
     }
     case DELETE_SPOT: {

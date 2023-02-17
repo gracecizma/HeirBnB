@@ -67,10 +67,11 @@ export const getSpotReviews = (spotId) => async (dispatch) => {
     const reviews = await res.json()
     console.log("fetch all reviews", reviews)
     const reviewsObj = {}
-    reviews.Reviews.foreach(review => {
+    reviews.Reviews.forEach(review => {
       reviewsObj[review.id] = review
     })
     dispatch(spotReviews(reviewsObj))
+    //return reviewsObj
   }
 };
 
@@ -78,13 +79,14 @@ export const getUserReviews = () => async (dispatch) => {
   const res = await csrfFetch(`/api/reviews/current`);
 
   if (res.ok) {
-    const reviews = res.json()
+    const reviews = await res.json()
     console.log("fetch user reviews", reviews)
     const reviewsObj = {}
     reviews.Reviews.forEach(review => {
       reviewsObj[review.id] = review
     })
     dispatch(userReviews(reviewsObj))
+    //return reviewsObj
   }
 };
 
@@ -98,16 +100,22 @@ export default function reviewsReducer(state = initialState, action) {
   switch (action.type) {
     case CREATE_REVIEW:
       const createState = { spot: {}, user: {} }
-      createState.spot[action.review.id] = action.review
-      createState.user[action.review.id] = action.review
+      createState.spot[action.payload.id] = action.payload
+      createState.user[action.payload.id] = action.payload
       return createState;
     case DELETE_REVIEW:
       const deleteState = { spot: {}, user: {} }
-      return state;
+      delete deleteState.spot[action.payload.id]
+      delete deleteState.user[action.payload.id]
+      return deleteState;
     case USER_REVIEWS:
-      return state;
+      const userState = { spot: { ...state.spot }, user: { ...state.user } }
+      userState.user = action.payload
+      return userState;
     case SPOT_REVIEWS:
-      return state;
+      const spotState = { spot: { ...state.spot }, user: { ...state.user } }
+      spotState.spot = action.payload
+      return spotState;
     default:
       return state
   }
