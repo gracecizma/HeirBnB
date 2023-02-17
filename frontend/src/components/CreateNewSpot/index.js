@@ -8,7 +8,7 @@ import './newspot.css'
 export default function CreateNewSpot() {
   const dispatch = useDispatch()
   const history = useHistory()
-  const currUser = useSelector((state) => state.session.user)
+  const currUser = useSelector((state) => state?.session?.user)
 
   const [validationErrors, setValidationErrors] = useState([])
   const [address, setAddress] = useState('')

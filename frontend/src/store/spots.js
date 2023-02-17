@@ -191,8 +191,10 @@ export default function spotsReducer(state = initialState, action) {
       return userState
     }
     case UPDATE_SPOT: {
-      const updateState = { ...state, userSpots: { ...action.payload.spotsArray } }
-      updateState.userSpots[action.payload.spotId] = { ...action.payload.spot }
+      const updateState = { allSpots: {}, singleSpot: {}, userSpots: {} }
+      console.log("update action", action.payload)
+      updateState.singleSpot[action.payload.id] = { ...action.payload }
+      console.log("updateState", updateState)
       return updateState
     }
     case DELETE_SPOT: {
