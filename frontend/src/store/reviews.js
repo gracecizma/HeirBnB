@@ -1,74 +1,59 @@
 import { csrfFetch } from "./csrf"
 
-const GET_SPOT_REVIEWS = 'reviews/GET_SPOT_REVIEWS'
-const ADD_REVIEW = 'reviews/ADD_REVIEW'
-const GET_USER_REVIEWS = 'reviews/GET_USER_REVIEWS'
+const CREATE_REVIEW = 'reviews/CREATE_REVIEW';
+const DELETE_REVIEW = 'reviews/DELETE_REVIEW';
+const SPOT_REVIEWS = 'reviews/SPOT_REVIEWS';
+const USER_REVIEWS = 'reviews/USER_REVIEWS';
 
 
-const loadReviews = (spotReviews) => {
+const createReview = (review) => {
   return {
-    type: GET_SPOT_REVIEWS,
-    payload: spotReviews
+    type: CREATE_REVIEW,
+    payload: review
   }
 };
 
-const addReview = (newReview) => {
+const deleteReview = (reviewId) => {
   return {
-    type: ADD_REVIEW,
-    payload: newReview
+    type: DELETE_REVIEW,
+    payload: reviewId
   }
 };
 
-const userReviews = (reviewsArray) => {
+const spotReviews = (reviews) => {
   return {
-    type: GET_USER_REVIEWS,
-    payload: reviewsArray
+    type: SPOT_REVIEWS,
+    payload: reviews
   }
 };
 
-export const getAllReviews = (id) => async (dispatch) => {
-  const res = await csrfFetch(`/api/spots/${id}/reviews`)
-
-  if (res.ok) {
-    const reviewsObj = await res.json()
-    dispatch(loadReviews(reviewsObj))
+const userReviews = (reviews) => {
+  return {
+    type: USER_REVIEWS,
+    payload: reviews
   }
 };
-
-
-
 
 
 
 
 const initialState = {
-  spots: {},
+  spot: {},
   user: {}
 }
 
+
 export default function reviewsReducer(state = initialState, action) {
   switch (action.type) {
-    case GET_SPOT_REVIEWS:
-      const getState = { ...state };
-      let reviewObj = {}
-      action.spotReviews.forEach((review) => {
-        reviewObj[review.id] = review;
-      })
-      getState.spots = reviewObj
-      return getState;
-    case ADD_REVIEW:
-      const addState = { ...state };
-      addState.spots[action.newReview.id] = action.newReview
-      return addState;
-    case GET_USER_REVIEWS:
-      const userState = { ...state };
-      let reviewData = {}
-      action.userId.Reviews.forEach((review) => {
-        reviewData[review.id] = review
-      })
-      userState.user = reviewData
-      return userState
+    case CREATE_REVIEW:
+      return state;
+    case DELETE_REVIEW:
+      return state;
+    case USER_REVIEWS:
+      return state;
+    case SPOT_REVIEWS:
+      return state;
     default:
       return state
   }
-}
+};
