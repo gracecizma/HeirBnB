@@ -38,8 +38,6 @@ export default function CreateNewSpot() {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-
-
     const newSpotObj = { ...spot }
     console.log("new spot obj", newSpotObj)
     const res = await dispatch(createNewSpot(newSpotObj, currUser))
