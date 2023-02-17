@@ -11,7 +11,7 @@ import './userspots.css'
 export default function UserSpots() {
   const dispatch = useDispatch()
   //const currUser = useSelector((state) => state.session.user)
-  const userSpots = useSelector((state) => state.spots.userSpots)
+  const userSpots = useSelector((state) => state?.spots?.userSpots)
   console.log("userSpotsObj", userSpots)
   const spots = Object.values(userSpots)
   console.log("user spots array", spots)
@@ -19,8 +19,6 @@ export default function UserSpots() {
   useEffect(() => {
     dispatch(getUserSpots())
   }, [dispatch])
-
-  // if (!userSpots.id) return
 
 
   if (!spots.length) {

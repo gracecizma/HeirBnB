@@ -11,9 +11,13 @@ export default function DeleteSpotModal({ spotId }) {
   const dispatch = useDispatch()
   const history = useHistory()
 
+  function refreshPage() {
+    window.location.reload()
+  }
+
   const handleClick = (e) => {
-    e.preventDefault()
-    dispatch(deleteSpot(spotId)).then(closeModal)
+    //e.preventDefault()
+    dispatch(deleteSpot(spotId)).then(closeModal).then(refreshPage())
     history.push(`/spots/current`)
   }
 

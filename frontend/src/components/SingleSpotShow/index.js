@@ -10,58 +10,52 @@ import './singlespot.css'
 export default function SingleSpot() {
   const dispatch = useDispatch()
   const { spotId } = useParams();
-  const spotObj = useSelector((state) => state.spots.singleSpot)
+  const spotObj = useSelector((state) => state?.spots?.singleSpot)
   console.log("spotObj", spotObj)
-
-
 
   useEffect(() => {
     dispatch(getSpot(spotId))
     //dispatch(getAllReviews(spotId))
   }, [dispatch])
 
-  if (!spotObj.SpotImages) return null
-
   let image;
   let owner = {};
-  if (spotObj) {
-    image = spotObj.SpotImages[0].url
+  if (spotObj.name) {
+    image = spotObj.SpotImages[0]?.url
     owner = spotObj.Owner
   }
-
-  console.log("spot", spotObj)
 
 
   return (
     <>
-      <h1>Hello</h1>
-      {/* <div className="single-spot-div">
+      <div className="single-spot-div">
         <div className="spot-name">
-          {spot.name}
+          {spotObj.name}
         </div>
         <div className="images-container">
-          <img className="single-spot-img" src={image} />
+          <img className="single-spot-img"
+            src={image} />
         </div>
         <div className="spot-owner">
           Hosted By: {owner.firstName} {owner.lastName}
         </div>
         <div className="details-container">
           <div className="spot-location">
-            {spot.city}, {spot.state}, {spot.country}
+            {spotObj.city}, {spotObj.state}, {spotObj.country}
           </div>
           <div className="price-reviews">
             <p>
-              ${spot.price} per night
+              ${spotObj.price} per night
             </p>
             <p>
-              {spot.numReviews} reviews
+              {spotObj.numReviews} reviews
             </p>
           </div>
           <div className="reserve-button">
             <button>Reserve</button>
           </div>
         </div>
-      </div> */}
+      </div>
     </>
   )
 }

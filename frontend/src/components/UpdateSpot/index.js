@@ -1,24 +1,38 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useParams } from "react-router-dom"
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from "react-router-dom"
 import { useState } from 'react'
 import { updateSpot } from '../../store/spots'
+import { getSpot } from '../../store/spots'
 
 export default function UpdateSpot() {
+  const history = useHistory()
   const dispatch = useDispatch()
   const { spotId } = useParams()
+  const spotDetails = useSelector((state) => state?.spots?.singleSpot)
+
+  useEffect(() => {
+    dispatch(getSpot(spotId))
+  }, [dispatch])
+
+  //console.log("spotDetails", spotDetails)
+  let image;
+  if (spotDetails.name) {
+    image = spotDetails.SpotImages[0]?.url
+  }
 
   const [validationErrors, setValidationErrors] = useState([])
-  const [country, setCountry] = useState('')
-  const [address, setAddress] = useState('')
-  const [city, setCity] = useState('')
-  const [state, setState] = useState('')
-  const [latitude, setLatitude] = useState('')
-  const [longitude, setLongitude] = useState('')
-  const [description, setDescription] = useState('')
-  const [name, setName] = useState('')
-  const [price, setPrice] = useState('')
-  const [imageURL, setImageURL] = useState('')
+  const [country, setCountry] = useState(spotDetails.country)
+  const [address, setAddress] = useState(spotDetails.address)
+  const [city, setCity] = useState(spotDetails.city)
+  const [state, setState] = useState(spotDetails.state)
+  const [latitude, setLatitude] = useState(spotDetails.latitude)
+  const [longitude, setLongitude] = useState(spotDetails.longitude)
+  const [description, setDescription] = useState(spotDetails.description)
+  const [name, setName] = useState(spotDetails.name)
+  const [price, setPrice] = useState(spotDetails.price)
+  const [imageURL, setImageURL] = useState(image)
 
   const updatedSpot = {
     country,
@@ -31,18 +45,13 @@ export default function UpdateSpot() {
     imageURL
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const errors = []
+    const spotDetails = { ...updatedSpot }
+    let res = await dispatch(updateSpot(spotDetails, spotId))
+    if (res) history.push(`/spots/${spotId}`)
 
-    if (typeof updatedSpot.price !== 'number') {
-      errors.push('price must be a number')
-      setValidationErrors(errors)
-    } else {
-      const spotDetails = { ...updatedSpot }
-      dispatch(updateSpot(spotDetails, spotId))
-    }
   }
 
   return (

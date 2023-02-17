@@ -8,7 +8,7 @@ import './newspot.css'
 export default function CreateNewSpot() {
   const dispatch = useDispatch()
   const history = useHistory()
-  const currUser = useSelector((state) => state.session.user)
+  const currUser = useSelector((state) => state?.session?.user)
 
   const [validationErrors, setValidationErrors] = useState([])
   const [address, setAddress] = useState('')
@@ -38,11 +38,9 @@ export default function CreateNewSpot() {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-
-
     const newSpotObj = { ...spot }
     console.log("new spot obj", newSpotObj)
-    let res = await dispatch(createNewSpot(newSpotObj, currUser))
+    const res = await dispatch(createNewSpot(newSpotObj, currUser))
     if (res) history.push(`/spots/${res.id}`)
   }
 
