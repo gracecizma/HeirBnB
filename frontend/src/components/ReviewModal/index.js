@@ -37,9 +37,6 @@ function ReviewModal({ spotId }) {
     return validationErrors;
   };
 
-  function refreshPage() {
-    window.location.reload()
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -52,7 +49,6 @@ function ReviewModal({ spotId }) {
       }
       await dispatch(createReviewBySpot(newReview, spotId))
         .then(closeModal)
-        .then(refreshPage())
       history.push(`/spots/${spotId}`)
     } else {
       return;
