@@ -35,6 +35,21 @@ module.exports = {
         spotId: 3,
         url: "https://static.onecms.io/wp-content/uploads/sites/34/2021/05/17/the-breakers-mansion-alt-getty-0521-2000.jpg",
         preview: true
+      },
+      {
+        spotId: 4,
+        url: "https://www.manhattanmiami.com/hubfs/NYC%20Penthouses%20for%20Sale.jpg",
+        preview: true
+      },
+      {
+        spotId: 5,
+        url: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bWFuc2lvbnxlbnwwfHwwfHw%3D&w=1000&q=80",
+        preview: true
+      },
+      {
+        spotId: 6,
+        url: "https://upload.wikimedia.org/wikipedia/commons/1/14/Gelbensande3.jpg",
+        preview: true
       }
     ])
   },

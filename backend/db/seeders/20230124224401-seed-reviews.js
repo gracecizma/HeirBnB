@@ -38,6 +38,24 @@ module.exports = {
         userId: 1,
         review: "This place sucks",
         stars: 1
+      },
+      {
+        spotId: 4,
+        userId: 5,
+        review: "I expected better.",
+        stars: 4
+      },
+      {
+        spotId: 5,
+        userId: 6,
+        review: "Nice view",
+        stars: 5
+      },
+      {
+        spotId: 6,
+        userId: 5,
+        review: "Marble toilets instead of gold",
+        stars: 1
       }
     ])
   },
@@ -50,7 +68,7 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
     await queryInterface.bulkDelete(options, {
-      review: ["Nice house", "Fun place and nicely decorated", "This place sucks"]
+      review: ["Nice house", "Fun place and nicely decorated", "This place sucks", "I expected better.", "Nice view", "Marble toilets instead of gold"]
     })
   }
 };
