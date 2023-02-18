@@ -99,7 +99,7 @@ export const addImageToSpot = (newSpot, newSpotUrl, currUser) => async (dispatch
     newSpot.numReviews = 0
     newSpot.avgRating = 0
     dispatch(createSpot(newSpot))
-    //return newSpotImg
+    return newSpotImg
   }
 }
 
@@ -116,7 +116,7 @@ export const createNewSpot = (newSpot, currUser) => async (dispatch) => {
     //console.log("createdSpot", createdSpot)
 
     dispatch(addImageToSpot(createdSpot, newSpot.imageURL, currUser))
-    //return createdSpot
+    return createdSpot
   }
 };
 
@@ -130,7 +130,7 @@ export const getUserSpots = () => async (dispatch) => {
     currUserSpots.spotsArray.forEach(spot => {
       userSpotsObj[spot.id] = spot
     })
-    //console.log("normalized user spots obj", userSpotsObj)
+    console.log("normalized user spots obj", userSpotsObj)
     dispatch(userSpots(userSpotsObj))
   }
 };
@@ -157,6 +157,7 @@ export const deleteSpot = (spotId) => async (dispatch) => {
 
   if (res.ok) {
     dispatch(removeSpot(spotId))
+    dispatch(getUserSpots())
   }
 };
 
@@ -203,7 +204,7 @@ export default function spotsReducer(state = initialState, action) {
       return updateState
     }
     case DELETE_SPOT: {
-      const deleteState = { allSpots: { ...state.allSpots }, singleSpot: {}, userSpots: {} }
+      const deleteState = { ...state, allSpots: { ...state.allSpots }, singleSpot: {}, userSpots: { ...state.userSpots } }
       delete deleteState.allSpots[action.payload.id]
       return deleteState
     }

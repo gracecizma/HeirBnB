@@ -8,17 +8,17 @@ import './updatespot.css'
 
 export default function UpdateSpot() {
 
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [errors, setErrors] = useState('')
-  const [errorsLoaded, setErrorsLoaded] = useState(false)
+  const spotObj = useSelector((state) => state?.spots?.singleSpot)
+  console.log("spot slice of state", spotObj)
+  const currUser = useSelector((state) => state?.session?.user)
 
   const { spotId } = useParams()
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const spotDetails = useSelector((state) => state?.spots?.singleSpot)
-  console.log("spot details", spotDetails)
-  const currUser = useSelector((state) => state?.session?.user)
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [errors, setErrors] = useState('')
+  const [errorsLoaded, setErrorsLoaded] = useState(false)
 
   const [country, setCountry] = useState('')
   const [address, setAddress] = useState('')
@@ -31,7 +31,7 @@ export default function UpdateSpot() {
   const [price, setPrice] = useState('')
   const [imageURL, setImageURL] = useState('')
 
-  const setSpot = async () => {
+  const setSpotDetails = async () => {
     const spotData = await dispatch(getSpot(spotId));
     console.log("spot data to populate form", spotData)
 
@@ -48,7 +48,7 @@ export default function UpdateSpot() {
   }
 
   useEffect(() => {
-    setSpot()
+    setSpotDetails()
   }, [dispatch]);
 
 
@@ -59,8 +59,8 @@ export default function UpdateSpot() {
     if (!address) validationErrors.address = 'Address is required';
     if (!city) validationErrors.city = 'City is required';
     if (!state) validationErrors.state = 'State is required';
-    if (!latitude) validationErrors.latitude = 'Latitude is required';
-    if (!longitude) validationErrors.longitude = 'Longitude is required';
+    if (!latitude) validationErrors.latitude = "Latitude is required"
+    if (!longitude) validationErrors.longitude = "Longitude is required"
     if (description.length < 30) {
       validationErrors.description = 'Description needs a minimum of 30 characters';
     }
@@ -79,7 +79,7 @@ export default function UpdateSpot() {
 
     if (!Object.values(validationErrors).length) {
       const updatedSpot = {
-        id: spotDetails.id,
+        id: spotObj.id,
         address,
         city,
         state,
@@ -94,17 +94,17 @@ export default function UpdateSpot() {
       const spotData = await dispatch(updateSpot(updatedSpot))
       console.log("updated spotData", spotData)
 
-      history.push(`/spots/${spotDetails.id}`)
-    } else {
-      return;
+      history.push(`/spots/${spotObj.id}`)
+    } else if (!currUser || (spotObj.ownerId !== currUser.id)) {
+      history.push('/')
+      console.log("hit if statement")
     }
+
+
+
   };
 
-  // prevent users from attempting to view edit page for spot they don't own
-  // if (!currUser || (spotDetails.ownerId !== currUser.id)) {
-  //   history.push('/')
-  //   console.log("hit if statement")
-  // }
+
 
   return (
     <>

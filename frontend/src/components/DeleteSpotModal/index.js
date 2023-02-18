@@ -12,9 +12,9 @@ export default function DeleteSpotModal({ spotId }) {
   const history = useHistory()
 
 
-  const handleClick = (e) => {
+  const handleClick = async (e) => {
     e.preventDefault()
-    dispatch(deleteSpot(spotId)).then(closeModal)
+    await dispatch(deleteSpot(spotId)).then(closeModal)
     history.push(`/spots/current`)
   }
 

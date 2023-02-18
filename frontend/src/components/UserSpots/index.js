@@ -1,6 +1,6 @@
 import React from "react"
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { getUserSpots } from '../../store/spots'
 import DeleteSpotModal from "../DeleteSpotModal"
@@ -16,8 +16,11 @@ export default function UserSpots() {
   const spots = Object.values(userSpots)
   console.log("user spots array", spots)
 
+  const [isLoaded, setIsLoaded] = useState()
+
   useEffect(() => {
     dispatch(getUserSpots())
+      .then(() => setIsLoaded(true))
   }, [dispatch])
 
 
@@ -35,35 +38,41 @@ export default function UserSpots() {
   }
 
   return (
+    <>
 
-    <div>
-      <h1>Manage Your Spots</h1>
-      <div className="user-spots">
-        {(spots.map(spot => (
-          <li key={spot.name}>
-            <p>{spot.name}</p>
-            <p>
-              <img src={spot.previewImage} />
-            </p>
-            <p>{spot.address}</p>
-            <p>{spot.city}, {spot.state}</p>
-            <p>{spot.description}</p>
-            <p>{spot.price} per night</p>
-            <div className="delete-spot-button">
-              <OpenModalButton modalComponent={
-                <DeleteSpotModal spotId={spot.id}
-                  buttonText={'Delete Spot'}
-                />}
-              />
-            </div>
-            <div className="edit-spot-button">
-              <Link to={`/spots/${spot.id}/edit`}>
-                <button>Edit Spot</button>
-              </Link>
-            </div>
-          </li>
-        )))}
-      </div>
-    </div>
+      {isLoaded && (
+
+        <div>
+          <h1>Manage Your Spots</h1>
+          <div className="user-spots">
+            {(spots.length && spots.map(spot => (
+              <li key={spot.name}>
+                <p>{spot.name}</p>
+                <p>
+                  <img src={spot?.previewImage} />
+                </p>
+                <p>{spot.address}</p>
+                <p>{spot.city}, {spot.state}</p>
+                <p>{spot.description}</p>
+                <p>{spot.price} per night</p>
+                <div className="delete-spot-button">
+                  <OpenModalButton modalComponent={
+                    <DeleteSpotModal spotId={spot.id}
+                      buttonText={'Delete Spot'}
+                    />}
+                  />
+                </div>
+                <div className="edit-spot-button">
+                  <Link to={`/spots/${spot.id}/edit`}>
+                    <button>Edit Spot</button>
+                  </Link>
+                </div>
+              </li>
+            )))}
+          </div>
+        </div>
+      )
+      }
+    </>
   )
 }
