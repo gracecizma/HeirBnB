@@ -11,6 +11,15 @@ export default function UpdateSpot() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [errors, setErrors] = useState('')
   const [errorsLoaded, setErrorsLoaded] = useState(false)
+
+  const { spotId } = useParams()
+  const dispatch = useDispatch()
+  const history = useHistory()
+
+  const spotDetails = useSelector((state) => state?.spots?.singleSpot)
+  console.log("spot details", spotDetails)
+  const currUser = useSelector((state) => state?.session?.user)
+
   const [country, setCountry] = useState('')
   const [address, setAddress] = useState('')
   const [city, setCity] = useState('')
@@ -21,15 +30,10 @@ export default function UpdateSpot() {
   const [name, setName] = useState('')
   const [price, setPrice] = useState('')
   const [imageURL, setImageURL] = useState('')
-  const { spotId } = useParams()
-  const dispatch = useDispatch()
-  const history = useHistory()
-  const spotDetails = useSelector((state) => state?.spots?.singleSpot)
-  const currUser = useSelector((state) => state?.session?.user)
 
-  const setSpotDetails = async () => {
+  const setSpot = async () => {
     const spotData = await dispatch(getSpot(spotId));
-    console.log("spotData", spotData)
+    console.log("spot data to populate form", spotData)
 
     setCountry(spotData?.country);
     setAddress(spotData?.address);
@@ -40,13 +44,12 @@ export default function UpdateSpot() {
     setDescription(spotData?.description);
     setName(spotData?.name);
     setPrice(spotData?.price);
-    setImageURL(spotData?.SpotImages[0]?.url)
     setIsLoaded(true);
-  };
+  }
 
   useEffect(() => {
-    setSpotDetails()
-  }, [dispatch, spotId]);
+    setSpot()
+  }, [dispatch]);
 
 
   const validate = () => {
@@ -98,20 +101,16 @@ export default function UpdateSpot() {
   };
 
   // prevent users from attempting to view edit page for spot they don't own
-  if (isLoaded && (!currUser || spotDetails.ownerId !== currUser.id)) {
-    history.push('/')
-    return (
-      <div>
-        <h1>Forbidden</h1>
-      </div>
-    )
-  }
+  // if (!currUser || (spotDetails.ownerId !== currUser.id)) {
+  //   history.push('/')
+  //   console.log("hit if statement")
+  // }
 
   return (
     <>
       {isLoaded && (
         <div className="update-spot-container">
-          <div className="update-form">=
+          <div className="update-form">
             <h1>Edit a Spot</h1>
             <h3>Where's your place located?</h3>
             <h4>Guests will only get your exact address once they booked a reservation.</h4>
