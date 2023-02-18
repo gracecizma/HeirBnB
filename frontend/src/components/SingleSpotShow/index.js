@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSpot } from '../../store/spots'
 import { getSpotReviews, getUserReviews, deleteReviewById } from "../../store/reviews";
+import ReviewModal from "../ReviewModal"
+import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import './singlespot.css'
 
 
@@ -84,6 +86,15 @@ export default function SingleSpot() {
               {spotObj.numReviews} reviews
             </p>
           </div>
+          {canReview && (
+            <button className="post-review">
+              <OpenModalMenuItem
+                itemText="Post your review"
+                itemTextClassName="review-button-text"
+                modalComponent={<ReviewModal spotId={spotId} />}
+              />
+            </button>
+          )}
           <div className="spot-reviews">
             {!spotObj.numReviews && canReview ? 'Be the first to post a review!' : ''}
             {reviewsArray.slice(0).reverse().map(review => (
