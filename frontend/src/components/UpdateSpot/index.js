@@ -31,16 +31,16 @@ export default function UpdateSpot() {
     const spotData = await dispatch(getSpot(spotId));
     console.log("spotData", spotData)
 
-    setCountry(spotData.country);
-    setAddress(spotData.address);
-    setCity(spotData.city);
-    setState(spotData.state);
-    setLatitude(spotData.lat);
-    setLongitude(spotData.lng);
-    setDescription(spotData.description);
-    setName(spotData.name);
-    setPrice(spotData.price);
-    setImageURL(spotData.SpotImages[0]?.url)
+    setCountry(spotData?.country);
+    setAddress(spotData?.address);
+    setCity(spotData?.city);
+    setState(spotData?.state);
+    setLatitude(spotData?.lat);
+    setLongitude(spotData?.lng);
+    setDescription(spotData?.description);
+    setName(spotData?.name);
+    setPrice(spotData?.price);
+    setImageURL(spotData?.SpotImages[0]?.url)
     setIsLoaded(true);
   };
 
