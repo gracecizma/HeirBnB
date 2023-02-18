@@ -57,6 +57,9 @@ export const deleteReviewById = (reviewId) => async (dispatch) => {
 
   if (res.ok) {
     dispatch(deleteReview(reviewId))
+    return;
+  } else {
+    throw new Error('Error deleting review')
   }
 };
 

@@ -6,6 +6,7 @@ import { getSpot } from '../../store/spots'
 import { getSpotReviews, getUserReviews, deleteReviewById } from "../../store/reviews";
 import ReviewModal from "../ReviewModal"
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
+import DeleteReviewModal from '../DeleteReviewModal'
 import './singlespot.css'
 
 
@@ -18,7 +19,7 @@ export default function SingleSpot() {
   const spotReviews = useSelector((state) => state?.reviews?.spot)
 
   const reviewsArray = Object.values(spotReviews)
-  console.log("spot reviews array", reviewsArray)
+  //console.log("spot reviews array", reviewsArray)
   const userReviewsArray = Object.values(userReviews)
   //console.log("user reviews array", userReviewsArray)
 
@@ -103,7 +104,12 @@ export default function SingleSpot() {
                 <div>{review.createdAt.split('T')[0]}</div>
                 <div>{review.review}</div>
                 {review.userId === currUser.id && (
-                  <button onClick={() => deleteReview(review.id)}>Delete</button>
+                  <button className="delete-button">
+                    <OpenModalMenuItem
+                      itemText="Delete"
+                      modalComponent={<DeleteReviewModal review={review} />}
+                    />
+                  </button>
                 )}
               </div>
             ))}
