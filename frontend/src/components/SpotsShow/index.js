@@ -32,7 +32,7 @@ export default function Spots() {
                   {spot.city}, {spot.state}
                 </p>
                 <p className="stars">
-                  rating:{spot.avgRating}
+                  rating:{spot.avgRating ? '★' + Number(spot.avgRating).toFixed(1) : '★New'}
                 </p>
               </div>
               <p className="price">${spot.price} per night</p>
