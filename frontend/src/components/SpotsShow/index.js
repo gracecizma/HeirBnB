@@ -20,6 +20,8 @@ export default function Spots() {
 
   if (!spots.length) return null
 
+
+
   return (
     <>
       <div className="spot-div">

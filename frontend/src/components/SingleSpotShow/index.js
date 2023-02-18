@@ -43,8 +43,12 @@ export default function SingleSpot() {
 
   let image;
   let owner = {};
-  if (spotObj.name) {
-    image = spotObj.SpotImages[0]?.url
+  if (spotObj.SpotImages) {
+    spotObj.SpotImages.find(pic => {
+      if (pic.preview === true) {
+        image = pic.url
+      }
+    })
     owner = spotObj.Owner
   } else {
     return <h1>Unable to retrieve details. Please try again shortly.</h1>
@@ -63,61 +67,83 @@ export default function SingleSpot() {
   // check if current user is signed in, is not the owner of the spot, and has not already reviewed
   const canReview = (currUser && spotObj.ownerId !== currUser.id && !hasReviewed)
 
+  let previewImages = []
+  spotObj.SpotImages.forEach(image => {
+    if (image.preview === false) {
+      previewImages.push(image)
+    }
+  })
+  console.log(previewImages)
+
 
   return (
     <>
       <div className="single-spot-div">
-        <div className="spot-name">
-          {spotObj.name}
-        </div>
-        <div className="images-container">
-          <img className="single-spot-img"
-            src={image} />
-        </div>
-        <div className="spot-owner">
-          Hosted By: {owner.firstName} {owner.lastName}
-        </div>
-        <div className="details-container">
-          <div className="spot-location">
-            {spotObj.city}, {spotObj.state}, {spotObj.country}
+
+        <div className="spot-container">
+
+          <div className="spot-name">
+            {spotObj.name}
           </div>
-          <div className="price-num-reviews">
-            <p>
-              ${spotObj.price} per night
-            </p>
-            <p>
-              {spotObj.numReviews} reviews
-            </p>
+          <div className="images-container">
+            <img className="main-spot-img"
+              src={image} alt="main-img" />
+            <div className="preview-images-container">
+              {previewImages.map(image => (
+                <img
+                  key={image.id}
+                  className="preview-image"
+                  src={image.url}
+                  alt="preview-image"
+                />
+              ))}
+            </div>
           </div>
-          {canReview && (
-            <button className="post-review">
-              <OpenModalMenuItem
-                itemText="Post your review"
-                itemTextClassName="review-button-text"
-                modalComponent={<ReviewModal spotId={spotId} />}
-              />
-            </button>
-          )}
-          <div className="spot-reviews">
-            {!spotObj.numReviews && canReview ? 'Be the first to post a review!' : ''}
-            {reviewsArray.slice(0).reverse().map(review => (
-              <div key={review.id} className="single-review">
-                <div>{review.User?.firstName}</div>
-                <div>{review.createdAt.split('T')[0]}</div>
-                <div>{review.review}</div>
-                {currUser && review.userId === currUser.id && (
-                  <button className="delete-button">
-                    <OpenModalMenuItem
-                      itemText="Delete"
-                      modalComponent={<DeleteReviewModal review={review} />}
-                    />
-                  </button>
-                )}
-              </div>
-            ))}
+          <div className="spot-owner">
+            Hosted By: {owner.firstName} {owner.lastName}
           </div>
-          <div className="reserve-button">
-            <button onClick={reserveButton}>Reserve</button>
+          <div className="details-container">
+            <div className="spot-location">
+              {spotObj.city}, {spotObj.state}, {spotObj.country}
+            </div>
+            <div className="price-num-reviews">
+              <p>
+                ${spotObj.price} per night
+              </p>
+              <p>
+                {spotObj.numReviews} reviews
+              </p>
+            </div>
+            {canReview && (
+              <button className="post-review">
+                <OpenModalMenuItem
+                  itemText="Post your review"
+                  itemTextClassName="review-button-text"
+                  modalComponent={<ReviewModal spotId={spotId} />}
+                />
+              </button>
+            )}
+            <div className="spot-reviews">
+              {!spotObj.numReviews && canReview ? 'Be the first to post a review!' : ''}
+              {reviewsArray.slice(0).reverse().map(review => (
+                <div key={review.id} className="single-review">
+                  <div>{review.User?.firstName}</div>
+                  <div>{review.createdAt.split('T')[0]}</div>
+                  <div>{review.review}</div>
+                  {currUser && review.userId === currUser.id && (
+                    <button className="delete-button">
+                      <OpenModalMenuItem
+                        itemText="Delete"
+                        modalComponent={<DeleteReviewModal review={review} />}
+                      />
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+            <div className="reserve-button">
+              <button onClick={reserveButton}>Reserve</button>
+            </div>
           </div>
         </div>
       </div>
