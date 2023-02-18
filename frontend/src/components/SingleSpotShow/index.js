@@ -14,8 +14,10 @@ export default function SingleSpot() {
   const dispatch = useDispatch()
   const { spotId } = useParams();
   const spotObj = useSelector((state) => state?.spots?.singleSpot)
+  //console.log("single spot object", spotObj)
   const currUser = useSelector((state) => state?.session?.user)
   const userReviews = useSelector((state) => state?.reviews?.user)
+  //console.log("user review obj", userReviews)
   const spotReviews = useSelector((state) => state?.reviews?.spot)
 
   const reviewsArray = Object.values(spotReviews)
@@ -100,7 +102,7 @@ export default function SingleSpot() {
             {!spotObj.numReviews && canReview ? 'Be the first to post a review!' : ''}
             {reviewsArray.slice(0).reverse().map(review => (
               <div key={review.id} className="single-review">
-                <div>{review.User.firstName}</div>
+                <div>{review.User?.firstName}</div>
                 <div>{review.createdAt.split('T')[0]}</div>
                 <div>{review.review}</div>
                 {currUser && review.userId === currUser.id && (

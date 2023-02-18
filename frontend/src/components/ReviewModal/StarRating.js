@@ -1,29 +1,30 @@
-import React, { useState } from "react";
+function StarRating({ rating, setRating }) {
 
-function StarRating() {
-  const [rating, setRating] = useState(0)
-  const [hover, setHover] = useState(0)
+  const handleEnter = (index) => {
+    setRating(index + 1);
+  };
+
+  const handleClick = (index) => {
+    setRating(index + 1);
+  };
 
   return (
     <div className='star-rating'>
-      {[...Array(5)].map((star, index) => {
-        index += 1;
-        return (
-          <button
-            type="button"
-            key={index}
-            className={index <= (hover || rating) ? "on" : "off"}
-            onClick={() => setRating(index)}
-            onMouseEnter={() => setHover(index)}
-            onMouseLeave={() => setHover(rating)}
-          >
-
-            <span className="star">★</span>
-          </button>
-        )
-      })}
-    </div>
+      {[...Array(5)].map((star, index) => (
+        <span
+          inputType="radio"
+          key={index}
+          className={`star ${index < rating ? "on" : "off"}`}
+          onClick={() => handleClick(index)}
+          onMouseEnter={() => handleEnter(index)}
+        >
+          ★
+        </span>
+      )
+      )
+      }
+    </div >
   )
 }
 
-export default StarRating
+export default StarRating;
