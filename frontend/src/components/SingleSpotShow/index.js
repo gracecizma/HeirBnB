@@ -33,11 +33,11 @@ export default function SingleSpot() {
     dispatch(getSpotReviews(spotId))
     dispatch(getUserReviews())
 
-    if (userReviewsArray.some((review) => review.spotId === spotId)) {
-      setHasReviewed(true)
-    }
   }, [dispatch])
 
+  if (userReviewsArray.some((review) => review.spotId === spotId)) {
+    setHasReviewed(true)
+  }
 
   let image;
   let owner = {};
