@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import { useHistory } from "react-router-dom"
 import { createReviewBySpot } from '../../store/reviews';
+import StarRating from './StarRating'
 import './reviewmodal.css'
 
 function ReviewModal({ spotId }) {
@@ -10,6 +11,8 @@ function ReviewModal({ spotId }) {
   const [review, setReview] = useState('')
   const [errors, setErrors] = useState('')
   const [errorsLoaded, setErrorsLoaded] = useState(false)
+
+  const currUser = useSelector((state) => state?.session?.user)
 
   const { closeModal } = useModal()
   const dispatch = useDispatch()
@@ -61,6 +64,7 @@ function ReviewModal({ spotId }) {
             onChange={(e) => setReview(e.target.value)}
           >
           </textarea>
+          <StarRating />
           <div className="review-submit">
             <button
               disabled={errors.length > 0}>

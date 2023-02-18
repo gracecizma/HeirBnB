@@ -35,7 +35,7 @@ const userReviews = (reviews) => {
 };
 
 
-export const createReviewBySpot = (review, spotId) => async (dispatch) => {
+export const createReviewBySpot = (review, spotId, currUser) => async (dispatch) => {
   const res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -44,7 +44,7 @@ export const createReviewBySpot = (review, spotId) => async (dispatch) => {
 
   if (res.ok) {
     const reviewObj = await res.json()
-    console.log("fetch review", reviewObj)
+    console.log("fetch created review", reviewObj)
     dispatch(createReview(reviewObj))
   }
 };
@@ -73,6 +73,7 @@ export const getSpotReviews = (spotId) => async (dispatch) => {
     reviews.Reviews.forEach(review => {
       reviewsObj[review.id] = review
     })
+    console.log("normalized reviews obj", reviewsObj)
     dispatch(spotReviews(reviewsObj))
     //return reviewsObj
   }
@@ -105,6 +106,7 @@ export default function reviewsReducer(state = initialState, action) {
       const createState = { spot: {}, user: {} }
       createState.spot[action.payload.id] = action.payload
       createState.user[action.payload.id] = action.payload
+      console.log("create review state", createState)
       return createState;
     case DELETE_REVIEW:
       const deleteState = { spot: {}, user: {} }

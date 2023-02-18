@@ -59,7 +59,7 @@ export default function SingleSpot() {
   }
 
   // check if current user is signed in, is not the owner of the spot, and has not already reviewed
-  const canReview = (currUser && (spotObj.ownerId !== currUser.id) && !hasReviewed)
+  const canReview = (currUser && spotObj.ownerId !== currUser.id && !hasReviewed)
 
 
   return (
@@ -103,7 +103,7 @@ export default function SingleSpot() {
                 <div>{review.User.firstName}</div>
                 <div>{review.createdAt.split('T')[0]}</div>
                 <div>{review.review}</div>
-                {review.userId === currUser.id && (
+                {currUser && review.userId === currUser.id && (
                   <button className="delete-button">
                     <OpenModalMenuItem
                       itemText="Delete"
