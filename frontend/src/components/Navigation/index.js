@@ -14,21 +14,22 @@ function Navigation({ isLoaded }) {
           <NavLink exact to="/">
             <img src="../../images/favicon-32x32.png" alt="crown" />
           </NavLink>
-          <NavLink exact to="/">
+          <NavLink exact to="/" className="logo-text">
             <h1 className="header">
               HeirBnB
             </h1>
           </NavLink>
         </div >
-        <div className="create-new-button">
-          <NavLink exact to="/spots">
-            <button>
+        <div className="nav-bar-buttons">
+          <div className="create-new-container">
+            <NavLink exact to="/spots" className="create-new-link">
               Create New Spot
-            </button>
-          </NavLink>
-        </div>
-        <div className="user-menu">
-          <ProfileButton user={sessionUser} />
+            </NavLink>
+          </div>
+
+          <div className="user-menu-button">
+            <ProfileButton user={sessionUser} />
+          </div>
         </div>
 
       </div>
