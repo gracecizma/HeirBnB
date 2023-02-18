@@ -6,13 +6,10 @@ function DeleteReviewModal({ review }) {
   const { closeModal } = useModal()
   const dispatch = useDispatch()
 
-  function refreshPage() {
-    window.location.reload()
-  }
 
   const handleClick = (e) => {
     e.preventDefault()
-    dispatch(deleteReviewById(review.id)).then(closeModal).then(refreshPage())
+    dispatch(deleteReviewById(review.id)).then(closeModal)
   }
 
   return (

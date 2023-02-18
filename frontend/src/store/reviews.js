@@ -35,7 +35,7 @@ const userReviews = (reviews) => {
 };
 
 
-export const createReviewBySpot = (review, spotId) => async (dispatch) => {
+export const createReviewBySpot = (review, spotId, currUser) => async (dispatch) => {
   const res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -44,7 +44,7 @@ export const createReviewBySpot = (review, spotId) => async (dispatch) => {
 
   if (res.ok) {
     const reviewObj = await res.json()
-    console.log("fetch review", reviewObj)
+    //console.log("fetch created review", reviewObj)
     dispatch(createReview(reviewObj))
   }
 };
@@ -68,11 +68,12 @@ export const getSpotReviews = (spotId) => async (dispatch) => {
 
   if (res.ok) {
     const reviews = await res.json()
-    console.log("fetch all reviews", reviews)
+    //console.log("fetch all reviews", reviews)
     const reviewsObj = {}
     reviews.Reviews.forEach(review => {
       reviewsObj[review.id] = review
     })
+    //console.log("normalized spot reviews obj", reviewsObj)
     dispatch(spotReviews(reviewsObj))
     //return reviewsObj
   }
@@ -83,11 +84,12 @@ export const getUserReviews = () => async (dispatch) => {
 
   if (res.ok) {
     const reviews = await res.json()
-    console.log("fetch user reviews", reviews)
+    //console.log("fetch user reviews", reviews)
     const reviewsObj = {}
     reviews.Reviews.forEach(review => {
       reviewsObj[review.id] = review
     })
+    //console.log("normalized user reviews obj", reviewsObj)
     dispatch(userReviews(reviewsObj))
     //return reviewsObj
   }
@@ -102,9 +104,11 @@ const initialState = {
 export default function reviewsReducer(state = initialState, action) {
   switch (action.type) {
     case CREATE_REVIEW:
-      const createState = { spot: {}, user: {} }
+      const createState = { ...state, spot: { ...state.spot }, user: { ...state.user } }
+      //console.log("create review action payload", action.payload)
       createState.spot[action.payload.id] = action.payload
       createState.user[action.payload.id] = action.payload
+      //console.log("create review state", createState)
       return createState;
     case DELETE_REVIEW:
       const deleteState = { spot: {}, user: {} }
@@ -112,12 +116,15 @@ export default function reviewsReducer(state = initialState, action) {
       delete deleteState.user[action.payload.id]
       return deleteState;
     case USER_REVIEWS:
-      const userState = { spot: { ...state.spot }, user: { ...state.user } }
+      const userState = { ...state, spot: { ...state.spot }, user: { ...state.user } }
+      //console.log("user reviews payload", action.payload)
       userState.user = action.payload
+      console.log("user reviews state", userState)
       return userState;
     case SPOT_REVIEWS:
-      const spotState = { spot: { ...state.spot }, user: { ...state.user } }
+      const spotState = { ...state, spot: { ...state.spot }, user: { ...state.user } }
       spotState.spot = action.payload
+      console.log("spot reviews state", spotState)
       return spotState;
     default:
       return state

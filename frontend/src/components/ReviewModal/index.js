@@ -1,47 +1,54 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import { useHistory } from "react-router-dom"
 import { createReviewBySpot } from '../../store/reviews';
+import StarRating from './StarRating'
 import './reviewmodal.css'
 
 function ReviewModal({ spotId }) {
   const [rating, setRating] = useState(0)
   const [review, setReview] = useState('')
-  const [errors, setErrors] = useState('')
-  const [errorsLoaded, setErrorsLoaded] = useState(false)
+  const [errors, setErrors] = useState([])
+  const [disabled, setDisabled] = useState(true)
+  //const [errorsLoaded, setErrorsLoaded] = useState(false)
+
+  const currUser = useSelector((state) => state?.session?.user)
 
   const { closeModal } = useModal()
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const validate = () => {
-    const validationErrors = {}
-    if (review && review.length < 10) {
-      validationErrors.review = "Review needs 10 or more characters"
-    }
-    setErrorsLoaded(false)
-    return validationErrors;
-  }
+  useEffect(() => {
+    setErrors(validate())
+  }, [review, rating])
 
-  function refreshPage() {
-    window.location.reload()
-  }
+  useEffect(() => {
+    if (!errors.length && rating > 0) {
+      setDisabled(false)
+    }
+  }, [errors])
+
+  const validate = () => {
+    const validationErrors = [];
+    if (review && review.length < 10) {
+      validationErrors.push('Review needs 10 or more characters');
+    }
+    return validationErrors;
+  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const validationErrors = validate()
-    setErrors(validationErrors)
 
 
-    if (!Object.values(validationErrors).length) {
+    if (!errors.length) {
       const newReview = {
         review,
         stars: rating
       }
-      const reviewData = await dispatch(createReviewBySpot(newReview, spotId))
+      await dispatch(createReviewBySpot(newReview, spotId))
         .then(closeModal)
-        .then(refreshPage())
       history.push(`/spots/${spotId}`)
     } else {
       return;
@@ -53,6 +60,11 @@ function ReviewModal({ spotId }) {
       <div className="review-modal-container">
         <form onSubmit={handleSubmit}>
           <h2>How was your stay?</h2>
+          <div className="errors">
+            {errors?.map((error, index) =>
+              <div key={index} className="error-message">{error}</div>
+            )}
+          </div>
           <textarea
             cols="60"
             rows="5"
@@ -61,9 +73,10 @@ function ReviewModal({ spotId }) {
             onChange={(e) => setReview(e.target.value)}
           >
           </textarea>
+          <StarRating rating={rating} setRating={setRating} />
           <div className="review-submit">
             <button
-              disabled={errors.length > 0}>
+              disabled={disabled}>
               Submit your review
             </button>
           </div>
