@@ -28,8 +28,6 @@ export default function CreateNewSpot() {
     if (!address) validationErrors.address = 'Address is required';
     if (!city) validationErrors.city = 'City is required';
     if (!state) validationErrors.state = 'State is required';
-    if (!latitude) validationErrors.latitude = 'Latitude is required';
-    if (!longitude) validationErrors.longitude = 'Longitude is required';
     if (!description) validationErrors.description = 'Description is required';
     if (description && description.length < 30) {
       validationErrors.description = 'Description needs a minimum of 30 characters';

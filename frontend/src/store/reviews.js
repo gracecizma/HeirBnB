@@ -1,74 +1,122 @@
 import { csrfFetch } from "./csrf"
 
-const GET_SPOT_REVIEWS = 'reviews/GET_SPOT_REVIEWS'
-const ADD_REVIEW = 'reviews/ADD_REVIEW'
-const GET_USER_REVIEWS = 'reviews/GET_USER_REVIEWS'
+const CREATE_REVIEW = 'reviews/CREATE_REVIEW';
+const DELETE_REVIEW = 'reviews/DELETE_REVIEW';
+const SPOT_REVIEWS = 'reviews/SPOT_REVIEWS';
+const USER_REVIEWS = 'reviews/USER_REVIEWS';
 
 
-const loadReviews = (spotReviews) => {
+const createReview = (review) => {
   return {
-    type: GET_SPOT_REVIEWS,
-    payload: spotReviews
+    type: CREATE_REVIEW,
+    payload: review
   }
 };
 
-const addReview = (newReview) => {
+const deleteReview = (reviewId) => {
   return {
-    type: ADD_REVIEW,
-    payload: newReview
+    type: DELETE_REVIEW,
+    payload: reviewId
   }
 };
 
-const userReviews = (reviewsArray) => {
+const spotReviews = (reviews) => {
   return {
-    type: GET_USER_REVIEWS,
-    payload: reviewsArray
+    type: SPOT_REVIEWS,
+    payload: reviews
   }
 };
 
-export const getAllReviews = (id) => async (dispatch) => {
-  const res = await csrfFetch(`/api/spots/${id}/reviews`)
+const userReviews = (reviews) => {
+  return {
+    type: USER_REVIEWS,
+    payload: reviews
+  }
+};
+
+
+export const createReviewBySpot = (review, spotId) => async (dispatch) => {
+  const res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(review)
+  })
 
   if (res.ok) {
-    const reviewsObj = await res.json()
-    dispatch(loadReviews(reviewsObj))
+    const reviewObj = await res.json()
+    console.log("fetch review", reviewObj)
+    dispatch(createReview(reviewObj))
   }
 };
 
+export const deleteReviewById = (reviewId) => async (dispatch) => {
+  const res = await csrfFetch(`/api/reviews/${reviewId}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' }
+  })
 
+  if (res.ok) {
+    dispatch(deleteReview(reviewId))
+  }
+};
 
+export const getSpotReviews = (spotId) => async (dispatch) => {
+  const res = await csrfFetch(`/api/spots/${spotId}/reviews`);
 
+  if (res.ok) {
+    const reviews = await res.json()
+    console.log("fetch all reviews", reviews)
+    const reviewsObj = {}
+    reviews.Reviews.forEach(review => {
+      reviewsObj[review.id] = review
+    })
+    dispatch(spotReviews(reviewsObj))
+    //return reviewsObj
+  }
+};
 
+export const getUserReviews = () => async (dispatch) => {
+  const res = await csrfFetch(`/api/reviews/current`);
+
+  if (res.ok) {
+    const reviews = await res.json()
+    console.log("fetch user reviews", reviews)
+    const reviewsObj = {}
+    reviews.Reviews.forEach(review => {
+      reviewsObj[review.id] = review
+    })
+    dispatch(userReviews(reviewsObj))
+    //return reviewsObj
+  }
+};
 
 
 const initialState = {
-  spots: {},
+  spot: {},
   user: {}
-}
+};
 
 export default function reviewsReducer(state = initialState, action) {
   switch (action.type) {
-    case GET_SPOT_REVIEWS:
-      const getState = { ...state };
-      let reviewObj = {}
-      action.spotReviews.forEach((review) => {
-        reviewObj[review.id] = review;
-      })
-      getState.spots = reviewObj
-      return getState;
-    case ADD_REVIEW:
-      const addState = { ...state };
-      addState.spots[action.newReview.id] = action.newReview
-      return addState;
-    case GET_USER_REVIEWS:
-      const userState = { ...state };
-      let reviewData = {}
-      action.userId.Reviews.forEach((review) => {
-        reviewData[review.id] = review
-      })
-      userState.user = reviewData
-      return userState
+    case CREATE_REVIEW:
+      const createState = { spot: {}, user: {} }
+      createState.spot[action.payload.id] = action.payload
+      createState.user[action.payload.id] = action.payload
+      return createState;
+    case DELETE_REVIEW:
+      const deleteState = { spot: {}, user: {} }
+      delete deleteState.spot[action.payload.id]
+      delete deleteState.user[action.payload.id]
+      return deleteState;
+    case USER_REVIEWS:
+      const userState = { spot: { ...state.spot }, user: { ...state.user } }
+      userState.user = action.payload
+      return userState;
+    case SPOT_REVIEWS:
+      const spotState = { spot: { ...state.spot }, user: { ...state.user } }
+      spotState.spot = action.payload
+      return spotState;
     default:
       return state
   }
-}
+};

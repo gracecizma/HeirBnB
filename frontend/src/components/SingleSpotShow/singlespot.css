@@ -1,6 +1,5 @@
 .single-spot-div {
   display: flex;
-  border: solid black;
   flex-direction: column;
   width: 750px;
   height: 600px;
