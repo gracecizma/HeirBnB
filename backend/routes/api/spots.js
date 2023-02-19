@@ -126,9 +126,6 @@ router.get('/', queryValidator, async (req, res) => {
       if (image.preview === true) {
         spot.previewImage = image.url
       }
-      if (!image.preview) {
-        spot.previewImage = "No image found"
-      }
     })
     delete spot.SpotImages
   })
@@ -171,9 +168,10 @@ router.get('/current', requireAuth, async (req, res) => {
     spotsArray.push(spot.toJSON())
   })
 
+
   spotsArray.forEach(spot => {
     spot.SpotImages.forEach(image => {
-      if (image.preview === true) {
+      if (image.preview == true) {
         spot.previewImage = image.url
       }
     })

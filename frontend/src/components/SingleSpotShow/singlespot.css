@@ -1,29 +1,120 @@
 .single-spot-div {
   display: flex;
-  flex-direction: column;
-  width: 750px;
-  height: 600px;
 }
 
-.single-spot-img {
-  width: 700px;
-  height: 500px;
+.spot-container {
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px;
+  margin: 10px;
 }
+
+.images-container {
+  display: grid;
+  grid-template-areas: "a b";
+  gap: 5px;
+  max-height: 412px;
+  max-width: 100%;
+  width: 100%;
+}
+
+.main-image-container {
+  grid-area: a;
+  align-items: center;
+  max-width: 100%;
+  max-height: 450px;
+  position: relative;
+}
+
+.main-spot-img {
+  width: 100%;
+  height: 100%;
+  max-height: 412px;
+  max-width: 100%;
+  object-fit: fill;
+  border-radius: 5px
+}
+
+.preview-images-container {
+  display: grid;
+  grid-area: b;
+  grid-template-areas:
+    "a b"
+    "c d";
+  grid-auto-flow: row;
+  gap: 5px;
+  height: 100%;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  max-height: 205px;
+  position: relative;
+  border-radius: 5px;
+}
+
 
 .details-container {
   display: flex;
   flex-direction: column;
   position: relative;
-  font-family: cursive;
+  font-family: apple-chancery;
+}
+
+.name-location {
+  display: flex;
+  font-family: apple-chancery;
+  flex-direction: column;
 }
 
 .spot-name {
-  display: flex;
-  font-family: cursive;
+  font-weight: bold;
 }
 
 .spot-owner {
-  font-family: cursive;
+  font-family: apple-chancery;
+}
+
+.details-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row-reverse;
+  width: 100%;
+}
+
+.price-review-reserve {
+  border: solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 30%;
+  min-width: 250px;
+}
+
+.price-stars {
+  display: flex;
+  justify-content: space-between;
+  width: 90%
+}
+
+.reviews-rating {
+  display: flex;
+  flex-direction: row;
+  width: 125px;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.price-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 125px;
+
 }

@@ -20,22 +20,29 @@ export default function Spots() {
 
   if (!spots.length) return null
 
+
+
   return (
     <>
       <div className="spot-div">
         {spots.map(spot => (
           <Link key={spot.id} to={`spots/${spot.id}`} className="spot-tile">
-            <img className="spot-img" src={spot.previewImage} />
+            <div className="spot-img-container">
+              <img className="spot-img" src={spot.previewImage} />
+            </div>
             <div className="spot-details">
               <div className="location-rating">
                 <p className="city-state">
                   {spot.city}, {spot.state}
                 </p>
                 <p className="stars">
-                  rating:{spot.avgRating ? '★' + Number(spot.avgRating).toFixed(1) : '★New'}
+                  Rating:{spot.avgRating ? ' ★ ' + Number(spot.avgRating).toFixed(1) : '★New'}
                 </p>
               </div>
-              <p className="price">${spot.price} per night</p>
+              <div className="price-container">
+                <p className="price" style={{ "fontWeight": "bold" }}>${spot.price}</p>
+                <p className="price-text">night</p>
+              </div>
             </div>
           </Link>
         ))}

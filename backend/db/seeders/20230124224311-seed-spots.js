@@ -55,6 +55,42 @@ module.exports = {
         name: 'Great House',
         description: 'Pharetra magna ac placerat vestibulum lectus mauris ultrices eros in.',
         price: 175
+      },
+      {
+        ownerId: 4,
+        address: '999 Bougie ave',
+        city: 'New York',
+        state: 'New York',
+        country: 'United States of America',
+        lat: 56.1234567,
+        lng: 159.1335469,
+        name: 'Fancy House',
+        description: 'Duis aute irure dolor in reprehenderit in voluptate.',
+        price: 550
+      },
+      {
+        ownerId: 5,
+        address: '987 Boardwalk blvd',
+        city: 'Monopoly',
+        state: 'New York',
+        country: 'United States of America',
+        lat: 37.564842,
+        lng: -113.165465,
+        name: 'Rich House',
+        description: 'Integer malesuada nunc vel risus. Non odio euismod lacinia at quis risus.',
+        price: 600
+      },
+      {
+        ownerId: 6,
+        address: '654 Park ln',
+        city: 'San Francisco',
+        state: 'California',
+        country: 'United States of America',
+        lat: -25.354684,
+        lng: 57.657451,
+        name: 'Tech House',
+        description: 'Nisl pretium fusce id velit. Rhoncus urna neque viverra justo nec ultrices dui.',
+        price: 789
       }
     ])
   },
@@ -67,7 +103,7 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
     await queryInterface.bulkDelete(options, {
-      address: ['123 Madeup ave', '456 Fake ln', '789 Whatever st']
+      address: ['123 Madeup ave', '456 Fake ln', '789 Whatever st', '999 Bougie ave', '987 Boardwalk blvd', '654 Park ln']
     })
   }
 };

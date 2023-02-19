@@ -14,7 +14,7 @@ export default function SingleSpot() {
   const dispatch = useDispatch()
   const { spotId } = useParams();
   const spotObj = useSelector((state) => state?.spots?.singleSpot)
-  //console.log("single spot object", spotObj)
+  console.log("single spot object", spotObj)
   const currUser = useSelector((state) => state?.session?.user)
   const userReviews = useSelector((state) => state?.reviews?.user)
   //console.log("user review obj", userReviews)
@@ -43,8 +43,12 @@ export default function SingleSpot() {
 
   let image;
   let owner = {};
-  if (spotObj.name) {
-    image = spotObj.SpotImages[0]?.url
+  if (spotObj.SpotImages) {
+    spotObj.SpotImages.find(pic => {
+      if (pic.preview === true) {
+        image = pic.url
+      }
+    })
     owner = spotObj.Owner
   } else {
     return <h1>Unable to retrieve details. Please try again shortly.</h1>
@@ -63,61 +67,98 @@ export default function SingleSpot() {
   // check if current user is signed in, is not the owner of the spot, and has not already reviewed
   const canReview = (currUser && spotObj.ownerId !== currUser.id && !hasReviewed)
 
+  let previewImages = []
+  spotObj.SpotImages?.forEach(image => {
+    if (image.preview === false) {
+      previewImages.push(image)
+    }
+  })
+  //console.log(previewImages)
+
 
   return (
     <>
       <div className="single-spot-div">
-        <div className="spot-name">
-          {spotObj.name}
-        </div>
-        <div className="images-container">
-          <img className="single-spot-img"
-            src={image} />
-        </div>
-        <div className="spot-owner">
-          Hosted By: {owner.firstName} {owner.lastName}
-        </div>
-        <div className="details-container">
-          <div className="spot-location">
-            {spotObj.city}, {spotObj.state}, {spotObj.country}
+
+        <div className="spot-container">
+          <div className="name-location">
+            <h2 className="spot-name">
+              {spotObj.name}
+            </h2>
+            <div className="spot-location">
+              {spotObj.city}, {spotObj.state}, {spotObj.country}
+            </div>
           </div>
-          <div className="price-num-reviews">
-            <p>
-              ${spotObj.price} per night
-            </p>
-            <p>
-              {spotObj.numReviews} reviews
-            </p>
+          <div className="images-container">
+            <div className="main-image-container">
+              <img className="main-spot-img"
+                src={image} alt="main-img" />
+            </div>
+            <div className="preview-images-container">
+              {previewImages.map(image => (
+                <img
+                  key={image.id}
+                  className="preview-image"
+                  src={image.url}
+                  alt="preview-image"
+                />
+              ))}
+            </div>
           </div>
-          {canReview && (
-            <button className="post-review">
-              <OpenModalMenuItem
-                itemText="Post your review"
-                itemTextClassName="review-button-text"
-                modalComponent={<ReviewModal spotId={spotId} />}
-              />
-            </button>
-          )}
-          <div className="spot-reviews">
-            {!spotObj.numReviews && canReview ? 'Be the first to post a review!' : ''}
-            {reviewsArray.slice(0).reverse().map(review => (
-              <div key={review.id} className="single-review">
-                <div>{review.User?.firstName}</div>
-                <div>{review.createdAt.split('T')[0]}</div>
-                <div>{review.review}</div>
-                {currUser && review.userId === currUser.id && (
-                  <button className="delete-button">
-                    <OpenModalMenuItem
-                      itemText="Delete"
-                      modalComponent={<DeleteReviewModal review={review} />}
-                    />
-                  </button>
-                )}
+          <h3 className="spot-owner">
+            Hosted By: {owner.firstName} {owner.lastName}
+          </h3>
+          <div className="details-container">
+            <div className="price-review-reserve">
+              <div className="price-stars">
+                <p className="price-container">
+                  ${spotObj.price} per night
+                </p>
+                <div className="reviews-rating">
+                  <div className="star-rating-reviews">
+                    {spotObj.avgRating ? '★' + Number(spotObj.avgRating).toFixed(1) : '★New'}
+                  </div>
+                  <p className="num-reviews">
+                    {spotObj.numReviews} reviews
+                  </p>
+                </div>
               </div>
-            ))}
-          </div>
-          <div className="reserve-button">
-            <button onClick={reserveButton}>Reserve</button>
+              <div className="reserve-button">
+                <button onClick={reserveButton}>Reserve</button>
+              </div>
+            </div>
+            <div className="description-reviews">
+              <div className="spot-description">
+                {spotObj.description}
+              </div>
+              {canReview && (
+                <button className="post-review">
+                  <OpenModalMenuItem
+                    itemText="Post your review"
+                    itemTextClassName="review-button-text"
+                    modalComponent={<ReviewModal spotId={spotId} />}
+                  />
+                </button>
+              )}
+              <div className="spot-reviews">
+                {!spotObj.numReviews && canReview ? 'Be the first to post a review!' : ''}
+                {reviewsArray.slice(0).reverse().map(review => (
+                  <div key={review.id} className="single-review">
+                    <div>{review.User?.firstName}</div>
+                    <div>{review.createdAt.split('T')[0]}</div>
+                    <div>{review.review}</div>
+                    {currUser && review.userId === currUser.id && (
+                      <button className="delete-button">
+                        <OpenModalMenuItem
+                          itemText="Delete"
+                          modalComponent={<DeleteReviewModal review={review} />}
+                        />
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
