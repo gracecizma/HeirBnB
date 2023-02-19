@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { getUserSpots } from '../../store/spots'
 import DeleteSpotModal from "../DeleteSpotModal"
-import OpenModalButton from "../OpenModalButton"
+import OpenModalMenuItem from "../Navigation/OpenModalMenuItem"
 import './userspots.css'
 
 
@@ -37,35 +37,53 @@ export default function UserSpots() {
     )
   }
 
+  const handleDelete = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
   return (
     <>
 
       {isLoaded && (
 
-        <div>
-          <h1>Manage Your Spots</h1>
+        <div className="user-spot-div">
           <div className="user-spots">
-            {(spots.length && spots.map(spot => (
-              <li key={spot.name}>
-                <p>{spot.name}</p>
-                <p>
-                  <img src={spot?.previewImage} />
-                </p>
-                <p>{spot.address}</p>
-                <p>{spot.city}, {spot.state}</p>
-                <p>{spot.description}</p>
-                <p>{spot.price} per night</p>
-                <div className="delete-spot-button">
-                  <OpenModalButton modalComponent={
-                    <DeleteSpotModal spotId={spot.id}
-                      buttonText={'Delete Spot'}
-                    />}
-                  />
+            <h1 className="user-spots-header">Manage Your Spots</h1>
+            {(spots.map(spot => (
+              <li key={spot.name} className="user-spot-tile">
+                <p className="user-spot-name">{spot.name}</p>
+                <div className="user-image-container">
+                  <img className="user-spot-img" src={spot?.previewImage} />
                 </div>
-                <div className="edit-spot-button">
-                  <Link to={`/spots/${spot.id}/edit`}>
-                    <button>Edit Spot</button>
-                  </Link>
+                <div className="user-spot-details-container">
+                  <div className="user-location-rating">
+                    <p className="user-location">
+                      {spot.city}, {spot.state}
+                    </p>
+                    <p className="user-rating">
+                      Rating:{spot.avgRating ? ' ★ ' + Number(spot.avgRating).toFixed(1) : '★New'}
+                    </p>
+                  </div>
+                  <div className="user-price-container">
+                    <p className="user-price">{spot.price} per night</p>
+                  </div>
+                  <div className="edit-delete-buttons">
+                    <button
+                      className="delete-spot-button"
+                      onClick={handleDelete}
+                    >
+                      <OpenModalMenuItem
+                        itemText="Delete"
+                        modalComponent={<DeleteSpotModal spotId={spot.id} />}
+                      />
+                    </button>
+                    <div className="edit-spot-button">
+                      <Link to={`/spots/${spot.id}/edit`}>
+                        <button>Edit Spot</button>
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               </li>
             )))}
