@@ -65,23 +65,25 @@ export default function UserSpots() {
                       Rating:{spot.avgRating ? ' ★ ' + Number(spot.avgRating).toFixed(1) : '★New'}
                     </p>
                   </div>
-                  <div className="user-price-container">
-                    <p className="user-price">{spot.price} per night</p>
-                  </div>
-                  <div className="edit-delete-buttons">
-                    <button
-                      className="delete-spot-button"
-                      onClick={handleDelete}
-                    >
-                      <OpenModalMenuItem
-                        itemText="Delete"
-                        modalComponent={<DeleteSpotModal spotId={spot.id} />}
-                      />
-                    </button>
-                    <div className="edit-spot-button">
-                      <Link to={`/spots/${spot.id}/edit`}>
-                        <button>Edit Spot</button>
-                      </Link>
+                  <div className="user-price-and-buttons">
+                    <div className="user-price-container">
+                      <p className="user-price">${spot.price} night</p>
+                    </div>
+                    <div className="edit-delete-buttons">
+                      <button
+                        className="delete-spot-button"
+                        onClick={handleDelete}
+                      >
+                        <OpenModalMenuItem
+                          itemText="Delete"
+                          modalComponent={<DeleteSpotModal spotId={spot.id} />}
+                        />
+                      </button>
+                      <div className="edit-spot-button">
+                        <Link to={`/spots/${spot.id}/edit`}>
+                          <button>Update</button>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
