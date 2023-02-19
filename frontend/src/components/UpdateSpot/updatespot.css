@@ -1,3 +1,15 @@
 .error-message {
   color: red;
 }
+
+.update-spot-container {
+  display: flex;
+  justify-content: center;
+
+}
+
+.update-spot-form {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
