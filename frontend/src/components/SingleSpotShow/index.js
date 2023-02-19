@@ -14,7 +14,7 @@ export default function SingleSpot() {
   const dispatch = useDispatch()
   const { spotId } = useParams();
   const spotObj = useSelector((state) => state?.spots?.singleSpot)
-  //console.log("single spot object", spotObj)
+  console.log("single spot object", spotObj)
   const currUser = useSelector((state) => state?.session?.user)
   const userReviews = useSelector((state) => state?.reviews?.user)
   //console.log("user review obj", userReviews)
@@ -68,12 +68,12 @@ export default function SingleSpot() {
   const canReview = (currUser && spotObj.ownerId !== currUser.id && !hasReviewed)
 
   let previewImages = []
-  spotObj.SpotImages.forEach(image => {
+  spotObj.SpotImages?.forEach(image => {
     if (image.preview === false) {
       previewImages.push(image)
     }
   })
-  console.log(previewImages)
+  //console.log(previewImages)
 
 
   return (
@@ -81,13 +81,19 @@ export default function SingleSpot() {
       <div className="single-spot-div">
 
         <div className="spot-container">
-
-          <div className="spot-name">
-            {spotObj.name}
+          <div className="name-location">
+            <h2 className="spot-name">
+              {spotObj.name}
+            </h2>
+            <div className="spot-location">
+              {spotObj.city}, {spotObj.state}, {spotObj.country}
+            </div>
           </div>
           <div className="images-container">
-            <img className="main-spot-img"
-              src={image} alt="main-img" />
+            <div className="main-image-container">
+              <img className="main-spot-img"
+                src={image} alt="main-img" />
+            </div>
             <div className="preview-images-container">
               {previewImages.map(image => (
                 <img
@@ -99,50 +105,59 @@ export default function SingleSpot() {
               ))}
             </div>
           </div>
-          <div className="spot-owner">
+          <h3 className="spot-owner">
             Hosted By: {owner.firstName} {owner.lastName}
-          </div>
+          </h3>
           <div className="details-container">
-            <div className="spot-location">
-              {spotObj.city}, {spotObj.state}, {spotObj.country}
-            </div>
-            <div className="price-num-reviews">
-              <p>
-                ${spotObj.price} per night
-              </p>
-              <p>
-                {spotObj.numReviews} reviews
-              </p>
-            </div>
-            {canReview && (
-              <button className="post-review">
-                <OpenModalMenuItem
-                  itemText="Post your review"
-                  itemTextClassName="review-button-text"
-                  modalComponent={<ReviewModal spotId={spotId} />}
-                />
-              </button>
-            )}
-            <div className="spot-reviews">
-              {!spotObj.numReviews && canReview ? 'Be the first to post a review!' : ''}
-              {reviewsArray.slice(0).reverse().map(review => (
-                <div key={review.id} className="single-review">
-                  <div>{review.User?.firstName}</div>
-                  <div>{review.createdAt.split('T')[0]}</div>
-                  <div>{review.review}</div>
-                  {currUser && review.userId === currUser.id && (
-                    <button className="delete-button">
-                      <OpenModalMenuItem
-                        itemText="Delete"
-                        modalComponent={<DeleteReviewModal review={review} />}
-                      />
-                    </button>
-                  )}
+            <div className="price-review-reserve">
+              <div className="price-stars">
+                <p className="price-container">
+                  ${spotObj.price} per night
+                </p>
+                <div className="reviews-rating">
+                  <div className="star-rating-reviews">
+                    {spotObj.avgRating ? '★' + Number(spotObj.avgRating).toFixed(1) : '★New'}
+                  </div>
+                  <p className="num-reviews">
+                    {spotObj.numReviews} reviews
+                  </p>
                 </div>
-              ))}
+              </div>
+              <div className="reserve-button">
+                <button onClick={reserveButton}>Reserve</button>
+              </div>
             </div>
-            <div className="reserve-button">
-              <button onClick={reserveButton}>Reserve</button>
+            <div className="description-reviews">
+              <div className="spot-description">
+                {spotObj.description}
+              </div>
+              {canReview && (
+                <button className="post-review">
+                  <OpenModalMenuItem
+                    itemText="Post your review"
+                    itemTextClassName="review-button-text"
+                    modalComponent={<ReviewModal spotId={spotId} />}
+                  />
+                </button>
+              )}
+              <div className="spot-reviews">
+                {!spotObj.numReviews && canReview ? 'Be the first to post a review!' : ''}
+                {reviewsArray.slice(0).reverse().map(review => (
+                  <div key={review.id} className="single-review">
+                    <div>{review.User?.firstName}</div>
+                    <div>{review.createdAt.split('T')[0]}</div>
+                    <div>{review.review}</div>
+                    {currUser && review.userId === currUser.id && (
+                      <button className="delete-button">
+                        <OpenModalMenuItem
+                          itemText="Delete"
+                          modalComponent={<DeleteReviewModal review={review} />}
+                        />
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
