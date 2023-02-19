@@ -1,0 +1,60 @@
+.user-spot-div {
+  display: flex;
+}
+
+.user-spot-tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  flex-basis: 20%;
+  font-family: apple-chancery;
+  width: 270px;
+  margin: 15px;
+}
+
+.user-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 250px;
+  width: 270px;
+}
+
+.user-spot-img {
+  max-width: 100%;
+  height: 250px;
+  border-radius: 20px;
+}
+
+.user-spot-details {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 2px;
+  height: 80px;
+  width: 270px;
+}
+
+.user-location-rating {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 270px;
+  height: 35px;
+  color: black;
+}
+
+.user-city-state {
+  font-weight: bold;
+
+}
+
+.user-price-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 270px;
+  height: 25px;
+  color: black;
+}
