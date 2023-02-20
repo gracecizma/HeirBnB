@@ -118,12 +118,16 @@ export default function SingleSpot() {
                       {spotObj.avgRating ? '★' + Number(spotObj.avgRating).toFixed(1) : '★New'}
                     </div>
                     <p className="num-reviews">
-                      {spotObj.numReviews} reviews
+                      {spotObj.numReviews === 1 ? spotObj.numReviews + ' review' : ''}
+                      {spotObj.numReviews !== 1 ? spotObj.numReviews + ' reviews' : ''}
                     </p>
                   </div>
                 </div>
-                <div className="reserve-button">
-                  <button onClick={reserveButton}>Reserve</button>
+                <div className="reserve-button-container">
+                  <button
+                    onClick={reserveButton}
+                    className="reserve-button"
+                  >Reserve</button>
                 </div>
               </div>
             </div>
@@ -138,16 +142,18 @@ export default function SingleSpot() {
           </div>
           <div className="break"></div>
           <div className="reviews-container">
-            {canReview && (
-              <button className="post-review">
-                <OpenModalMenuItem
-                  itemText="Post your review"
-                  itemTextClassName="review-button-text"
-                  modalComponent={<ReviewModal spotId={spotId} />}
-                />
-              </button>
-            )}
-            <div className="spot-reviews">
+            <div className="post-review-container">
+              {canReview && (
+                <button className="post-review">
+                  <OpenModalMenuItem
+                    itemText="Post your review"
+                    itemTextClassName="review-button-text"
+                    modalComponent={<ReviewModal spotId={spotId} />}
+                  />
+                </button>
+              )}
+            </div>
+            <div className="spot-reviews-container">
               {!spotObj.numReviews && canReview ? 'Be the first to post a review!' : ''}
               {reviewsArray.slice(0).reverse().map(review => (
                 <div key={review.id} className="single-review">

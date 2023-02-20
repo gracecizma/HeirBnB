@@ -93,6 +93,24 @@
   align-items: center;
 }
 
+.reserve-button:hover {
+  cursor: pointer;
+}
+
+.reserve-button-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 80%
+}
+
+.reserve-button {
+  background-color: #ac5ebc;
+  border-radius: 5px;
+  height: 30px;
+  color: white;
+}
+
 .price-review-reserve {
   border: solid black;
   border-radius: 10px;
@@ -135,4 +153,35 @@
   border-top: 1px solid black;
   height: 20px;
   width: 100%;
+}
+
+.single-review {
+  margin-bottom: 30px;
+}
+
+.post-review-container {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.post-review {
+  list-style-type: none;
+  background-color: #ac5ebc;
+  border-radius: 5px;
+  height: 30px;
+  color: white;
+}
+
+.post-review:hover {
+  cursor: pointer;
+}
+
+.reviews-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.review-name {
+  font-weight: bold;
 }

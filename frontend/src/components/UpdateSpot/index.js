@@ -117,86 +117,85 @@ export default function UpdateSpot() {
               <h4>Guests will only get your exact address once they booked a reservation.</h4>
             </div>
             <form onSubmit={handleSubmit}>
-              <div className="update-location-container">
 
-                <div>
-                  <label>
-                    Country {errors.country &&
-                      <span className="error-message">{errors.country}</span>}
-                    <input
-                      value={country}
-                      onChange={(e) => setCountry(e.target.value)}
-                      type="text"
-                      placeholder="Country"
-                    />
-                  </label>
-                </div>
-
-                <div>
-                  <label>
-                    Street Address {errors.address &&
-                      <span className="error-message">{errors.address}</span>}
-                    <input
-                      value={address}
-                      onChange={(e) => setAddress(e.target.value)}
-                      type="text"
-                      placeholder="Address"
-                    />
-                  </label>
-                </div>
-
-                <div>
-                  <label>
-                    City {errors.city &&
-                      <span className="error-message">{errors.city}</span>}
-                    <input
-                      value={city}
-                      onChange={(e) => setCity(e.target.value)}
-                      type="text"
-                      placeholder="City"
-                    />
-                  </label>
-                  <div className="city-state-comma">,</div>
-                  <label>
-                    State {errors.state &&
-                      <span className="error-message">{errors.state}</span>}
-                    <input
-                      value={state}
-                      onChange={(e) => setState(e.target.value)}
-                      type="text"
-                      placeholder="State"
-                    />
-                  </label>
-                </div>
-
-                <div>
-                  <label>
-                    Latitude {errors.latitude &&
-                      <span className="error-message">{errors.city}</span>}
-                    <input
-                      value={latitude}
-                      onChange={(e) => setLatitude(e.target.value)}
-                      type="text"
-                      placeholder="Latitude"
-                    />
-                  </label>
-                  <div className="lat-lng-comma">,</div>
-                  <label>
-                    Longitude {errors.longitude &&
-                      <span className="error-message">{errors.longitude}</span>}
-                    <input
-                      value={longitude}
-                      onChange={(e) => setLongitude(e.target.value)}
-                      type="text"
-                      placeholder="Longitude"
-                    />
-                  </label>
-                </div>
+              <div>
+                <label>
+                  Country {errors.country &&
+                    <span className="error-message">{errors.country}</span>}
+                  <input
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    type="text"
+                    placeholder="Country"
+                  />
+                </label>
               </div>
+
+              <div>
+                <label>
+                  Street Address {errors.address &&
+                    <span className="error-message">{errors.address}</span>}
+                  <input
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    type="text"
+                    placeholder="Address"
+                  />
+                </label>
+              </div>
+
+              <div className="update-city-state">
+                <label className="update-city-input">
+                  City {errors.city &&
+                    <span className="error-message">{errors.city}</span>}
+                  <input
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    type="text"
+                    placeholder="City"
+                  />
+                </label>
+                <div className="comma">,</div>
+                <label className="update-state-input">
+                  State {errors.state &&
+                    <span className="error-message">{errors.state}</span>}
+                  <input
+                    value={state}
+                    onChange={(e) => setState(e.target.value)}
+                    type="text"
+                    placeholder="State"
+                  />
+                </label>
+              </div>
+
+              <div className="update-lat-long">
+                <label className="update-lat-input">
+                  Latitude {errors.latitude &&
+                    <span className="error-message">{errors.city}</span>}
+                  <input
+                    value={latitude}
+                    onChange={(e) => setLatitude(e.target.value)}
+                    type="text"
+                    placeholder="Latitude"
+                  />
+                </label>
+                <div className="comma">,</div>
+                <label className="update-long-input">
+                  Longitude {errors.longitude &&
+                    <span className="error-message">{errors.longitude}</span>}
+                  <input
+                    value={longitude}
+                    onChange={(e) => setLongitude(e.target.value)}
+                    type="text"
+                    placeholder="Longitude"
+                  />
+                </label>
+              </div>
+
               <div className="break"></div>
               <div className="update-description-container">
                 <div className="error-message">{errors.description}</div>
-                <label>Describe your place to Guests
+                <label>Describe your place to guests
                   <div>Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood.</div>
                   <input
                     value={description}
@@ -228,7 +227,8 @@ export default function UpdateSpot() {
                   <h4>Competitive pricing can help your listing stand out and rank higher in search results.</h4>
                 </div>
                 <div className="price-input-container">
-                  <label> $
+                  <label className="update-price-input">
+                    <span className="dollar-sign">$</span>
                     <input
                       value={price}
                       onChange={(e) => setPrice(Number(e.target.value))}

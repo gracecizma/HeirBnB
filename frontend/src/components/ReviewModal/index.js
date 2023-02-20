@@ -58,8 +58,13 @@ function ReviewModal({ spotId }) {
   return (
     <>
       <div className="review-modal-container">
-        <form onSubmit={handleSubmit}>
-          <h2>How was your stay?</h2>
+        <form
+          onSubmit={handleSubmit}
+          className="review-form"
+        >
+          <div className="review-header">
+            <h2>How was your stay?</h2>
+          </div>
           <div className="errors">
             {errors?.map((error, index) =>
               <div key={index} className="error-message">{error}</div>
@@ -73,9 +78,13 @@ function ReviewModal({ spotId }) {
             onChange={(e) => setReview(e.target.value)}
           >
           </textarea>
-          <StarRating rating={rating} setRating={setRating} />
+          <div className="stars-container">
+
+            <StarRating rating={rating} setRating={setRating} />
+          </div>
           <div className="review-submit">
             <button
+              className="submit-review-button"
               disabled={disabled}>
               Submit your review
             </button>
