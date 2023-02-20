@@ -10,5 +10,12 @@ Welcome to HeirBnB, a vaction rental exclusively for heirs and heriesses to exch
 
 ## Live site
 
-![HeirBnB]
-[HeirBnB]: https://grace-auth-me.onrender.com
+https://grace-auth-me.onrender.com
+
+### This project was built with:
+Javascript
+Sequelize
+PostgreSQL
+Express
+React
+Redux
