@@ -29,7 +29,7 @@ module.exports = {
         lat: 56.1234567,
         lng: 159.1335469,
         name: 'Nice House',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis tristique sollicitudin nibh sit amet commodo nulla facilisi. Varius sit amet mattis vulputate enim.',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis tristique sollicitudin nibh sit amet commodo nulla facilisi.',
         price: 150
       },
       {
@@ -41,7 +41,7 @@ module.exports = {
         lat: 37.564842,
         lng: -113.165465,
         name: 'Cool House',
-        description: 'Gravida cum sociis natoque penatibus et magnis dis parturient. Lorem mollis aliquam ut porttitor leo a. Aliquet lectus proin nibh nisl. Semper viverra nam libero justo laoreet sit. Diam sollicitudin tempor id eu nisl nunc.',
+        description: 'Gravida cum sociis natoque penatibus et magnis dis parturient. Lorem mollis aliquam ut porttitor leo a. Aliquet lectus proin nibh nisl. Semper viverra nam libero justo laoreet sit.',
         price: 200
       },
       {
@@ -53,7 +53,7 @@ module.exports = {
         lat: -25.354684,
         lng: 57.657451,
         name: 'Great House',
-        description: 'Dui sapien eget mi proin sed. Est ultricies integer quis auctor elit sed vulputate mi. Dictum fusce ut placerat orci nulla pellentesque dignissim enim sit. Dolor purus non enim praesent elementum.',
+        description: 'Dui sapien eget mi proin sed. Est ultricies integer quis auctor elit sed vulputate mi. Dictum fusce ut placerat orci nulla pellentesque dignissim enim sit.',
         price: 175
       },
       {
@@ -65,7 +65,7 @@ module.exports = {
         lat: 56.1234567,
         lng: 159.1335469,
         name: 'Fancy House',
-        description: 'Commodo odio aenean sed adipiscing diam. Sit amet commodo nulla facilisi nullam. Nunc congue nisi vitae suscipit tellus mauris. Platea dictumst quisque sagittis purus sit. Arcu dictum varius duis at. Lobortis feugiat vivamus at augue eget arcu dictum varius.',
+        description: 'Commodo odio aenean sed adipiscing diam. Sit amet commodo nulla facilisi nullam. Nunc congue nisi vitae suscipit tellus mauris. Platea dictumst quisque sagittis purus sit.',
         price: 550
       },
       {
@@ -77,7 +77,7 @@ module.exports = {
         lat: 37.564842,
         lng: -113.165465,
         name: 'Rich House',
-        description: 'Posuere ac ut consequat semper viverra nam libero. Eget magna fermentum iaculis eu non diam. Mauris cursus mattis molestie a. Tellus in hac habitasse platea dictumst vestibulum rhoncus est pellentesque.',
+        description: 'Posuere ac ut consequat semper viverra nam libero. Eget magna fermentum iaculis eu non diam. Mauris cursus mattis molestie a. Tellus in hac habitasse platea dictumst.',
         price: 600
       },
       {
@@ -89,7 +89,7 @@ module.exports = {
         lat: -25.354684,
         lng: 57.657451,
         name: 'Tech House',
-        description: 'Ut sem nulla pharetra diam. Molestie nunc non blandit massa enim. Cras semper auctor neque vitae. At risus viverra adipiscing at in tellus integer feugiat scelerisque. Eros in cursus turpis massa tincidunt.',
+        description: 'Ut sem nulla pharetra diam. Molestie nunc non blandit massa enim. Cras semper auctor neque vitae. At risus viverra adipiscing at in tellus integer feugiat scelerisque.',
         price: 789
       }
     ])
