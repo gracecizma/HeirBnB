@@ -61,24 +61,34 @@ function ProfileButton({ user }) {
                 Manage Spots
               </NavLink>
             </li>
-            <li className="logout-button">
-              <button onClick={logout}>Log Out</button>
+            <li className="logout-button-item">
+              <button
+                onClick={logout}
+                className="logout-button"
+              >Log Out</button>
             </li>
           </>
         ) : (
           <>
-            <OpenModalMenuItem
-              className="login-signup"
-              itemText="Log In"
-              onItemClick={closeMenu}
-              modalComponent={<LoginFormModal />}
-            />
-            <OpenModalMenuItem
-              className="login-signup"
-              itemText="Sign Up"
-              onItemClick={closeMenu}
-              modalComponent={<SignupFormModal />}
-            />
+            <div className="login-signup-container">
+              <button className="menu-login-button">
+                <OpenModalMenuItem
+                  className="login-signup"
+                  itemText="Log In"
+                  onItemClick={closeMenu}
+                  modalComponent={<LoginFormModal />}
+                />
+              </button>
+              <button className="menu-signup-button">
+                <OpenModalMenuItem
+                  className="login-signup"
+                  itemText="Sign Up"
+                  onItemClick={closeMenu}
+                  modalComponent={<SignupFormModal />}
+                />
+              </button>
+            </div>
+
           </>
         )}
       </ul>

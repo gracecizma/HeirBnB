@@ -1,3 +1,65 @@
 .error-message {
   color: red;
 }
+
+.update-spot-container {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.comma {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  width: 15px;
+  height: 65px;
+}
+
+.update-spot-form {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.update-city-state {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.update-city-input {
+  width: 49%;
+}
+
+.update-state-input {
+  width: 50%;
+}
+
+.update-lat-long {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.update-lat-input {
+  width: 49%;
+}
+
+.update-long-input {
+  width: 50%;
+}
+
+.update-price-input {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.dollar-sign {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0px 10px 0px 0px;
+}

@@ -43,9 +43,6 @@
   display: flex;
 }
 
-.user-menu-button:hover {
-  transform: translateY(2px);
-}
 
 .user-menu-container {
   display: flex;
@@ -54,6 +51,7 @@
   border-radius: 25px;
   width: 55px;
   height: 30px;
+  cursor: pointer;
 }
 
 .profile-dropdown.hidden {
@@ -69,20 +67,18 @@
   text-align: center;
   border: solid purple 2px;
   box-shadow: 5px 2px 2px #de6df4;
+  border-radius: 10px;
+  border: solid 1px #f9f0fb;
   background-color: white;
   list-style-type: none;
   right: 2%;
   top: 35px;
-  padding: 5px;
+  padding: 5px 15px;
   height: 200px;
-  width: 150px;
+  max-width: 150px;
+  font-size: 15px;
 }
 
-.profile-dropdown>li {
-  border: solid black;
-  font-weight: bold;
-  font-family: apple-chancery;
-}
 
 .manage-spots-link {
   text-decoration: none;
@@ -92,6 +88,24 @@
   cursor: pointer;
 }
 
+
+.logout-button {
+  background-color: #ac5ebc;
+  border-radius: 5px;
+}
+
 .logout-button:hover {
+  cursor: pointer;
+}
+
+.login-signup-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 60%;
+}
+
+.menu-login-button:hover,
+.menu-signup-button:hover {
   cursor: pointer;
 }

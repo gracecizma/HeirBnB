@@ -32,43 +32,49 @@ function LoginFormModal() {
 
   return (
     <>
-      <h1 className="login-header">Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <ul>
-          {errors.map((error, idx) => (
-            <li key={idx}>{error}</li>
-          ))}
-        </ul>
-        <label>
-          Username or Email
-          <input
-            type="text"
-            value={credential}
-            onChange={(e) => setCredential(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        <button className="login-button"
-          type="submit"
-          disabled={credential.length < 4 || password.length < 6}
-        >
-          Log In
-        </button>
-        <button className="demo-login"
-          onClick={handleDemoLogin}
-        >
-          Log In as Demo User
-        </button>
-      </form>
+      <div className="login-modal">
+        <h1 className="login-header">Log In</h1>
+        <form onSubmit={handleSubmit}>
+          <ul>
+            {errors.map((error, idx) => (
+              <li key={idx} className="error-message">{error}</li>
+            ))}
+          </ul>
+          <label>
+            Username or Email
+            <input
+              type="text"
+              value={credential}
+              onChange={(e) => setCredential(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Password
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </label>
+          <div className="login-buttons-container">
+            <button
+              className="login-button"
+              type="submit"
+              disabled={credential.length < 4 || password.length < 6}
+            >
+              Log In
+            </button>
+            <button
+              className="demo-login"
+              onClick={handleDemoLogin}
+            >
+              Log In as Demo User
+            </button>
+          </div>
+        </form>
+      </div>
     </>
   );
 }

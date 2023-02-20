@@ -105,32 +105,44 @@ export default function SingleSpot() {
               ))}
             </div>
           </div>
-          <h3 className="spot-owner">
-            Hosted By: {owner.firstName} {owner.lastName}
-          </h3>
-          <div className="details-container">
-            <div className="price-review-reserve">
-              <div className="price-stars">
-                <p className="price-container">
-                  ${spotObj.price} per night
-                </p>
-                <div className="reviews-rating">
-                  <div className="star-rating-reviews">
-                    {spotObj.avgRating ? '★' + Number(spotObj.avgRating).toFixed(1) : '★New'}
-                  </div>
-                  <p className="num-reviews">
-                    {spotObj.numReviews} reviews
+
+          <div className="description-reserve-container">
+            <div className="reserve-container">
+              <div className="price-review-reserve">
+                <div className="price-stars">
+                  <p className="price-container">
+                    ${spotObj.price} per night
                   </p>
+                  <div className="reviews-rating">
+                    <div className="star-rating-reviews">
+                      {spotObj.avgRating ? '★' + Number(spotObj.avgRating).toFixed(1) : '★New'}
+                    </div>
+                    <p className="num-reviews">
+                      {spotObj.numReviews === 1 ? spotObj.numReviews + ' review' : ''}
+                      {spotObj.numReviews !== 1 ? spotObj.numReviews + ' reviews' : ''}
+                    </p>
+                  </div>
+                </div>
+                <div className="reserve-button-container">
+                  <button
+                    onClick={reserveButton}
+                    className="reserve-button"
+                  >Reserve</button>
                 </div>
               </div>
-              <div className="reserve-button">
-                <button onClick={reserveButton}>Reserve</button>
-              </div>
             </div>
-            <div className="description-reviews">
+            <div className="description-container">
+              <h3 className="spot-owner">
+                Hosted By: {owner.firstName} {owner.lastName}
+              </h3>
               <div className="spot-description">
                 {spotObj.description}
               </div>
+            </div>
+          </div>
+          <div className="break"></div>
+          <div className="reviews-container">
+            <div className="post-review-container">
               {canReview && (
                 <button className="post-review">
                   <OpenModalMenuItem
@@ -140,26 +152,28 @@ export default function SingleSpot() {
                   />
                 </button>
               )}
-              <div className="spot-reviews">
-                {!spotObj.numReviews && canReview ? 'Be the first to post a review!' : ''}
-                {reviewsArray.slice(0).reverse().map(review => (
-                  <div key={review.id} className="single-review">
-                    <div>{review.User?.firstName}</div>
-                    <div>{review.createdAt.split('T')[0]}</div>
-                    <div>{review.review}</div>
-                    {currUser && review.userId === currUser.id && (
-                      <button className="delete-button">
-                        <OpenModalMenuItem
-                          itemText="Delete"
-                          modalComponent={<DeleteReviewModal review={review} />}
-                        />
-                      </button>
-                    )}
-                  </div>
-                ))}
-              </div>
+            </div>
+            <div className="spot-reviews-container">
+              {!spotObj.numReviews && canReview ? 'Be the first to post a review!' : ''}
+              {reviewsArray.slice(0).reverse().map(review => (
+                <div key={review.id} className="single-review">
+                  <div className="review-name">{review.User?.firstName}</div>
+                  <div className="review-date">{review.createdAt.split('T')[0]}</div>
+                  <div className="review-text">{review.review}</div>
+                  {currUser && review.userId === currUser.id && (
+                    <button className="delete-review-button">
+                      <OpenModalMenuItem
+                        itemText="Delete"
+                        modalComponent={<DeleteReviewModal review={review} />}
+                      />
+                    </button>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
+
+
         </div>
       </div>
     </>

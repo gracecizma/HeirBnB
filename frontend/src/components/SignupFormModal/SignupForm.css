@@ -1,12 +1,3 @@
-#modal-content {
-  display: block;
-  height: 700px;
-  width: 500px;
-  background-color: white;
-  border-radius: 15px;
-  border: solid purple;
-}
-
 input[type=text],
 input[type=password] {
   display: flex;
@@ -20,15 +11,14 @@ input[type=password] {
 .signup-button {
   width: 400px;
   height: 50px;
-  margin-left: 50px;
   background-color: purple;
   color: white;
-
+  border-radius: 5px;
 }
 
 .signup-header {
   display: flex;
   justify-content: center;
   color: black;
-  font-family: cursive;
+  font-family: apple-chancery;
 }

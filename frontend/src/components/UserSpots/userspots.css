@@ -38,6 +38,7 @@
 
 .user-location-rating {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   width: 270px;
@@ -45,7 +46,7 @@
   color: black;
 }
 
-.user-city-state {
+.user-location {
   font-weight: bold;
 
 }
@@ -57,4 +58,36 @@
   width: 270px;
   height: 25px;
   color: black;
+}
+
+.edit-delete-buttons {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.delete-spot-button {
+  list-style: none;
+  background-color: #ac5ebc;
+  border-radius: 5px;
+  height: 30px;
+  color: white;
+}
+
+.edit-spot-button {
+  background-color: #ac5ebc;
+  border-radius: 5px;
+  height: 30px;
+  color: white;
+}
+
+.edit-spot-button:hover,
+.delete-spot-button:hover {
+  cursor: pointer;
+}
+
+.user-price-and-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
 }
