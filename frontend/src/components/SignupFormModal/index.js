@@ -38,7 +38,6 @@ function SignupFormModal() {
     setErrors(validationErrors)
 
     if (!Object.values(validationErrors).length) {
-      //setErrors([]);
       return dispatch(sessionActions.signup({ email, username, firstName, lastName, password }))
         .then(closeModal)
         .catch(async (res) => {

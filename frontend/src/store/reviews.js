@@ -44,7 +44,6 @@ export const createReviewBySpot = (review, spotId, currUser) => async (dispatch)
 
   if (res.ok) {
     const reviewObj = await res.json()
-    //console.log("fetch created review", reviewObj)
     dispatch(createReview(reviewObj))
   }
 };
@@ -68,14 +67,11 @@ export const getSpotReviews = (spotId) => async (dispatch) => {
 
   if (res.ok) {
     const reviews = await res.json()
-    //console.log("fetch all reviews", reviews)
     const reviewsObj = {}
     reviews.Reviews.forEach(review => {
       reviewsObj[review.id] = review
     })
-    //console.log("normalized spot reviews obj", reviewsObj)
     dispatch(spotReviews(reviewsObj))
-    //return reviewsObj
   }
 };
 
@@ -84,14 +80,11 @@ export const getUserReviews = () => async (dispatch) => {
 
   if (res.ok) {
     const reviews = await res.json()
-    //console.log("fetch user reviews", reviews)
     const reviewsObj = {}
     reviews.Reviews.forEach(review => {
       reviewsObj[review.id] = review
     })
-    //console.log("normalized user reviews obj", reviewsObj)
     dispatch(userReviews(reviewsObj))
-    //return reviewsObj
   }
 };
 
@@ -105,10 +98,8 @@ export default function reviewsReducer(state = initialState, action) {
   switch (action.type) {
     case CREATE_REVIEW:
       const createState = { ...state, spot: { ...state.spot }, user: { ...state.user } }
-      //console.log("create review action payload", action.payload)
       createState.spot[action.payload.id] = action.payload
       createState.user[action.payload.id] = action.payload
-      //console.log("create review state", createState)
       return createState;
     case DELETE_REVIEW:
       const deleteState = { spot: {}, user: {} }
@@ -117,7 +108,6 @@ export default function reviewsReducer(state = initialState, action) {
       return deleteState;
     case USER_REVIEWS:
       const userState = { ...state, spot: { ...state.spot }, user: { ...state.user } }
-      //console.log("user reviews payload", action.payload)
       userState.user = action.payload
       console.log("user reviews state", userState)
       return userState;

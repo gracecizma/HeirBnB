@@ -9,12 +9,9 @@ import './userspots.css'
 
 
 export default function UserSpots() {
-  const dispatch = useDispatch()
-  //const currUser = useSelector((state) => state.session.user)
+  const dispatch = useDispatch())
   const userSpots = useSelector((state) => state?.spots?.userSpots)
-  console.log("userSpotsObj", userSpots)
   const spots = Object.values(userSpots)
-  console.log("user spots array", spots)
 
   const [isLoaded, setIsLoaded] = useState()
 

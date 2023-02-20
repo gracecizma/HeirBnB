@@ -61,7 +61,6 @@ export default function CreateNewSpot() {
         imageURL
       }
       const newSpotObj = await dispatch(createNewSpot(spot, currUser))
-      //console.log("new spot obj", newSpotObj)
       history.push(`/spots/${newSpotObj.id}`)
     } else {
       return;

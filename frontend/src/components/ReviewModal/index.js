@@ -11,7 +11,6 @@ function ReviewModal({ spotId }) {
   const [review, setReview] = useState('')
   const [errors, setErrors] = useState([])
   const [disabled, setDisabled] = useState(true)
-  //const [errorsLoaded, setErrorsLoaded] = useState(false)
 
   const currUser = useSelector((state) => state?.session?.user)
 
