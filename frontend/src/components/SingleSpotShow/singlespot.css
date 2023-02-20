@@ -109,6 +109,7 @@
   border-radius: 5px;
   height: 30px;
   color: white;
+  margin-bottom: 5px;
 }
 
 .price-review-reserve {
@@ -135,6 +136,10 @@
   align-items: center;
   width: 125px;
   justify-content: space-around;
+}
+
+.star-rating-reviews {
+  margin-bottom: 2px;
 }
 
 .price-container {
@@ -182,8 +187,23 @@
   justify-content: space-between;
 }
 
+.reviews-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.stars-header {
+  margin-bottom: 2px;
+  margin-right: 2px;
+}
+
 .review-name {
   font-weight: bold;
+}
+
+.review-date {
+  color: gray
 }
 
 .delete-review-button {
