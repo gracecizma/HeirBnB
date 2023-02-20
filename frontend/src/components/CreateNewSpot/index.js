@@ -35,7 +35,7 @@ export default function CreateNewSpot() {
     if (!name) validationErrors.name = 'Name is required';
     if (!price) validationErrors.price = 'Price is required';
     if (!imageURL) validationErrors.imageURL = 'Preview Image is required';
-    // validate image urls
+    // validate image url
     if (imageURL && !/\.(jpe?g|png)$/i.test(imageURL)) {
       validationErrors.imageURL = 'Image URL must end in .png, .jpg, or .jpeg';
     }
