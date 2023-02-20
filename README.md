@@ -19,3 +19,4 @@ Welcome to HeirBnB, a vaction rental exclusively for heirs and heriesses to exch
 * Express
 * React
 * Redux
+
