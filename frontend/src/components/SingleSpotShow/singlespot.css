@@ -185,3 +185,15 @@
 .review-name {
   font-weight: bold;
 }
+
+.delete-review-button {
+  list-style: none;
+  background-color: #ac5ebc;
+  border-radius: 5px;
+  height: 30px;
+  color: white;
+}
+
+.delete-review-button:hover {
+  cursor: pointer;
+}

@@ -80,78 +80,84 @@ export default function CreateNewSpot() {
             <h3>Guests will only get your exact address once they booked a reservation.</h3>
           </div>
           <form onSubmit={handleSubmit}>
-            <div className="create-location-container">
-              <div>
-                <label>Country {errors.country &&
-                  <span className="error-message">{errors.country}</span>}
-                  <input
-                    value={country}
-                    onChange={(e) => setCountry(e.target.value)}
-                    type="text"
-                    placeholder="Country"
-                  />
-                </label>
-              </div>
 
-              <div>
-                <label>Street Address {errors.address &&
-                  <span className="error-message">{errors.address}</span>}
-                  <input
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    type="text"
-                    placeholder="Address"
-                  />
-                </label>
-              </div>
-
-              <div>
-                <label>City {errors.city &&
-                  <span className="error-message">{errors.city}</span>}
-                  <input
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    type="text"
-                    placeholder="City"
-                  />
-                </label>
-                <label>State {errors.state &&
-                  <span className="error-message">{errors.state}</span>}
-                  <input
-                    value={state}
-                    onChange={(e) => setState(e.target.value)}
-                    type="text"
-                    placeholder="State"
-                  />
-                </label>
-              </div>
-
-              <div>
-                <label>Latitude {errors.latitude &&
-                  <span className="error-message">{errors.city}</span>}
-                  <input
-                    value={latitude}
-                    onChange={(e) => setLatitude(Number(e.target.value))}
-                    type="text"
-                    placeholder="Latitude"
-                  />
-                </label>
-                <label>Longitude {errors.longitude &&
-                  <span className="error-message">{errors.longitude}</span>}
-                  <input
-                    value={longitude}
-                    onChange={(e) => setLongitude(Number(e.target.value))}
-                    type="text"
-                    placeholder="Longitude"
-                  />
-                </label>
-              </div>
+            <div>
+              <label>Country {errors.country &&
+                <span className="error-message">{errors.country}</span>}
+                <input
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  type="text"
+                  placeholder="Country"
+                />
+              </label>
             </div>
+
+            <div>
+              <label>
+                Street Address {errors.address &&
+                  <span className="error-message">{errors.address}</span>}
+                <input
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  type="text"
+                  placeholder="Address"
+                />
+              </label>
+            </div>
+
+            <div className="create-city-state">
+              <label className="create-city-input">
+                City {errors.city &&
+                  <span className="error-message">{errors.city}</span>}
+                <input
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  type="text"
+                  placeholder="City"
+                />
+              </label>
+              <div className="comma">,</div>
+              <label className="create-state-input">
+                State {errors.state &&
+                  <span className="error-message">{errors.state}</span>}
+                <input
+                  value={state}
+                  onChange={(e) => setState(e.target.value)}
+                  type="text"
+                  placeholder="State"
+                />
+              </label>
+            </div>
+
+            <div className="create-lat-long">
+              <label className="create-lat-input">
+                Latitude {errors.latitude &&
+                  <span className="error-message">{errors.city}</span>}
+                <input
+                  value={latitude}
+                  onChange={(e) => setLatitude(Number(e.target.value))}
+                  type="text"
+                  placeholder="Latitude"
+                />
+              </label>
+              <div className="comma">,</div>
+              <label className="create-long-input">
+                Longitude {errors.longitude &&
+                  <span className="error-message">{errors.longitude}</span>}
+                <input
+                  value={longitude}
+                  onChange={(e) => setLongitude(Number(e.target.value))}
+                  type="text"
+                  placeholder="Longitude"
+                />
+              </label>
+            </div>
+
             <div className="break"></div>
 
             <div className="create-description-container">
-              <div className="error-message">{errors.description}</div>
-              <label>Describe your place to Guests
+              <label>Describe your place to guests
                 <div>Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood.</div>
                 <input
                   value={description}
@@ -161,10 +167,10 @@ export default function CreateNewSpot() {
                   className="description-input"
                 />
               </label>
+              <div className="error-message">{errors.description}</div>
             </div>
             <div className="break"></div>
             <div className="create-title-container">
-              <div className="error-message">{errors.name}</div>
               <label>Create a title for your spot
                 <div>Catch guests' attention with a spot title that highlights what makes your place special.</div>
                 <input
@@ -174,18 +180,19 @@ export default function CreateNewSpot() {
                   placeholder="Name of your spot"
                 />
               </label>
+              <div className="error-message">{errors.name}</div>
             </div>
             <div className="break"></div>
 
 
             <div className="create-price-container">
-              <div className="error-message">{errors.price}</div>
               <div className="price-header">
                 <h3>Set a base price for your spot</h3>
                 <h4>Competitive pricing can help your listing stand out and rank higher in search results.</h4>
               </div>
               <div className="price-input-container">
-                <label> $
+                <label className="create-price-input">
+                  <span className="dollar-sign">$</span>
                   <input
                     value={price}
                     onChange={(e) => setPrice(Number(e.target.value))}
@@ -193,6 +200,7 @@ export default function CreateNewSpot() {
                     placeholder="Price"
                   />
                 </label>
+                <div className="error-message">{errors.price}</div>
               </div>
             </div>
             <div className="break"></div>
@@ -206,8 +214,8 @@ export default function CreateNewSpot() {
               </label>
             </div>
             <div className="break"></div>
-            <div>
-              <button type="submit">Create Spot</button>
+            <div className="submit-button-container">
+              <button type="submit" className="submit-button">Create Spot</button>
             </div>
           </form>
         </div>

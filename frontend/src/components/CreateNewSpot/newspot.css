@@ -5,11 +5,75 @@
 .create-spot-container {
   display: flex;
   justify-content: center;
+  padding: 10px;
+}
+
+.comma {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  width: 15px;
+  height: 65px;
+}
+
+
+.create-city-state {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.create-city-input {
+  width: 49%;
+}
+
+.create-state-input {
+  width: 50%;
+}
+
+.create-lat-long {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.create-lat-input {
+  width: 49%;
+}
+
+.create-long-input {
+  width: 50%;
+}
+
+.create-price-input {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.dollar-sign {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0px 10px 0px 0px;
+}
+
+.submit-button {
+  background-color: #ac5ebc;
+  border-radius: 5px;
+  height: 30px;
+  color: white;
+  width: 80%;
 
 }
 
-.create-spot-form {
-  width: 50%;
+.submit-button:hover {
+  cursor: pointer;
+}
+
+.submit-button-container {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
 }

@@ -161,7 +161,7 @@ export default function SingleSpot() {
                   <div className="review-date">{review.createdAt.split('T')[0]}</div>
                   <div className="review-text">{review.review}</div>
                   {currUser && review.userId === currUser.id && (
-                    <button className="delete-button">
+                    <button className="delete-review-button">
                       <OpenModalMenuItem
                         itemText="Delete"
                         modalComponent={<DeleteReviewModal review={review} />}

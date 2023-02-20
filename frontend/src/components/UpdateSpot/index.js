@@ -239,7 +239,7 @@ export default function UpdateSpot() {
                 </div>
               </div>
               <div className="break"></div>
-              <div>
+              <div className="update-photos-container">
                 <label>Liven up your spot with photos
                   <input
                     value={imageURL}

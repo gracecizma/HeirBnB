@@ -1,0 +1,42 @@
+.delete-review-header {
+  font-family: apple-chancery;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.confirm-delete {
+  display: flex;
+  justify-content: center;
+}
+
+.are-you-sure {
+  display: flex;
+  justify-content: center;
+}
+
+.confirm-delete-buttons {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.yes-delete:hover,
+.no-delete:hover {
+  cursor: pointer;
+}
+
+.yes-delete {
+  background-color: #ac5ebc;
+  border-radius: 5px;
+  height: 30px;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.no-delete {
+  background-color: #d8c1dd;
+  border-radius: 5px;
+  height: 30px;
+  color: black;
+}

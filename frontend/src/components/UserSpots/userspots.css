@@ -67,6 +67,22 @@
 
 .delete-spot-button {
   list-style: none;
+  background-color: #ac5ebc;
+  border-radius: 5px;
+  height: 30px;
+  color: white;
+}
+
+.edit-spot-button {
+  background-color: #ac5ebc;
+  border-radius: 5px;
+  height: 30px;
+  color: white;
+}
+
+.edit-spot-button:hover,
+.delete-spot-button:hover {
+  cursor: pointer;
 }
 
 .user-price-and-buttons {

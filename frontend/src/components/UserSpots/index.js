@@ -79,11 +79,9 @@ export default function UserSpots() {
                           modalComponent={<DeleteSpotModal spotId={spot.id} />}
                         />
                       </button>
-                      <div className="edit-spot-button">
-                        <Link to={`/spots/${spot.id}/edit`}>
-                          <button>Update</button>
-                        </Link>
-                      </div>
+                      <Link to={`/spots/${spot.id}/edit`}>
+                        <button className="edit-spot-button">Update</button>
+                      </Link>
                     </div>
                   </div>
                 </div>

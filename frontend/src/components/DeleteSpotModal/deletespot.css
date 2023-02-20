@@ -1,0 +1,38 @@
+.delete-spot-header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.confirm-delete-spot {
+  display: flex;
+  justify-content: center;
+}
+
+.are-you-sure.spot {
+  display: flex;
+  justify-content: center;
+}
+
+
+.delete-buttons-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+
+.delete-button {
+  background-color: #ac5ebc;
+  border-radius: 5px;
+  height: 30px;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.keep-button {
+  background-color: #d8c1dd;
+  border-radius: 5px;
+  height: 30px;
+  color: black;
+}
