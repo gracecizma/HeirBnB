@@ -119,8 +119,8 @@ export default function SingleSpot() {
                     </div>
                     {spotObj.avgRating ? '·' : ''}
                     <p className="num-reviews">
-                      {spotObj.numReviews === 1 ? spotObj.numReviews + ' review' : ''}
-                      {spotObj.numReviews !== 1 ? spotObj.numReviews + ' reviews' : ''}
+                      {spotObj && spotObj.numReviews === 1 ? spotObj.numReviews + ' review' : ''}
+                      {spotObj && spotObj.numReviews !== 1 ? spotObj.numReviews + ' reviews' : ''}
                     </p>
                   </div>
                 </div>
@@ -149,8 +149,8 @@ export default function SingleSpot() {
               </div>
               {spotObj.avgRating ? '·' : ''}
               <div className="header-num-reviews">
-                {spotObj.numReviews === 1 ? spotObj.numReviews + ' review' : ''}
-                {spotObj.numReviews !== 1 ? spotObj.numReviews + ' reviews' : ''}
+                {spotObj && spotObj.numReviews === 1 ? spotObj.numReviews + ' review' : ''}
+                {spotObj && spotObj.numReviews !== 1 ? spotObj.numReviews + ' reviews' : ''}
               </div>
             </div>
             <div className="post-review-container">
