@@ -9,7 +9,7 @@ import './userspots.css'
 
 
 export default function UserSpots() {
-  const dispatch = useDispatch())
+  const dispatch = useDispatch()
   const userSpots = useSelector((state) => state?.spots?.userSpots)
   const spots = Object.values(userSpots)
 
