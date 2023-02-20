@@ -14,6 +14,10 @@ Welcome to HeirBnB, a vaction rental exclusively for heirs and heriesses to exch
 * React
 * Redux
 
-## Database Schema
+## Sample Screenshots
 
-<img width="742" alt="airbnb_dbdiagram" src="https://user-images.githubusercontent.com/101071625/220147470-87aaeac2-25f1-4ab9-a0fd-27cd7dd1b7c9.png">
+![image](https://user-images.githubusercontent.com/101071625/220147705-573d367b-a172-405c-9a3c-9bc52f52bf4d.png)
+
+![image](https://user-images.githubusercontent.com/101071625/220147813-7352b12d-1387-45b0-8b80-abc577a06af3.png)
+
+![image](https://user-images.githubusercontent.com/101071625/220147880-83a380f6-52f1-43bc-8bba-f279cf83f059.png)
