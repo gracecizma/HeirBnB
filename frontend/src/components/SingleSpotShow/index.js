@@ -117,6 +117,7 @@ export default function SingleSpot() {
                     <div className="star-rating-reviews">
                       {spotObj.avgRating ? '★' + Number(spotObj.avgRating).toFixed(1) : '★New'}
                     </div>
+                    {spotObj.avgRating ? '·' : ''}
                     <p className="num-reviews">
                       {spotObj.numReviews === 1 ? spotObj.numReviews + ' review' : ''}
                       {spotObj.numReviews !== 1 ? spotObj.numReviews + ' reviews' : ''}
@@ -142,6 +143,16 @@ export default function SingleSpot() {
           </div>
           <div className="break"></div>
           <div className="reviews-container">
+            <div className="reviews-header">
+              <div className="stars-header">
+                {spotObj.avgRating ? '★' + Number(spotObj.avgRating).toFixed(1) : '★New'}
+              </div>
+              {spotObj.avgRating ? '·' : ''}
+              <div className="header-num-reviews">
+                {spotObj.numReviews === 1 ? spotObj.numReviews + ' review' : ''}
+                {spotObj.numReviews !== 1 ? spotObj.numReviews + ' reviews' : ''}
+              </div>
+            </div>
             <div className="post-review-container">
               {canReview && (
                 <button className="post-review">
