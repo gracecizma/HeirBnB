@@ -17,13 +17,12 @@ export default function SingleSpot() {
   console.log("single spot object", spotObj)
   const currUser = useSelector((state) => state?.session?.user)
   const userReviews = useSelector((state) => state?.reviews?.user)
-  //console.log("user review obj", userReviews)
   const spotReviews = useSelector((state) => state?.reviews?.spot)
 
   const reviewsArray = Object.values(spotReviews)
-  //console.log("spot reviews array", reviewsArray)
+
   const userReviewsArray = Object.values(userReviews)
-  //console.log("user reviews array", userReviewsArray)
+
 
   const [hasReviewed, setHasReviewed] = useState(false)
 
@@ -73,7 +72,6 @@ export default function SingleSpot() {
       previewImages.push(image)
     }
   })
-  //console.log(previewImages)
 
 
   return (

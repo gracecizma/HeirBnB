@@ -9,7 +9,7 @@ import './updatespot.css'
 export default function UpdateSpot() {
 
   const spotObj = useSelector((state) => state?.spots?.singleSpot)
-  // console.log("spot slice of state", spotObj)
+
   const currUser = useSelector((state) => state?.session?.user)
 
   const { spotId } = useParams()
@@ -33,7 +33,6 @@ export default function UpdateSpot() {
 
   const setSpotDetails = async () => {
     const spotData = await dispatch(getSpot(spotId));
-    //console.log("spot data to populate form", spotData)
 
     setCountry(spotData?.country);
     setAddress(spotData?.address);
@@ -92,12 +91,10 @@ export default function UpdateSpot() {
         imageURL
       }
       const spotData = await dispatch(updateSpot(updatedSpot))
-      //console.log("updated spotData", spotData)
 
       history.push(`/spots/${spotObj.id}`)
     } else if (!currUser || (spotObj.ownerId !== currUser.id)) {
       history.push('/')
-      //console.log("hit if statement")
     }
 
 
