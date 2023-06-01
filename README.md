@@ -3,7 +3,7 @@
 Welcome to HeirBnB, a vacation rental exclusively for heirs and heiresses to exchange vacation homes while traveling. Our site allows registered users to search for the perfect home that suits their needs - whether that be over 10 bedrooms, a tennis court and a pool, or a country club within walking distance. Users can also list their own properties to rent, fairly priced of course.
 ## Live site
 
-[HeirBnB](https://heirbnb-o7kl.onrender.com/)
+[HeirBnB](https://heirbnb-o7kl.onrender.com/) Please allow up to 15 minutes for the inital loading time.
 
 ## This project was built with:
 * Javascript
